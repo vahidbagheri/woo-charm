@@ -1,0 +1,639 @@
+# Persian (fa_IR) translation for the VoiceWeb WordPress admin.
+# Copyright (C) 2026
+# This file is distributed under the same license as the theme.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: VoiceWeb Admin 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-26 00:00+0000\n"
+"PO-Revision-Date: 2026-10-14 00:00+0330\n"
+"Last-Translator: \n"
+"Language-Team: Persian\n"
+"Language: fa_IR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Domain: voiceweb-admin\n"
+"X-Generator: Poedit 2.0.1\n"
+
+#: functions.php
+msgid "Header — Desktop"
+msgstr "هدر — دسکتاپ"
+
+#: functions.php
+msgid "Header — Mobile (optional)"
+msgstr "هدر — موبایل (اختیاری)"
+
+#: functions.php
+msgid "Default post image"
+msgstr "تصویر پیش‌فرض مطالب"
+
+#: functions.php
+msgid "Used for posts without a featured image. If no image is selected, the theme default will be displayed."
+msgstr "برای مطالب بدون تصویر شاخص استفاده می‌شود. اگر تصویری انتخاب نکنید، طرح پیش‌فرض قالب نمایش داده می‌شود."
+
+#: functions.php
+msgid "Sticky header mode"
+msgstr "حالت استیکی هدر"
+
+#: functions.php
+msgid "Choose the screen sizes where the header remains fixed while scrolling."
+msgstr "مشخص کنید هدر در کدام نمایش هنگام اسکرول ثابت بماند."
+
+#: functions.php
+msgid "Off"
+msgstr "خاموش"
+
+#: functions.php
+msgid "Mobile only"
+msgstr "فقط موبایل"
+
+#: functions.php
+msgid "Desktop only"
+msgstr "فقط دسکتاپ"
+
+#: functions.php
+msgid "Mobile and desktop"
+msgstr "موبایل و دسکتاپ"
+
+#: acf-json/group_home_blog.json
+msgid "Blog homepage — Sections"
+msgstr "صفحه اصلی بلاگ — بخش‌ها"
+
+#: acf-json/group_home_blog.json
+msgid "Homepage sections"
+msgstr "بخش‌های صفحه اصلی"
+
+#: acf-json/group_home_blog.json
+msgid "Choose a layout, set its content, and drag sections to reorder them. Post cards are populated automatically from the selected categories."
+msgstr "نوع چیدمان و محتوای هر بخش را انتخاب کنید و بخش‌ها را با کشیدن جابه‌جا کنید. کارت‌های مطالب به‌صورت خودکار از دسته‌های انتخاب‌شده نمایش داده می‌شوند."
+
+#: acf-json/group_home_blog.json
+msgid "Add section"
+msgstr "افزودن بخش"
+
+#: acf-json/group_home_blog.json
+msgid "1) Image-overlay post cards (two-row grid)"
+msgstr "۱) کارت‌های تصویری با متن روی عکس (چیدمان دو ردیفی)"
+
+#: acf-json/group_home_blog.json
+msgid "Category"
+msgstr "دسته"
+
+#: acf-json/group_home_blog.json
+msgid "Empty = latest posts from all categories."
+msgstr "خالی = جدیدترین پست‌ها از همهٔ دسته‌ها."
+
+#: acf-json/group_home_blog.json
+msgid "Post count"
+msgstr "تعداد پست"
+
+#: acf-json/group_home_blog.json
+msgid "2) Vertical post cards (four-column grid)"
+msgstr "۲) کارت‌های عمودی مطالب (چیدمان چهار ستونی)"
+
+#: acf-json/group_home_blog.json
+msgid "Heading (optional)"
+msgstr "عنوان (اختیاری)"
+
+#: acf-json/group_home_blog.json
+msgid "Empty = category name."
+msgstr "خالی = نام دسته."
+
+#: acf-json/group_home_blog.json
+msgid "“View more” link (optional)"
+msgstr "لینک «مشاهده بیشتر» (اختیاری)"
+
+#: acf-json/group_home_blog.json
+msgid "Empty = the category archive page."
+msgstr "خالی = صفحهٔ آرشیو همان دسته."
+
+#: acf-json/group_home_blog.json
+msgid "3) Full-width image banner"
+msgstr "۳) بنر تصویری تمام‌عرض"
+
+#: acf-json/group_home_blog.json
+msgid "Banner image"
+msgstr "تصویر بنر"
+
+#: acf-json/group_home_blog.json
+msgid "Link (optional)"
+msgstr "لینک (اختیاری)"
+
+#: acf-json/group_home_blog.json
+msgid "4) Category cards (horizontal slider)"
+msgstr "۴) کارت‌های دسته‌بندی (اسلایدر افقی)"
+
+#: acf-json/group_home_blog.json
+msgid "Categories"
+msgstr "دسته‌ها"
+
+#: acf-json/group_home_blog.json
+msgid "Select the categories to display. Each card uses the latest post in that category for its image."
+msgstr "دسته‌هایی که می‌خواهی نمایش داده شوند را انتخاب کن. تصویرِ هر کارت از آخرین پستِ همان دسته گرفته می‌شود."
+
+#: acf-json/group_home_blog.json
+msgid "5) Horizontal post cards (two-column grid)"
+msgstr "۵) کارت‌های افقی مطالب (چیدمان دو ستونی)"
+
+#: acf-json/group_home_blog.json
+msgid "6) Post cards with a latest-posts sidebar"
+msgstr "۶) کارت‌های مطالب همراه ستون آخرین مطالب"
+
+#: acf-json/group_home_blog.json
+msgid "Main posts category"
+msgstr "دسته مطالب اصلی"
+
+#: acf-json/group_home_blog.json
+msgid "Main posts count"
+msgstr "تعداد مطالب اصلی"
+
+#: acf-json/group_home_blog.json
+msgid "Main posts heading (optional)"
+msgstr "عنوان بخش مطالب اصلی (اختیاری)"
+
+#: acf-json/group_home_blog.json
+msgid "Empty = category name or the default section heading."
+msgstr "خالی = نام دسته یا عنوان پیش‌فرض بخش."
+
+#: acf-json/group_home_blog.json
+msgid "Main posts “View more” link (optional)"
+msgstr "لینک «مشاهده بیشتر» مطالب اصلی (اختیاری)"
+
+#: acf-json/group_home_blog.json
+msgid "Latest posts category (optional)"
+msgstr "دستهٔ آخرین مطالب (اختیاری)"
+
+#: acf-json/group_home_blog.json
+msgid "Latest posts count"
+msgstr "تعداد آخرین مطالب"
+
+#: acf-json/group_home_blog.json
+msgid "Latest posts heading (optional)"
+msgstr "عنوان آخرین مطالب (اختیاری)"
+
+#: acf-json/group_home_blog.json
+msgid "Reorderable homepage sections; each section displays posts from one blog category."
+msgstr "بخش‌های قابل‌جابه‌جاییِ صفحهٔ اصلی؛ هر بخش پست‌های یک دستهٔ بلاگ را نمایش می‌دهد."
+
+#: inc/acf-field-groups.php
+msgid "Term icon"
+msgstr "آیکون ترم"
+
+#: inc/acf-field-groups.php
+msgid "Icon"
+msgstr "آیکون"
+
+#: inc/acf-field-groups.php
+msgid "Choose the icon displayed for this term."
+msgstr "آیکون نمایش‌داده‌شده برای این ترم را انتخاب کنید."
+
+#: inc/acf-field-groups.php
+msgid "Iconly icon assigned to a WordPress term."
+msgstr "آیکون Iconly اختصاص‌یافته به یک ترم وردپرس."
+
+#: inc/site-settings.php
+msgid "Site settings"
+msgstr "تنظیمات سایت"
+
+#: inc/site-settings.php
+msgid "Header and footer settings"
+msgstr "تنظیمات هدر و فوتر"
+
+#: inc/site-settings.php
+msgid "Header and footer"
+msgstr "هدر و فوتر"
+
+#: inc/acf-field-groups.php
+msgid "Site settings — Header and footer"
+msgstr "تنظیمات سایت — هدر و فوتر"
+
+#: inc/acf-field-groups.php
+msgid "Header"
+msgstr "هدر"
+
+#: inc/acf-field-groups.php
+msgid "Main site logo"
+msgstr "لوگوی اصلی سایت"
+
+#: inc/acf-field-groups.php
+msgid "Displayed in the desktop and mobile header."
+msgstr "در هدر دسکتاپ و موبایل نمایش داده می‌شود."
+
+#: inc/acf-field-groups.php
+msgid "Desktop menu"
+msgstr "فهرست دسکتاپ"
+
+#: inc/acf-field-groups.php
+msgid "Choose the main desktop menu. Its WPML translation is used automatically when available."
+msgstr "فهرست اصلی هدر دسکتاپ را انتخاب کنید. ترجمهٔ WPML آن در صورت وجود به‌صورت خودکار استفاده می‌شود."
+
+#: inc/acf-field-groups.php
+msgid "Select a menu"
+msgstr "یک فهرست انتخاب کنید"
+
+#: inc/acf-field-groups.php
+msgid "Mobile menu"
+msgstr "فهرست موبایل"
+
+#: inc/acf-field-groups.php
+msgid "Optional. The desktop menu is used when this field is empty."
+msgstr "اختیاری است. اگر این فیلد خالی باشد، فهرست دسکتاپ نمایش داده می‌شود."
+
+#: inc/acf-field-groups.php
+msgid "Header phone number"
+msgstr "شماره تماس هدر"
+
+#: inc/acf-field-groups.php
+msgid "The number shown to visitors."
+msgstr "شماره‌ای که به کاربر نمایش داده می‌شود."
+
+#: inc/acf-field-groups.php
+msgid "Header phone link"
+msgstr "لینک تماس هدر"
+
+#: inc/acf-field-groups.php
+msgid "Use the international format for the tel link, for example +982143997."
+msgstr "برای لینک تماس از فرمت بین‌المللی استفاده کنید؛ مثلاً +982143997."
+
+#: inc/acf-field-groups.php
+msgid "Footer"
+msgstr "فوتر"
+
+#: inc/acf-field-groups.php
+msgid "Footer logo"
+msgstr "لوگوی فوتر"
+
+#: inc/acf-field-groups.php
+msgid "Optional. The main site logo is used when this field is empty."
+msgstr "اختیاری است. اگر این فیلد خالی باشد، لوگوی اصلی سایت نمایش داده می‌شود."
+
+#: inc/acf-field-groups.php
+msgid "Footer text"
+msgstr "متن فوتر"
+
+#: inc/acf-field-groups.php
+msgid "A short text displayed below the footer logo."
+msgstr "متن کوتاهی که زیر لوگوی فوتر نمایش داده می‌شود."
+
+#: inc/acf-field-groups.php
+msgid "Footer phone number"
+msgstr "شماره تماس فوتر"
+
+#: inc/acf-field-groups.php
+msgid "Footer phone link"
+msgstr "لینک تماس فوتر"
+
+#: inc/acf-field-groups.php
+msgid "Footer email"
+msgstr "ایمیل فوتر"
+
+#: inc/acf-field-groups.php
+msgid "Leave empty to use the WordPress administration email."
+msgstr "برای استفاده از ایمیل مدیریت وردپرس، این فیلد را خالی بگذارید."
+
+#: inc/acf-field-groups.php
+msgid "Footer column 1 menu"
+msgstr "فهرست ستون اول فوتر"
+
+#: inc/acf-field-groups.php
+msgid "Choose the main menu for the first footer column. Its WPML translation is used automatically when available."
+msgstr "فهرست اصلی ستون اول فوتر را انتخاب کنید. ترجمهٔ WPML آن در صورت وجود به‌صورت خودکار استفاده می‌شود."
+
+#: inc/acf-field-groups.php
+msgid "Footer column 2 menu"
+msgstr "فهرست ستون دوم فوتر"
+
+#: inc/acf-field-groups.php
+msgid "Choose the main menu for the second footer column. Its WPML translation is used automatically when available."
+msgstr "فهرست اصلی ستون دوم فوتر را انتخاب کنید. ترجمهٔ WPML آن در صورت وجود به‌صورت خودکار استفاده می‌شود."
+
+#: inc/acf-field-groups.php
+msgid "Footer copyright sentence"
+msgstr "جمله حقوق فوتر"
+
+#: inc/acf-field-groups.php
+msgid "Displayed after the year and site name."
+msgstr "بعد از سال و نام سایت نمایش داده می‌شود."
+
+#: inc/acf-field-groups.php
+msgid "Site-wide header and footer settings stored in the standard ACF options record."
+msgstr "تنظیمات سراسری هدر و فوتر که در رکورد استاندارد Options افزونهٔ ACF ذخیره می‌شوند."
+
+#: inc/acf-field-groups.php
+msgid "Enabled"
+msgstr "فعال"
+
+#: inc/acf-field-groups.php
+msgid "Disabled"
+msgstr "غیرفعال"
+
+#: inc/acf-field-groups.php
+msgid "Hero slider"
+msgstr "اسلایدر اصلی"
+
+#: inc/acf-field-groups.php
+msgid "Header announcement"
+msgstr "پیام کوتاه هدر"
+
+#: inc/acf-field-groups.php
+msgid "Slides"
+msgstr "اسلایدها"
+
+#: inc/acf-field-groups.php
+msgid "Automatic slide rotation"
+msgstr "پخش خودکار اسلایدها"
+
+#: inc/acf-field-groups.php
+msgid "Rotation interval (seconds)"
+msgstr "فاصلهٔ تغییر اسلاید (ثانیه)"
+
+#: inc/acf-field-groups.php
+msgid "Special offers"
+msgstr "پیشنهادهای ویژه"
+
+#: inc/acf-field-groups.php
+msgid "Show special offers"
+msgstr "نمایش پیشنهادهای ویژه"
+
+#: inc/acf-field-groups.php
+msgid "Special offers heading"
+msgstr "عنوان پیشنهادهای ویژه"
+
+#: inc/acf-field-groups.php
+msgid "Special offers description"
+msgstr "توضیح پیشنهادهای ویژه"
+
+#: inc/acf-field-groups.php
+msgid "Selected offer products"
+msgstr "محصولات پیشنهاد ویژه"
+
+#: inc/acf-field-groups.php
+msgid "Offer deadline"
+msgstr "زمان پایان تخفیف"
+
+#: inc/acf-field-groups.php
+msgid "Product categories"
+msgstr "دسته‌بندی محصولات"
+
+#: inc/acf-field-groups.php
+msgid "Show product categories"
+msgstr "نمایش دسته‌بندی محصولات"
+
+#: inc/acf-field-groups.php
+msgid "Categories heading"
+msgstr "عنوان دسته‌بندی‌ها"
+
+#: inc/acf-field-groups.php
+msgid "Category cards"
+msgstr "کارت‌های دسته‌بندی"
+
+#: inc/acf-field-groups.php
+msgid "Brand story and about"
+msgstr "داستان برند و دربارهٔ ما"
+
+#: inc/acf-field-groups.php
+msgid "Story heading"
+msgstr "عنوان داستان برند"
+
+#: inc/acf-field-groups.php
+msgid "Story description"
+msgstr "متن داستان برند"
+
+#: inc/acf-field-groups.php
+msgid "Story image"
+msgstr "تصویر داستان برند"
+
+#: inc/acf-field-groups.php
+msgid "Story link"
+msgstr "لینک داستان برند"
+
+#: inc/acf-field-groups.php
+msgid "About heading"
+msgstr "عنوان دربارهٔ ما"
+
+#: inc/acf-field-groups.php
+msgid "About description"
+msgstr "متن دربارهٔ ما"
+
+#: inc/acf-field-groups.php
+msgid "About image"
+msgstr "تصویر دربارهٔ ما"
+
+#: inc/acf-field-groups.php
+msgid "About link"
+msgstr "لینک دربارهٔ ما"
+
+#: inc/acf-field-groups.php
+msgid "New collection heading"
+msgstr "عنوان کالکشن جدید"
+
+#: inc/acf-field-groups.php
+msgid "New collection description"
+msgstr "توضیح کالکشن جدید"
+
+#: inc/acf-field-groups.php
+msgid "New collection image"
+msgstr "تصویر کالکشن جدید"
+
+#: inc/acf-field-groups.php
+msgid "New collection link"
+msgstr "لینک کالکشن جدید"
+
+#: inc/acf-field-groups.php
+msgid "More sections"
+msgstr "بخش‌های تکمیلی"
+
+#: inc/acf-field-groups.php
+msgid "Featured collections"
+msgstr "کالکشن‌های منتخب"
+
+#: inc/acf-field-groups.php
+msgid "Show new arrivals"
+msgstr "نمایش تازه‌های فروشگاه"
+
+#: inc/acf-field-groups.php
+msgid "New arrivals heading"
+msgstr "عنوان تازه‌های فروشگاه"
+
+#: inc/acf-field-groups.php
+msgid "Selected new products"
+msgstr "محصولات بخش تازه‌ها"
+
+#: inc/acf-field-groups.php
+msgid "Show blog section"
+msgstr "نمایش مجله"
+
+#: inc/acf-field-groups.php
+msgid "Blog heading"
+msgstr "عنوان مجله"
+
+#: inc/acf-field-groups.php
+msgid "Blog description"
+msgstr "توضیح مجله"
+
+#: inc/acf-field-groups.php
+msgid "Selected blog posts"
+msgstr "نوشته‌های منتخب مجله"
+
+#: inc/acf-field-groups.php
+msgid "Brand values"
+msgstr "ارزش‌های برند"
+
+#: inc/acf-field-groups.php
+msgid "FAQ heading"
+msgstr "عنوان پرسش‌های متداول"
+
+#: inc/acf-field-groups.php
+msgid "Frequently asked questions"
+msgstr "پرسش‌های متداول"
+
+#: inc/acf-field-groups.php
+msgid "Small heading"
+msgstr "تیتر کوتاه بالای عنوان"
+
+#: inc/acf-field-groups.php
+msgid "Slide title"
+msgstr "عنوان اسلاید"
+
+#: inc/acf-field-groups.php
+msgid "Slide description"
+msgstr "توضیح اسلاید"
+
+#: inc/acf-field-groups.php
+msgid "Desktop image"
+msgstr "تصویر دسکتاپ"
+
+#: inc/acf-field-groups.php
+msgid "Mobile image"
+msgstr "تصویر موبایل"
+
+#: inc/acf-field-groups.php
+msgid "Primary link"
+msgstr "لینک اصلی"
+
+#: inc/acf-field-groups.php
+msgid "Secondary link"
+msgstr "لینک دوم"
+
+#: inc/acf-field-groups.php
+msgid "Color theme"
+msgstr "ترکیب رنگ"
+
+#: inc/acf-field-groups.php
+msgid "Floating product images"
+msgstr "تصویرهای شناور محصول"
+
+#: inc/acf-field-groups.php
+msgid "Product image"
+msgstr "تصویر محصول"
+
+#: inc/acf-field-groups.php
+msgid "Product category"
+msgstr "دستهٔ محصول"
+
+#: inc/acf-field-groups.php
+msgid "Custom label"
+msgstr "عنوان دلخواه"
+
+#: inc/acf-field-groups.php
+msgid "Category description"
+msgstr "توضیح دسته‌بندی"
+
+#: inc/acf-field-groups.php
+msgid "Category image"
+msgstr "تصویر دسته‌بندی"
+
+#: inc/acf-field-groups.php
+msgid "Collection title"
+msgstr "عنوان کالکشن"
+
+#: inc/acf-field-groups.php
+msgid "Collection description"
+msgstr "توضیح کالکشن"
+
+#: inc/acf-field-groups.php
+msgid "Collection image"
+msgstr "تصویر کالکشن"
+
+#: inc/acf-field-groups.php
+msgid "Collection link"
+msgstr "لینک کالکشن"
+
+#: inc/acf-field-groups.php
+msgid "Value title"
+msgstr "عنوان ارزش برند"
+
+#: inc/acf-field-groups.php
+msgid "Value description"
+msgstr "توضیح ارزش برند"
+
+#: inc/acf-field-groups.php
+msgid "Value icon"
+msgstr "آیکون ارزش برند"
+
+#: inc/acf-field-groups.php
+msgid "Question"
+msgstr "پرسش"
+
+#: inc/acf-field-groups.php
+msgid "Answer"
+msgstr "پاسخ"
+
+#: inc/acf-field-groups.php
+msgid "Leave empty for automatic selection of public products. Drag selected products to reorder."
+msgstr "برای انتخاب خودکار محصولات منتشرشده و قابل نمایش، خالی بگذارید. ترتیب محصولات انتخاب‌شده را با کشیدن تغییر دهید."
+
+#: inc/acf-field-groups.php
+msgid "Add slide"
+msgstr "افزودن اسلاید"
+
+#: inc/acf-field-groups.php
+msgid "Optional; the desktop image is used when empty."
+msgstr "اختیاری است؛ اگر خالی باشد، تصویر دسکتاپ نمایش داده می‌شود."
+
+#: inc/acf-field-groups.php
+msgid "Saving this future deadline schedules the existing sale prices of selected products. The timer uses actual WooCommerce sale dates."
+msgstr "با ذخیرهٔ این زمان در آینده، پایان تخفیف فعلی محصولات انتخاب‌شده تنظیم می‌شود. شمارنده از تاریخ واقعی تخفیف در ووکامرس استفاده می‌کند."
+
+#: inc/acf-field-groups.php
+msgid "Storefront homepage"
+msgstr "صفحهٔ اصلی فروشگاه"
+
+#: inc/acf-field-groups.php
+msgid "Ivory"
+msgstr "کرم روشن"
+
+#: inc/acf-field-groups.php
+msgid "Forest green"
+msgstr "سبز جنگلی"
+
+#: inc/acf-field-groups.php
+msgid "Soft sand"
+msgstr "بژ ملایم"
+
+#: inc/acf-field-groups.php
+msgid "Check"
+msgstr "تأیید"
+
+#: inc/acf-field-groups.php
+msgid "Delivery"
+msgstr "ارسال"
+
+#: inc/acf-field-groups.php
+msgid "Security"
+msgstr "امنیت"
+
+#: inc/acf-field-groups.php
+msgid "Account"
+msgstr "حساب کاربری"
+
+#: inc/acf-field-groups.php
+msgid "Blog archive link"
+msgstr "لینک آرشیو مجله"
+
+#: inc/acf-field-groups.php
+msgid "Leave empty for the WordPress posts page."
+msgstr "برای استفاده از برگهٔ نوشته‌های وردپرس، خالی بگذارید."

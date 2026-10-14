@@ -1,0 +1,64 @@
+// Global store identity. Existing component JS and native Woo routes stay in charge.
+:root { --vw-store-green: #183c32; --vw-store-muted: #777c71; --vw-store-surface: #faf8f4; --vw-store-line: #e7e3db; }
+body { background: var(--vw-store-surface); }
+.cn-site-header { background: #faf8f4 !important; border-bottom: 1px solid #e8e5dd; box-shadow: none !important; }
+.vw-store-announcement { display: flex; align-items: center; justify-content: center; gap: 24px; min-height: 31px; background: #183c32; color: #e7eade; font-size: 10px; letter-spacing: .15px; .vw-store-announcement__link { display: inline-flex; align-items: center; gap: 7px; color: #edf0e5; font-size: 9px; svg { width: 12px; height: 12px; } } }
+.cn-header-desktop { max-width: 1360px !important; min-height: 80px; padding-inline: 36px !important; }
+.cn-header-logo__image { height: 46px !important; width: 172px; max-width: 172px; }
+.cn-header-menu > .menu-item > a { color: #334a3b !important; font-size: 12px; padding-inline: 11px; }
+.cn-header-menu > .menu-item > a::after { background: #3c5947 !important; }
+.cn-header-menu > .menu-item::after { background: #3c5947 !important; }
+.cn-header-menu .sub-menu { border-color: #e7e4db !important; background: #faf8f4 !important; border-radius: 14px !important; box-shadow: 0 15px 32px #2638250e !important; }
+.cn-header-menu .sub-menu a:hover { color: #183c32 !important; background: #f0eee6 !important; }
+.cn-header-tools { gap: 7px; color: #183c32 !important; }
+.cn-header-tool, .cn-search-trigger, .cn-header-phone, .cn-header-toggle, .cn-header-language, .cn-header-cart, .cn-header-account { color: #183c32 !important; }
+.cn-header-cart, .cn-header-account { border-color: #d9ded2 !important; background: #f4f4ed !important; border-radius: 13px !important; }
+.cn-header-cart__count, .vw-cart-badge, .vw-mobile-cart__count { background: #183c32 !important; }
+.cn-account-menu__panel { background: #fdfcf8 !important; border-color: #e4e1d7 !important; box-shadow: 0 15px 40px #29372916 !important; a { color: #46604b !important; } a:hover { background: #f0f2e9 !important; } }
+.cn-mobile-panel, .cn-mobile-panel__header, .cn-search-panel, .cn-preference-panel { background: #fbfaf6 !important; border-color: #e7e3da !important; }
+.cn-mobile-menu a, .cn-search-form__icon { color: #36513e !important; }
+.cn-search-form { background: #f3f1ea !important; border-color: #dedfd4 !important; }
+.cn-mobile-menu-trigger { color: #193e32 !important; }
+.cn-site-footer.vw-store-footer { background: #efede5 !important; border-top: 1px solid #e2dfd3; padding: 0 !important; color: #4f5d4c; }
+.vw-store-footer::before, .vw-store-footer::after, .vw-store-footer .cn-footer__accent { display: none !important; }
+.vw-store-footer .cn-footer__container { max-width: 1360px; padding: 50px 36px 18px; margin-inline: auto; position: relative; }
+.vw-store-footer .cn-footer__main { display: grid; grid-template-columns: 1.35fr repeat(var(--cn-footer-menu-columns,2), .75fr) 1fr; gap: 35px; padding: 0; }
+.vw-store-footer .cn-footer__brand, .vw-store-footer .cn-footer__column { border: 0 !important; background: transparent !important; padding: 0 !important; border-radius: 0 !important; box-shadow: none !important; }
+.vw-store-footer .cn-footer__logo { display: inline-flex; background: transparent !important; padding: 0; border: 0; box-shadow: none; }
+.vw-store-footer .cn-footer__logo-image { height: 46px; width: 172px; }
+.vw-store-footer .cn-footer__description { font-size: 12px; line-height: 2.2; margin-top: 18px; max-width: 330px; color: #7d8276; }
+.vw-store-footer__story-link { display: inline-flex; align-items: center; gap: 9px; font-size: 11px; color: #294c36 !important; margin-top: 12px; svg { width: 15px; height: 15px; } }
+.vw-store-footer .cn-footer__heading, .vw-store-footer__help h2 { font-size: 13px; font-weight: 700; color: #263f2f; margin: 12px 0 15px; }
+.vw-store-footer .cn-footer__heading button { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; font: inherit; padding: 0; border: 0; background: none; color: inherit; text-align: start; min-height: 44px; }
+.vw-store-footer .cn-footer__toggle-icon { display: none; }
+.vw-store-footer .cn-footer__menu { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; a { display: inline-flex; align-items: center; min-height: 34px; font-size: 11px; color: #7a8172; padding: 0; background: transparent !important; } a::before, a::after { display: none; } }
+.vw-store-footer__help > p { font-size: 11px; line-height: 2.1; color: #7b8274; margin-bottom: 13px; }
+.vw-store-footer__help > a { display: block; font-size: 11px; color: #405a43; min-height: 34px; padding-block: 6px; }
+.vw-store-footer .cn-footer__contact { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 13px; a { padding: 5px 0; border: 0; background: transparent; color: #6c7765; min-height: 32px; font-size: 10px; } }
+.vw-store-footer .cn-footer__bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 15px; border: 0; border-top: 1px solid #dedfd2; background: transparent; border-radius: 0; box-shadow: none; margin-top: 35px; padding: 18px 0 0; color: #8c9383; font-size: 9px; p { margin: 0; } a { color: #68765c; } }
+.vw-store-footer .cn-footer__back-to-top { position: fixed; inset-inline-end: 20px; bottom: 110px; width: 42px; height: 42px; border: 1px solid #d6dece; border-radius: 50%; background: #fbfaf6; color: #284a36; z-index: 900; svg { width: 18px; height: 18px; transform: rotate(-90deg); } }
+.vwa-root { --vwa-ink: #233b2e; --vwa-muted: #73806f; --vwa-primary: #183c32; --vwa-border: #e0e4d8; --vwa-surface: #faf9f4; }
+.vwa-brand-icon { background: #eff2e8 !important; border-color: #e1e6d9 !important; }
+.vwa-mobile-nav { background: #fbfaf6 !important; border-color: #dedfd4 !important; box-shadow: 0 6px 25px #1f3d2b12 !important; }
+.vwa-mobile-nav__item { color: #7e8d79 !important; }
+.vwa-mobile-nav__item.is-active, .vwa-mobile-nav__item[aria-current='page'] { color: #183c32 !important; background: #edf1e5 !important; }
+.vwp-payment { --vwp-blue: #183c32; border-color: #e2e0d6 !important; background: #fcfaf5 !important; color: #25392c; .vwp-button:hover { background: #2c4b37; } .vwp-button--secondary { background: #edf0e4; color: #254432; } .vwp-bank-card { background: linear-gradient(125deg,#18372d,#53644a); } .vwp-payment__icon { color: #38533b; background: #eff1e7; } }
+@media (max-width:1199px) { .vw-store-announcement { display: none; } .cn-header-logo__image { width: 148px; height: 42px !important; } .cn-header-mobile { padding-inline: 18px !important; min-height: 67px; } .vw-store-footer .cn-footer__main { gap: 25px; } }
+@media (max-width:767px) { .vw-store-footer .cn-footer__container { padding: 32px 22px 19px; } .vw-store-footer .cn-footer__main { grid-template-columns: 1fr; gap: 8px; } .vw-store-footer .cn-footer__brand { margin-bottom: 20px; } .vw-store-footer .cn-footer__description { max-width: none; } .vw-store-footer .cn-footer__heading { margin: 0; } .vw-store-footer .cn-footer__toggle-icon { display: block; svg { width: 17px; height: 17px; } } .vw-store-footer .cn-footer__column { border-bottom: 1px solid #dcdfd0 !important; padding-block: 3px !important; } .vw-store-footer .cn-footer__panel { padding-bottom: 13px; } .vw-store-footer .cn-footer__menu a { min-height: 44px; } .vw-store-footer__help { margin-top: 16px; } .vw-store-footer .cn-footer__bottom { justify-content: center; text-align: center; font-size: 8px; margin-top: 22px; gap: 12px; } .vw-store-footer .cn-footer__bottom > span { display: none; } }
+@media (prefers-reduced-motion:reduce) { .vw-store-footer *, .cn-site-header * { transition: none !important; } }
+
+html { scroll-padding-block-start: calc(var(--vw-header-height,112px) + 20px); }
+.vw-commerce .entry-title, .page-entry .entry-title, .vw-store-section { scroll-margin-block-start: calc(var(--vw-header-height,112px) + 24px); }
+@media(max-width:1199px) { body.cn-has-fixed-mobile-header { padding-top: var(--vw-header-height,68px); } }
+
+.cn-account-menu__profile, .cn-account-menu__link { color: #435b48 !important; border-color: #e6e6dc !important; }
+.cn-account-menu__link--logout { color: #ac5961 !important; }
+.vwa-root input:focus { border-color: #8aab93 !important; box-shadow: 0 0 0 3px #183c3212 !important; }
+
+.vw-store-footer .cn-footer__container { width: 100%; }
+.vw-store-footer .cn-footer__brand, .vw-store-footer .cn-footer__column { min-height: 0; backdrop-filter: none; transform: none !important; }
+.vw-store-footer .cn-footer__brand::before, .vw-store-footer .cn-footer__brand::after,
+.vw-store-footer .cn-footer__column::after, .vw-store-footer .cn-footer__description::before,
+.vw-store-footer .cn-footer__heading span::before { display: none !important; }
+.vw-store-footer .cn-footer__description { padding-inline-start: 0; }
+.vw-store-footer .cn-footer__heading { border: 0; padding-block-end: 0; }
