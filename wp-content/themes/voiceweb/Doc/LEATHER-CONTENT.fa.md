@@ -156,7 +156,7 @@ WordPress تنظیم شده است. نمایش تایمر و پایان قیمت
 
 ## تصاویر و نگهداری فایل‌ها
 
-تصاویر با **ابزار داخلی imagegen** و skill [imagegen](C:/Users/123/.codex/skills/.system/imagegen/SKILL.md)
+تصاویر با **ابزار داخلی imagegen** و مهارت `imagegen`
 ساخته شدند؛ از CLI API، برند واقعی، لوگو یا دانلود تصویر سایت دیگر استفاده نشده است.
 اصل PNG داخل مخزن قالب می‌ماند؛ برای نمایش سایت، ابزار seed آن را با image editor
 بومی WordPress به **WebP با کیفیت ۸۲** تبدیل و اندازه‌های responsive را می‌سازد.

@@ -1,0 +1,38 @@
+/* Leather journal extends the storefront forest, cream and sand palette. */
+.blog .home-blog-main{background:#faf8f4}
+.vw-magazine{padding-bottom:24px}
+.vw-magazine-hero{padding:40px;border:1px solid #e7e3dc;border-radius:24px;background:linear-gradient(125deg,#faf8f4,#eeeae1);color:#192922}
+.vw-magazine-eyebrow{display:block;margin-bottom:12px;color:#59665d;font-size:14px}
+.vw-magazine-hero h1{margin:0 0 16px;font-size:clamp(26px,3vw,40px);font-weight:700;line-height:1.6}
+.vw-magazine-hero p{max-width:800px;margin:0 0 24px;color:#59665d;font-size:16px;line-height:2}
+.vw-magazine-hero__link{display:inline-flex;gap:16px;align-items:center;padding:12px 20px;border-radius:999px;background:#183c32;color:#fff;text-decoration:none}
+.vw-magazine-hero__link:hover{background:#192922;color:#fff}
+.vw-magazine-articles{margin-top:40px}
+.vw-magazine-articles>.sec-title{margin-bottom:24px;color:#192922!important}
+.vw-magazine .cn-card__read-more{color:#183c32!important}
+.blog .cn-blog-breadcrumbs__link:hover{color:#183c32}
+.vw-magazine-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.vw-magazine-grid>.cn-card--grid{min-width:0;max-width:none;width:100%;padding:12px;border-radius:20px;background:#fff}
+.vw-magazine-grid .cn-card--grid-body{gap:20px}
+.vw-magazine-grid .cn-card--grid-title{display:block;color:#192922!important;font-size:17px!important;line-height:1.8!important}
+.vw-magazine-grid .cn-card--grid-desc{display:block;font-size:14px;line-height:1.9;color:#59665d}
+.vw-magazine-discovery{margin-top:32px;padding:24px;border:1px solid #e7e3dc;border-radius:20px;background:#fff}
+.vw-magazine-discovery h2{margin:0 0 12px;color:#192922;font-size:20px;line-height:1.7}
+.vw-magazine-discovery p{margin:0 0 16px;color:#59665d;line-height:1.9}
+.vw-magazine-discovery__links{display:flex;flex-wrap:wrap;gap:12px}
+.vw-magazine-discovery__links a{padding:10px 16px;border:1px solid #e7e3dc;border-radius:999px;color:#183c32;text-decoration:none;line-height:1.7}
+.vw-magazine-discovery__links a:hover{background:#eeeae1}
+.vw-magazine-pagination .page-numbers{display:flex;gap:10px;justify-content:center;list-style:none;padding:0;margin:32px 0 0}
+.vw-magazine-pagination a,.vw-magazine-pagination span{display:inline-flex;padding:10px 14px;border-radius:8px;background:#fff;color:#183c32;text-decoration:none}
+.vw-magazine-pagination .current{background:#183c32;color:#fff}
+.vw-magazine :is(a):focus-visible,.vw-magazine-discovery a:focus-visible{outline:3px solid #5c7c63;outline-offset:4px}
+@media(max-width:991px){.vw-magazine-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.vw-magazine-hero{padding:28px}}
+@media(max-width:767px){.vw-magazine-hero{padding:24px 20px;border-radius:20px}
+.vw-magazine-hero p{font-size:14px}
+.vw-magazine-grid{grid-template-columns:minmax(0,1fr)}
+.vw-magazine-articles{margin-top:28px}
+.vw-magazine-discovery{padding:20px}
+.vw-magazine-discovery h2{font-size:18px}
+.vw-magazine-discovery__links{gap:8px}
+.vw-magazine-discovery__links a{padding:8px 12px;font-size:14px}}

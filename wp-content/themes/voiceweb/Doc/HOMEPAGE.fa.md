@@ -1,10 +1,28 @@
-# صفحهٔ اصلی فروشگاه و دربارهٔ ویس وب
+# صفحهٔ اصلی فروشگاه آوان چرم
 
-تطبیق با کد: **۱۴ اکتبر ۲۰۲۶**.
+تطبیق با کد: **۱۶ اکتبر ۲۰۲۶ / ۲۰۲۶-۱۰-۱۶**؛ نتایج تصویری ۱۴ اکتبر در انتهای سند، تاریخی‌اند.
 
 [فهرست راهنماها](./README.fa.md) · [محتوای کیف و چرم](./LEATHER-CONTENT.fa.md) ·
 [کارت‌ها و صفحات ووکامرس](./COMMERCE-DESIGN.fa.md) ·
 [درخواست تماس](./INQUIRIES.fa.md) · [پایان تخفیف](./SALE-EXPIRY.fa.md)
+
+## به‌روزرسانی آوان چرم — ۱۶ اکتبر ۲۰۲۶
+
+برند عمومی **آوان چرم** و تلفن تأییدشدهٔ فروشگاه **09101719687** است. لوگوی برداری، برق آرام
+با رعایت reduced motion و هویت مشترک در هدر/فوتر پیاده شده‌اند؛ `VoiceWeb` نام فنی قالب است.
+ریشهٔ فعلی `C:/Users/baghe/Local Sites/woo-charm-main/app/public`، سایت
+`http://woo-charm-main.local`، PHP CLI `8.3.30` و پورت دیتابیس `10113` است. فروشگاه با
+`woocommerce_coming_soon=no` برای بازبینی محلی دیده می‌شود و `blog_public=0` دارد.
+
+صفحهٔ اصلی به ۶ لندینگ دستهٔ محصول، هاب و ۲۰ مناسبت هدیه، درباره، تماس و `/blog/` پیوند دارد.
+درباره و تماس اکنون با فیلدهای مستقل `vw_brand_*` مدیریت می‌شوند؛ بلوک معرفی خانه همچنان
+`vw_front_about_*` دارد. مجلهٔ فعلی شاخهٔ چرمِ `home.php` است؛ شرح Flexible Content قدیمی فقط
+برای fallback کاربرد دارد. رکوردهای قدیمی، از جمله نوشته‌های گردشگری، حذف نشده‌اند.
+
+برای محتوای برند، راه‌های تماس و انتقال دیتابیس [AVAN-CHARM.fa.md](./AVAN-CHARM.fa.md)،
+برای مدیریت محصولات مناسبت‌ها [GIFT-LANDINGS.fa.md](./GIFT-LANDINGS.fa.md) و برای رشد پس از
+انتشار [SEO-ROADMAP.fa.md](./SEO-ROADMAP.fa.md) را بخوان. بررسی HTTP این مرحله جای بررسی
+تصویری دوبارهٔ موبایل و دسکتاپ را نمی‌گیرد.
 
 صفحهٔ اصلی اکنون فروشگاه قابل ویرایش با پس‌زمینهٔ کرم، سبز تیره، عکس محصول،
 اسلایدر، کالکشن منتخب، دسته، پیشنهاد ویژه، داستان برند، تازه‌ها، درباره و مجله
@@ -24,18 +42,24 @@
 | اسلایدر | [hero.php](../template-parts/front/hero.php) |
 | دو کالکشن منتخب | [collections.php](../template-parts/front/collections.php) |
 | دسته‌های محصول | [categories.php](../template-parts/front/categories.php) |
+| مسیرهای هدیه و مناسبت‌ها | [gifts.php](../template-parts/front/gifts.php) و [inc/gift-landing.php](../inc/gift-landing.php) |
 | پیشنهاد ویژه و تازه‌ها | [products.php](../template-parts/front/products.php) |
 | داستان و بنر کالکشن | [story.php](../template-parts/front/story.php) |
 | درباره و ارزش‌های برند | [about.php](../template-parts/front/about.php) |
 | نوشته‌های مجله | [blog.php](../template-parts/front/blog.php) |
 | پرسش‌های بازشونده | [faq.php](../template-parts/front/faq.php) |
-| منبع ظاهر home/about | [pages/front.scss](../assets/scss/pages/front.scss) |
+| منبع ظاهر خانه و پایهٔ storefront | [pages/front.scss](../assets/scss/pages/front.scss) |
 | خروجی مرورگر | [pages/front.css](../assets/css/pages/front.css) |
 | رفتار اسلایدر و تایمر | [pages/front.js](../assets/js/pages/front.js) |
 | هویت مشترک هدر، فوتر، نوار موبایل و ورود/پرداخت | [storefront.scss](../assets/scss/storefront.scss) و [storefront.css](../assets/css/storefront.css) |
 | اندازه‌گیری ارتفاع هدر | [storefront.js](../assets/js/storefront.js) |
 | قالب برگهٔ درباره | [page-templates/about.php](../page-templates/about.php) |
+| قالب تماس و فیلدهای صفحات برند | [page-templates/contact.php](../page-templates/contact.php) و [inc/brand.php](../inc/brand.php) |
+| استایل صفحات مستقل برند | [pages/brand-pages.scss](../assets/scss/pages/brand-pages.scss) و [CSS متناظر](../assets/css/pages/brand-pages.css) |
+| محتوای لندینگ دسته‌های خرید | [inc/category-landing.php](../inc/category-landing.php) و [category-guide.php](../template-parts/woocommerce/category-guide.php) |
+| مجلهٔ چرم، صفحه‌بندی و پیوندهای مرتبط | [inc/leather-magazine.php](../inc/leather-magazine.php) و [leather-magazine.php](../template-parts/blog/leather-magazine.php) |
 | آماده‌سازی محتوا | [seed-leather-store.php](../tools/seed-leather-store.php) |
+| آماده‌سازی برند و تنظیم محتوای سئو | [setup-avan-brand.php](../tools/setup-avan-brand.php)، [seed-gift-landings.php](../tools/seed-gift-landings.php) و [refine-avan-seo.php](../tools/refine-avan-seo.php) |
 | آزمون خواندنی صفحهٔ آماده | [test-storefront-browser.cjs](../tools/test-storefront-browser.cjs) |
 
 `functions.php` والد، `inc/front-page.php` را بعد از `inc/woocommerce.php`
@@ -54,10 +78,15 @@ require می‌کند. فایل ریشهٔ `front-page.php` فقط هدر، part
 `voiceweb_front_value('slides')` در واقع `get_field('vw_front_slides', $id)`
 را می‌خواند.
 
-برگهٔ مجله را جداگانه به‌عنوان **Posts page** انتخاب کن. آن صفحه همچنان با
-`home.php`، گروه `group_home_blog` و فیلد Flexible Content به نام
-`home_sections` کار می‌کند. این فیلد چیدمان صفحهٔ اصلی فروشگاه را کنترل
-نمی‌کند. «همهٔ نوشته‌ها» در home به permalink برگهٔ `page_for_posts` می‌رود.
+برگهٔ مجله را جداگانه به‌عنوان **Posts page** انتخاب کن. روی این نصب، `home.php` با وجود
+دستهٔ `leather-journal`، `template-parts/blog/leather-magazine.php` را رندر می‌کند و کوئری اصلی
+وردپرس فقط مقاله‌های آن دسته و زیرمجموعه‌ها را می‌گیرد. همین کوئری مالک تعداد صفحه‌هاست؛
+آرشیو خود دستهٔ `leather-journal` به شمارهٔ متناظر `/blog/` انتقال ۳۰۱ دارد. سایدبار مقاله‌های
+چرمی نیز به همان موضوع محدود است؛ سایدبار نوشته‌های قدیمی تغییر موضوع نمی‌دهد.
+
+گروه `group_home_blog` و Flexible Content به نام `home_sections` فقط fallback نصب بدون
+دستهٔ مجلهٔ چرم است. این فیلد چیدمان صفحهٔ اصلی فروشگاه یا مجلهٔ فعلی آوان چرم را کنترل
+نمی‌کند. «همهٔ نوشته‌ها» در خانه به permalink برگهٔ `page_for_posts` می‌رود.
 
 ## فیلدهای دقیق ACF
 
@@ -69,6 +98,7 @@ require می‌کند. فایل ریشهٔ `front-page.php` فقط هدر، part
 | بخش | نام اصلی فیلد | نوع و کاربرد |
 | --- | --- | --- |
 | هدر | `vw_front_header_note` | متن announcement بالای هدر دسکتاپ |
+| سئو | `vw_front_seo_title`، `vw_front_seo_description` | عنوان و توضیح اختصاصی خانه در نبود افزونهٔ سئو |
 | hero | `vw_front_slides` | repeater، حداکثر ۶ اسلاید |
 | hero | `vw_front_autoplay` | true/false؛ پیش‌فرض خاموش |
 | hero | `vw_front_interval` | number، ۵ تا ۲۰ ثانیه؛ پیش‌فرض ۸ |
@@ -78,9 +108,10 @@ require می‌کند. فایل ریشهٔ `front-page.php` فقط هدر، part
 | پیشنهاد | `vw_front_offers_deadline` | تاریخ/زمان با خروجی `Y-m-d H:i:s`؛ اعمال روی sale date واقعی محصولات انتخاب‌شده |
 | دسته | `vw_front_categories_enabled`، `vw_front_categories_title` | نمایش و عنوان بخش |
 | دسته | `vw_front_categories` | repeater کارت دسته؛ حداکثر ۱۲ |
+| هدیه | `vw_front_gifts_enabled` | نمایش راهنماهای هدیه و مناسبت‌های منتشرشده |
 | داستان | `vw_front_story_title`، `vw_front_story_description` | عنوان و متن داستان |
 | داستان | `vw_front_story_image`، `vw_front_story_link` | attachment ID و link array |
-| درباره | `vw_front_about_title`، `vw_front_about_description` | عنوان و متن مشترک home/about |
+| درباره | `vw_front_about_title`، `vw_front_about_description` | عنوان و متن بلوک معرفی خانه؛ صفحهٔ مستقل درباره از `vw_brand_*` می‌خواند |
 | درباره | `vw_front_about_image`، `vw_front_about_link` | attachment ID و link array |
 | بنر | `vw_front_collection_title`، `vw_front_collection_description` | عنوان و متن بنر کالکشن جدید |
 | بنر | `vw_front_collection_image`، `vw_front_collection_link` | attachment ID و link array |
@@ -121,7 +152,7 @@ tabهای رابط با نام‌های `vw_front_tab_hero`، `vw_front_tab_offe
 
 ## ترتیب و انتخاب محتوا
 
-ترتیب فعلی در `content.php` چنین است: hero، دو کالکشن منتخب، دسته‌ها،
+ترتیب فعلی در `content.php` چنین است: hero، دو کالکشن منتخب، دسته‌ها، راهنماهای هدیه،
 پیشنهاد ویژه، داستان/بنر کالکشن، تازه‌ها، درباره/ارزش‌ها، مجله و پرسش‌ها.
 خاموش‌کردن toggleهای پیشنهاد، تازه‌ها، دسته و مجله همان بخش را پنهان
 می‌کند. برای حذف داستان، بنر یا درباره عنوان مربوط را خالی کن؛ برای حذف
@@ -143,8 +174,10 @@ tabهای رابط با نام‌های `vw_front_tab_hero`، `vw_front_tab_offe
 می‌کند و انتخاب خالی تازه‌ترین نوشته‌ها را می‌آورد. query با
 `suppress_filters=false` به فیلترهای زبان/وردپرس احترام می‌گذارد. عنوان،
 excerpt، تاریخ و لینک از خود نوشته هستند. لینک آرشیو مجله را می‌توان با
-`vw_front_blog_link` به دستهٔ نوشته‌های مرتبط با برند اختصاص داد؛ انتخاب خالی
-همان لینک برگهٔ نوشته‌های وردپرس را استفاده می‌کند. پرسش‌ها از عنصر بومی `details`
+`vw_front_blog_link` تنظیم کرد؛ در آوان چرم مقصد آن `/blog/` است تا یک ورودی اصلی برای مجله
+بماند. انتخاب خالی همان لینک برگهٔ نوشته‌های وردپرس را استفاده می‌کند. سه نوشتهٔ منتخب این
+نصب چرمی‌اند؛ اگر انتخاب دستی را خالی کردی، موضوع نوشته‌های fallback را نیز بررسی کن.
+پرسش‌ها از عنصر بومی `details`
 استفاده می‌کنند و بدون JavaScript هم باز می‌شوند.
 
 ## اسلایدر و بارگذاری تصویر
@@ -235,13 +268,14 @@ cache قیمت variation، [sale-expiry.php](../inc/woocommerce/sale-expiry.php)
 سه WOFF2 موجود Dana با وزن‌های ۴۰۰/۵۰۰/۷۰۰ است؛ [مرجع فونت](./FONTS.fa.md)
 را ببین.
 
-برای صفحهٔ مستقل درباره، قالب **About VoiceWeb** با مسیر
-`page-templates/about.php` را روی یک برگه انتخاب کن. عنوان اصلی از عنوان
-همان برگه و متن کامل از editor آن می‌آید. بلوک‌های تصویر/معرفی/ارزش‌ها و
-داستان، دادهٔ مشترک ACF صفحهٔ اصلی را می‌خوانند؛ برای تغییر آن‌ها به فیلدهای
-برگهٔ اصلی مراجعه کن. این قالب کلید asset `front` را نیز دریافت می‌کند.
-در صفحهٔ مستقل درباره، CTA بلوک about به فروشگاه بومی با عنوان «کشف
-کالکشن» می‌رود؛ همان لینک معرفی home دوباره به خودش برنمی‌گردد.
+صفحهٔ مستقل درباره از قالب **دربارهٔ برند** در `page-templates/about.php` و تماس از
+`page-templates/contact.php` استفاده می‌کند. عنوان از برگه و متن داستان از editor همان
+برگه می‌آید؛ تصویر، مقدمه، مراحل تولید، انواع چرم و پرسش‌های درباره در `vw_brand_*` همان
+برگه ذخیره‌اند. این فیلدها با معرفی کوتاه خانه مشترک نیستند. محتوای فعلی درباره، ساخت
+صفر تا صد در تیم و انتخاب چرم طبیعی گاوی یا بزی متناسب با محصول را توضیح می‌دهد.
+اطلاعات تماس فقط با دادهٔ تأییدشده نمایش داده می‌شود؛ تلفن فعلی **09101719687** است.
+هر دو قالب کلیدهای asset `front` و `brand-pages` دارند و پیوندهای خرید، دسته و تماس واقعی
+می‌سازند. [راهنمای مدیریت و محتوای برند](./AVAN-CHARM.fa.md)
 
 ## محتوا، build و آزمون
 
@@ -272,11 +306,13 @@ npx sass wp-content/themes/voiceweb/assets/scss/storefront.scss wp-content/theme
 کاربر، محصول، درخواست تماس، سفارش، پیامک یا پرداخت جدیدی ثبت نمی‌کند؛
 POSTهای حساس و درخواست‌های خارجی در مرورگر مسدود می‌شوند.
 
-نمونهٔ اجرای محلی، از ریشهٔ WordPress:
+نمونهٔ اجرای محلی از ریشهٔ فعلی WordPress؛ این فرمان ابزار موجود است و نتیجهٔ تاریخی پایین
+را به اجرای جدید تبدیل نمی‌کند. در جلسه‌های دارای محدودیت کنترل مرورگر، بررسی UI فقط از
+مسیر CUA مجاز همان جلسه انجام می‌شود:
 
 ```powershell
-$env:VOICEWEB_WC_SITE = 'http://woo-theme-1405.local'
-$env:VOICEWEB_WC_MYSQL_PORT = '10046'
+$env:VOICEWEB_WC_SITE = 'http://woo-charm-main.local'
+$env:VOICEWEB_WC_MYSQL_PORT = '10113'
 $env:VOICEWEB_PHP = (Get-Command php).Source
 # در صورت نصب خارج از پروژه، مسیر Playwright و مرورگر را در همین session تنظیم کن.
 # $env:VOICEWEB_PLAYWRIGHT_PATH = '.../node_modules/playwright'
@@ -286,7 +322,7 @@ node wp-content/themes/voiceweb/tools/test-storefront-browser.cjs
 
 اختیاری: `VOICEWEB_WC_SCREENSHOTS` مسیر عکس‌های QA را تعیین می‌کند.
 
-نتیجهٔ ثبت‌شدهٔ اجرای ۱۴ اکتبر ۲۰۲۶: **PASS** روی محتوای تنظیم‌شده، با دو
+نتیجهٔ تاریخی ثبت‌شدهٔ اجرای **۱۴ اکتبر ۲۰۲۶** در محیط پیشین: **PASS** روی محتوای تنظیم‌شده، با دو
 اسلاید، شش دسته، چهار پیشنهاد، شش تازه و سه نوشته. defer hero، کیبورد،
 شمارنده و بازگشت bfcache، accordion فوتر، reduced motion، بدون JavaScript
 و پنج عرض یادشده موفق بودند. خطای JavaScript، سفارش، پیامک و پرداخت صفر

@@ -13,6 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $home_id = (int) get_queried_object_id();
+$leather_magazine = function_exists( 'voiceweb_leather_magazine_term' ) && voiceweb_leather_magazine_term() > 0;
 $sections = ( function_exists( 'get_field' ) ) ? get_field( 'home_sections', $home_id ) : array();
 $sections = ( is_array( $sections ) ) ? $sections : array();
 
@@ -26,7 +27,9 @@ get_header();
 	do_action( 'cn/home/before_sections' );
 	$can_edit_posts = current_user_can( 'edit_posts' );
 
-	if ( $sections ) {
+	if ( $leather_magazine ) {
+		get_template_part( 'template-parts/blog/leather-magazine' );
+	} elseif ( $sections ) {
 		foreach ( $sections as $section_index => $section ) {
 			$section = ( is_array( $section ) ) ? $section : array();
 			$layout  = ( isset( $section['acf_fc_layout'] ) ) ? sanitize_key( (string) $section['acf_fc_layout'] ) : '';

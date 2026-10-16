@@ -12,15 +12,16 @@ $bounds = voiceweb_wc_catalog_price_bounds();
 ?>
 <section class="vw-catalog" data-vw-catalog data-base="<?php echo esc_url( voiceweb_wc_catalog_base_url() ); ?>">
 	<div class="vw-catalog-heading">
-		<div><?php if ( apply_filters( 'woocommerce_show_page_title', true ) ) : ?><h1 class="page-title"><?php woocommerce_page_title(); ?></h1><?php endif; ?><p><?php echo esc_html( cn_translate( 'Find the right product for your needs and budget.' ) ); ?></p></div>
+		<div><?php if ( is_tax( 'product_cat' ) ) : ?><span class="vw-eyebrow">آوان چرم؛ همراه انتخاب‌های شما</span><?php endif; ?><?php if ( apply_filters( 'woocommerce_show_page_title', true ) ) : ?><h1 class="page-title"><?php woocommerce_page_title(); ?></h1><?php endif; ?><?php if ( ! is_tax( 'product_cat' ) ) : ?><p><?php echo esc_html( cn_translate( 'Find the right product for your needs and budget.' ) ); ?></p><?php endif; ?></div>
 		<span class="vw-catalog-total"><?php echo esc_html( sprintf( cn_translate( '%s products' ), cn_localize_digits( number_format_i18n( $total ) ) ) ); ?></span>
 	</div>
 	<?php do_action( 'woocommerce_archive_description' ); ?>
+	<?php if ( is_tax( 'product_cat' ) && function_exists( 'voiceweb_category_show_guide' ) && voiceweb_category_show_guide() && voiceweb_category_value( 'guide' ) ) : ?><nav class="vw-category-jump" aria-label="بخش‌های دسته‌بندی"><a href="#category-products">مقایسه و خرید محصولات</a><a href="#category-advice">راهنمای انتخاب و نگهداری</a></nav><?php endif; ?>
 	<div class="vw-catalog-layout">
 		<aside class="vw-catalog-sidebar" aria-label="<?php echo esc_attr( cn_translate( 'Product filters' ) ); ?>" data-vw-filter-home>
 			<?php get_template_part( 'template-parts/woocommerce/catalog-filters', null, compact( 'groups', 'params', 'bounds', 'sort' ) ); ?>
 		</aside>
-		<div class="vw-catalog-results" data-vw-results aria-busy="false">
+		<div class="vw-catalog-results" id="category-products" data-vw-results aria-busy="false">
 			<div class="vw-catalog-toolbar">
 				<div class="vw-catalog-mobile-tools"><button type="button" class="vw-catalog-tool" data-vw-open-filters aria-haspopup="dialog" aria-controls="vw-catalog-filter-dialog"><?php echo voiceweb_wc_icon( 'filter' ); ?><span><?php echo esc_html( cn_translate( 'Filters' ) ); ?></span><?php if ( $chips ) : ?><b><?php echo esc_html( cn_localize_digits( (string) count( $chips ) ) ); ?></b><?php endif; ?></button><button type="button" class="vw-catalog-tool" data-vw-open-sort aria-haspopup="dialog" aria-controls="vw-catalog-sort-dialog"><?php echo voiceweb_wc_icon( 'sort' ); ?><span><?php echo esc_html( $sort_options[ $sort ] ); ?></span></button></div>
 				<div class="vw-catalog-sort-links"><span><?php echo voiceweb_wc_icon( 'sort' ); ?><?php echo esc_html( cn_translate( 'Sort by' ) ); ?></span><?php foreach ( $sort_options as $value => $label ) : ?><a href="<?php echo esc_url( voiceweb_wc_catalog_url( array_replace( $params, array( 'orderby' => $value ) ) ) ); ?>" data-vw-catalog-link class="<?php echo $value === $sort ? 'is-current' : ''; ?>" <?php echo $value === $sort ? 'aria-current="true"' : ''; ?>><?php echo esc_html( $label ); ?></a><?php endforeach; ?></div>
@@ -40,6 +41,7 @@ $bounds = voiceweb_wc_catalog_price_bounds();
 			<?php endif; ?>
 		</div>
 	</div>
+	<?php if ( is_tax( 'product_cat' ) ) { get_template_part( 'template-parts/woocommerce/category-guide' ); } ?>
 	<dialog class="vw-catalog-dialog" id="vw-catalog-filter-dialog" data-vw-filter-dialog aria-label="<?php echo esc_attr( cn_translate( 'Product filters' ) ); ?>"><div data-vw-filter-slot></div></dialog>
 	<dialog class="vw-catalog-dialog vw-catalog-dialog--sort" id="vw-catalog-sort-dialog" data-vw-sort-dialog aria-labelledby="vw-sort-title"><div class="vw-catalog-dialog__heading"><h2 id="vw-sort-title"><?php echo esc_html( cn_translate( 'Sort by' ) ); ?></h2><button type="button" class="vw-icon-button" data-vw-close-dialog aria-label="<?php echo esc_attr( cn_translate( 'Close' ) ); ?>"><?php echo voiceweb_wc_icon( 'close' ); ?></button></div><div class="vw-catalog-sort-options"><?php foreach ( $sort_options as $value => $label ) : ?><a href="<?php echo esc_url( voiceweb_wc_catalog_url( array_replace( $params, array( 'orderby' => $value ) ) ) ); ?>" data-vw-catalog-link <?php echo $value === $sort ? 'aria-current="true"' : ''; ?>><span><?php echo esc_html( $label ); ?></span><?php if ( $value === $sort ) { echo voiceweb_wc_icon( 'check' ); } ?></a><?php endforeach; ?></div></dialog>
 </section>

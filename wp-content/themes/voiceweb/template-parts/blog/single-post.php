@@ -22,9 +22,11 @@ $content = apply_filters( 'the_content', get_the_content() );
 list( $content, $toc ) = cn_table_of_contents( $content );
 
 // Latest posts for the sidebar (current language, excluding this post).
+$leather_article = function_exists( 'voiceweb_leather_article' ) && voiceweb_leather_article( $current_id );
 $latest_ids = cn_query_post_ids( array(
 	'count'   => 6,
 	'exclude' => array( $current_id ),
+	'cat_id'  => $leather_article ? voiceweb_leather_magazine_term() : 0,
 ) );
 $image_args = array(
 	'class' => 'd-block w-100 h-100 object-fit-cover',
@@ -80,6 +82,7 @@ $latest_card_args = array( 'post_id' => 0 );
 						<div class="article-content">
 							<?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput -- already filtered the_content ?>
 						</div>
+						<?php if ( $leather_article ) { voiceweb_leather_discovery(); } ?>
 
 						<?php
 						$post_tags = get_the_tags();

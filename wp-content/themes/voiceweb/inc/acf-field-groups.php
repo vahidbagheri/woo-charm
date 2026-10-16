@@ -1050,6 +1050,7 @@ function voiceweb_register_front_page_fields() {
 		) ) ),
 		$toggle( 'arrivals_enabled', 'Show new arrivals' ), $field( 'arrivals_title', 'New arrivals heading' ),
 		$field( 'arrivals_products', 'Selected new products', 'relationship', $product_fields ),
+		$toggle( 'gifts_enabled', 'نمایش راهنماهای هدیه و مناسبت‌ها' ),
 		$toggle( 'blog_enabled', 'Show blog section' ), $field( 'blog_title', 'Blog heading' ), $field( 'blog_description', 'Blog description' ),
 		$field( 'blog_link', 'Blog archive link', 'link', array_merge( $link, array( 'instructions' => 'Leave empty for the WordPress posts page.' ) ) ),
 		$field( 'blog_posts', 'Selected blog posts', 'relationship', array( 'post_type' => array( 'post' ), 'post_status' => array( 'publish' ), 'return_format' => 'id', 'max' => 3, 'filters' => array( 'search', 'taxonomy' ) ) ),
@@ -1060,6 +1061,9 @@ function voiceweb_register_front_page_fields() {
 		$field( 'faq_title', 'FAQ heading' ), $field( 'faq', 'Frequently asked questions', 'repeater', array( 'max' => 6, 'sub_fields' => array(
 			$sub( 'faq', 'question', 'Question' ), $sub( 'faq', 'answer', 'Answer', 'textarea', array( 'rows' => 3 ) ),
 		) ) ),
+		$tab( 'tab_seo', 'عنوان و توضیح جستجو' ),
+		$field( 'seo_title', 'عنوان صفحهٔ اصلی برای موتور جستجو', 'text', array( 'instructions' => 'در نبود افزونهٔ سئو، این عنوان جایگزین عنوان پیش‌فرض صفحهٔ اصلی می‌شود. نام و شعار عمومی سایت تغییر نمی‌کند.' ) ),
+		$field( 'seo_description', 'توضیح صفحهٔ اصلی در نتیجهٔ جستجو', 'textarea', array( 'rows' => 3, 'new_lines' => '', 'instructions' => 'توضیحی کوتاه از محصولات واقعی فروشگاه بنویسید. اگر افزونهٔ سئو فعال باشد، این متن را از تنظیمات همان افزونه مدیریت کنید.' ) ),
 	);
 	acf_add_local_field_group( array( 'key' => 'group_voiceweb_front_page', 'title' => 'Storefront homepage', 'fields' => $fields, 'location' => array( array( array( 'param' => 'page_type', 'operator' => '==', 'value' => 'front_page' ) ) ), 'position' => 'normal', 'style' => 'default', 'show_in_rest' => 0 ) );
 }
@@ -1145,3 +1149,109 @@ function cn_acf_json_paths( $paths ) {
 	return $paths;
 }
 add_filter( 'acf/settings/load_json', 'cn_acf_json_paths' );
+
+/** Page-specific gift collections; ordinary page content remains the long-form editor. */
+function voiceweb_register_gift_landing_fields(): void {
+	if ( ! function_exists( 'acf_add_local_field_group' ) ) { return; }
+	$field = static fn( $name, $label, $type = 'text', $extra = array() ) => array_merge( array( 'key' => 'field_vw_gift_' . $name, 'name' => 'vw_gift_' . $name, 'label' => $label, 'type' => $type ), $extra );
+	$sub = static fn( $prefix, $name, $label, $type = 'text', $extra = array() ) => $field( $prefix . '_' . $name, $label, $type, array_merge( array( 'name' => $name ), $extra ) );
+	$source_condition = static fn( $source ) => array( array( array( 'field' => 'field_vw_gift_product_source', 'operator' => '==', 'value' => $source ) ) );
+	$location = static fn( $template ) => array( array( 'param' => 'page_template', 'operator' => '==', 'value' => $template ) );
+	$fields = array(
+		$field( 'tab_hero', 'معرفی مناسبت', 'tab' ),
+		$field( 'eyebrow', 'متن کوتاه بالای عنوان' ),
+		$field( 'intro', 'مقدمهٔ راهنمای هدیه', 'textarea', array( 'rows' => 3, 'new_lines' => '', 'instructions' => 'مقدمه‌ای اختصاصی برای همین مناسبت بنویسید. عنوان اصلی از عنوان برگه گرفته می‌شود.' ) ),
+		$field( 'hero_image', 'تصویر اصلی', 'image', array( 'return_format' => 'id', 'preview_size' => 'medium', 'library' => 'all', 'instructions' => 'تصویر مرتبط با این مناسبت انتخاب کنید و متن جایگزین آن را در کتابخانهٔ رسانه تکمیل کنید. اگر خالی باشد، تصویر شاخص برگه استفاده می‌شود.' ) ),
+		$field( 'primary_label', 'متن دکمهٔ مشاهدهٔ محصولات', 'text', array( 'default_value' => 'دیدن پیشنهادهای هدیه' ) ),
+		$field( 'tab_products', 'محصولات و دسته‌ها', 'tab' ),
+		$field( 'products_title', 'عنوان بخش محصولات', 'text', array( 'default_value' => 'پیشنهادهای خرید هدیه' ) ),
+		$field( 'categories', 'دسته‌های مرتبط', 'taxonomy', array( 'taxonomy' => 'product_cat', 'field_type' => 'multi_select', 'return_format' => 'id', 'multiple' => 1, 'allow_null' => 1, 'save_terms' => 0, 'load_terms' => 0, 'add_term' => 0, 'instructions' => 'این دسته‌ها به صفحهٔ دسته‌بندی لینک می‌شوند. در حالت انتخاب از دسته، محصولات این دسته‌ها و زیردسته‌هایشان نمایش داده می‌شوند.' ) ),
+		$field( 'product_source', 'روش انتخاب محصولات', 'select', array( 'choices' => array( 'categories' => 'خودکار از دسته‌های انتخاب‌شده', 'manual' => 'انتخاب دستی محصولات' ), 'default_value' => 'categories', 'required' => 1, 'instructions' => 'اگر دسته یا محصولی انتخاب نشود، این بخش خالی می‌ماند؛ محصولات نامرتبط جایگزین نمی‌شوند.' ) ),
+		$field( 'products', 'محصولات منتخب', 'relationship', array( 'post_type' => array( 'product' ), 'post_status' => array( 'publish' ), 'return_format' => 'id', 'filters' => array( 'search', 'taxonomy' ), 'max' => 24, 'conditional_logic' => $source_condition( 'manual' ), 'instructions' => 'برای تغییر ترتیب، محصولات منتخب را جابه‌جا کنید. محصولات مخفی، منتشرنشده یا رمزدار نمایش داده نمی‌شوند.' ) ),
+		$field( 'product_limit', 'حداکثر تعداد محصولات', 'number', array( 'default_value' => 12, 'min' => 1, 'max' => 24, 'step' => 1, 'required' => 1, 'wrapper' => array( 'width' => '50' ) ) ),
+		$field( 'product_order', 'ترتیب محصولات دسته', 'select', array( 'choices' => array( 'date' => 'جدیدترین', 'popularity' => 'بیشترین فروش ثبت‌شده', 'price' => 'کمترین قیمت', 'menu_order' => 'ترتیب تنظیم‌شده در فروشگاه' ), 'default_value' => 'date', 'conditional_logic' => $source_condition( 'categories' ), 'wrapper' => array( 'width' => '50' ) ) ),
+		$field( 'in_stock', 'فقط محصولات دارای موجودی', 'true_false', array( 'default_value' => 1, 'ui' => 1, 'instructions' => 'با فعال‌بودن این گزینه، محصولات ناموجود یا در انتظار تأمین نمایش داده نمی‌شوند. تنظیم سراسری پنهان‌کردن محصولات ناموجود ووکامرس نیز رعایت می‌شود.' ) ),
+		$field( 'tab_guide', 'راهنمای انتخاب', 'tab' ),
+		$field( 'guide_title', 'عنوان راهنمای خرید', 'text', array( 'default_value' => 'چطور هدیهٔ مناسب انتخاب کنیم؟' ) ),
+		$field( 'guide_intro', 'مقدمهٔ بخش راهنما', 'textarea', array( 'rows' => 3, 'new_lines' => '', 'instructions' => 'متن کامل و اختصاصی راهنمای خرید را در ویرایشگر اصلی همین برگه بنویسید.' ) ),
+		$field( 'tips', 'نکته‌های انتخاب هدیه', 'repeater', array( 'max' => 6, 'layout' => 'block', 'button_label' => 'افزودن نکته', 'collapsed' => 'field_vw_gift_tip_title', 'sub_fields' => array(
+			$sub( 'tip', 'title', 'عنوان نکته', 'text', array( 'required' => 1 ) ),
+			$sub( 'tip', 'text', 'توضیح نکته', 'textarea', array( 'rows' => 3, 'new_lines' => '' ) ),
+		) ) ),
+		$field( 'faq', 'پرسش‌های متداول این مناسبت', 'repeater', array( 'max' => 8, 'layout' => 'block', 'button_label' => 'افزودن پرسش', 'collapsed' => 'field_vw_gift_faq_question', 'sub_fields' => array(
+			$sub( 'faq', 'question', 'پرسش', 'text', array( 'required' => 1 ) ),
+			$sub( 'faq', 'answer', 'پاسخ', 'textarea', array( 'rows' => 3, 'new_lines' => '', 'required' => 1 ) ),
+		) ) ),
+		$field( 'related_pages', 'راهنماها و مناسبت‌های مرتبط', 'relationship', array( 'post_type' => array( 'page' ), 'post_status' => array( 'publish' ), 'return_format' => 'id', 'max' => 8, 'filters' => array( 'search' ), 'instructions' => 'فقط برگه‌های عمومیِ منتشرشده نمایش داده می‌شوند. برگه‌های رمزدار و خودِ همین برگه در خروجی حذف می‌شوند.' ) ),
+	);
+	acf_add_local_field_group( array( 'key' => 'group_voiceweb_gift_landing', 'title' => 'راهنمای هدیه و مناسبت‌ها', 'fields' => $fields, 'location' => array( $location( 'page-templates/gift-landing.php' ) ), 'position' => 'normal', 'style' => 'default', 'show_in_rest' => 0 ) );
+	acf_add_local_field_group( array( 'key' => 'group_voiceweb_gift_seo', 'title' => 'عنوان و توضیح جستجوی راهنمای هدیه', 'fields' => array(
+		$field( 'seo_title', 'عنوان برای موتور جستجو', 'text', array( 'instructions' => 'عنوانی روشن و اختصاصی بنویسید. اگر افزونهٔ سئو فعال باشد، عنوان را از تنظیمات همان افزونه مدیریت کنید.' ) ),
+		$field( 'seo_description', 'توضیح نتیجهٔ جستجو', 'textarea', array( 'rows' => 3, 'new_lines' => '', 'instructions' => 'توضیحی کوتاه دربارهٔ محتوای واقعی همین صفحه بنویسید. در نبود افزونهٔ سئو، این توضیح استفاده می‌شود؛ در صورت خالی‌بودن، مقدمهٔ صفحه جایگزین خواهد شد. نمایش متن در گوگل تضمین‌شده نیست.' ) ),
+	), 'location' => array( $location( 'page-templates/gift-landing.php' ), $location( 'page-templates/gift-hub.php' ) ), 'position' => 'normal', 'style' => 'default', 'show_in_rest' => 0 ) );
+}
+add_action( 'acf/include_fields', 'voiceweb_register_gift_landing_fields', 5 );
+
+/** Brand story and verified contact details live on their ordinary WordPress pages. */
+function voiceweb_register_brand_fields(): void {
+	if ( ! function_exists( 'acf_add_local_field_group' ) ) { return; }
+	$field = static fn( $name, $label, $type = 'text', $extra = array() ) => array_merge( array( 'key' => 'field_vw_brand_' . $name, 'name' => 'vw_brand_' . $name, 'label' => $label, 'type' => $type ), $extra );
+	$location = static fn( $template ) => array( array( 'param' => 'page_template', 'operator' => '==', 'value' => 'page-templates/' . $template . '.php' ) );
+	$repeat = static function ( $name, $label, $question = false ) use ( $field ) {
+		$first = $question ? 'question' : 'title'; $second = $question ? 'answer' : 'text';
+		return $field( $name, $label, 'repeater', array( 'layout' => 'block', 'max' => 8, 'button_label' => 'افزودن مورد', 'collapsed' => 'field_vw_brand_' . $name . '_' . $first, 'sub_fields' => array(
+			$field( $name . '_' . $first, $question ? 'پرسش' : 'عنوان', 'text', array( 'name' => $first, 'required' => 1 ) ),
+			$field( $name . '_' . $second, $question ? 'پاسخ' : 'توضیح', 'textarea', array( 'name' => $second, 'rows' => 3, 'new_lines' => '', 'required' => 1 ) ),
+		) ) );
+	};
+	acf_add_local_field_group( array( 'key' => 'group_voiceweb_brand_pages', 'title' => 'معرفی آوان چرم و اطلاعات صفحه', 'fields' => array(
+		$field( 'intro', 'معرفی کوتاه', 'textarea', array( 'rows' => 3, 'new_lines' => '' ) ),
+		$field( 'hero_image', 'تصویر اصلی', 'image', array( 'return_format' => 'id', 'preview_size' => 'medium' ) ),
+		$repeat( 'faq', 'پرسش‌های متداول', true ),
+		$field( 'seo_title', 'عنوان موتور جستجو', 'text', array( 'instructions' => 'در صورت فعال‌بودن افزونهٔ سئو، عنوان را در همان افزونه مدیریت کنید.' ) ),
+		$field( 'seo_description', 'توضیح موتور جستجو', 'textarea', array( 'rows' => 3, 'new_lines' => '' ) ),
+	), 'location' => array( $location( 'about' ), $location( 'contact' ) ), 'show_in_rest' => 0 ) );
+	acf_add_local_field_group( array( 'key' => 'group_voiceweb_brand_story', 'title' => 'تولید و چرم آوان', 'fields' => array(
+		$repeat( 'process', 'مراحل تولید' ), $repeat( 'leather', 'دربارهٔ چرم‌های مورد استفاده' ),
+	), 'location' => array( $location( 'about' ) ), 'show_in_rest' => 0 ) );
+	acf_add_local_field_group( array( 'key' => 'group_voiceweb_brand_contact', 'title' => 'راه‌های ارتباطی تأییدشده', 'fields' => array(
+		$field( 'phone', 'شمارهٔ تماس', 'text', array( 'instructions' => 'شمارهٔ قابل‌تماس مشتریان. فقط اطلاعات واقعی فروشگاه را وارد کنید.' ) ),
+		$field( 'email', 'ایمیل پاسخ‌گویی', 'email' ),
+		$field( 'address', 'نشانی', 'textarea', array( 'rows' => 3, 'new_lines' => '' ) ),
+		$field( 'hours', 'ساعت پاسخ‌گویی' ),
+		$field( 'instagram_url', 'نشانی صفحهٔ اینستاگرام', 'url' ),
+		$field( 'whatsapp', 'شمارهٔ واتساپ با کد کشور', 'text', array( 'instructions' => 'فقط اگر این شماره واقعاً واتساپ فروشگاه است تکمیل کنید؛ نمونهٔ ساختار: 989xxxxxxxxx. شمارهٔ تماس به‌صورت خودکار واتساپ فرض نمی‌شود.' ) ),
+	), 'location' => array( $location( 'contact' ) ), 'show_in_rest' => 0 ) );
+}
+add_action( 'acf/include_fields', 'voiceweb_register_brand_fields', 5 );
+
+/** Native category archives are the single landing URL for each product family. */
+function voiceweb_register_category_landing_fields(): void {
+	if ( ! function_exists( 'acf_add_local_field_group' ) ) { return; }
+	$field = static fn( $name, $label, $type = 'text', $extra = array() ) => array_merge( array( 'key' => 'field_vw_cat_' . $name, 'name' => 'vw_cat_' . $name, 'label' => $label, 'type' => $type ), $extra );
+	$repeat = static function ( $name, $label, $question = false ) use ( $field ) {
+		$first = $question ? 'question' : 'title'; $second = $question ? 'answer' : 'text';
+		return $field( $name, $label, 'repeater', array( 'max' => 6, 'layout' => 'block', 'button_label' => 'افزودن مورد', 'sub_fields' => array(
+			$field( $name . '_' . $first, $question ? 'پرسش' : 'عنوان', 'text', array( 'name' => $first, 'required' => 1 ) ),
+			$field( $name . '_' . $second, $question ? 'پاسخ' : 'توضیح', 'textarea', array( 'name' => $second, 'rows' => 3, 'new_lines' => '', 'required' => 1 ) ),
+		) ) );
+	};
+	acf_add_local_field_group( array( 'key' => 'group_voiceweb_category_landing', 'title' => 'راهنمای خرید و سئوی دسته', 'fields' => array(
+		$field( 'intro', 'معرفی کوتاه بالای محصولات', 'textarea', array( 'rows' => 3, 'new_lines' => '' ) ),
+		$field( 'guide', 'راهنمای خرید زیر محصولات', 'wysiwyg', array( 'tabs' => 'all', 'toolbar' => 'basic', 'media_upload' => 0, 'instructions' => 'راهنمای اختصاصی همین دسته را با تیترهای H2 و H3 بنویسید. عنوان اصلی دسته خودکار H1 است.' ) ),
+		$repeat( 'tips', 'نکته‌های انتخاب' ), $repeat( 'faq', 'پرسش‌های خریداران', true ),
+		$field( 'related_categories', 'دسته‌های مرتبط', 'taxonomy', array( 'taxonomy' => 'product_cat', 'field_type' => 'multi_select', 'return_format' => 'id', 'multiple' => 1, 'allow_null' => 1, 'save_terms' => 0, 'load_terms' => 0, 'add_term' => 0 ) ),
+		$field( 'related_gifts', 'راهنماهای هدیهٔ مرتبط', 'relationship', array( 'post_type' => array( 'page' ), 'post_status' => array( 'publish' ), 'return_format' => 'id', 'max' => 4, 'filters' => array( 'search' ) ) ),
+		$field( 'seo_title', 'عنوان موتور جستجو', 'text', array( 'instructions' => 'در صورت فعال‌بودن افزونهٔ سئو، عنوان را از همان افزونه تنظیم کنید.' ) ),
+		$field( 'seo_description', 'توضیح موتور جستجو', 'textarea', array( 'rows' => 3, 'new_lines' => '' ) ),
+	), 'location' => array( array( array( 'param' => 'taxonomy', 'operator' => '==', 'value' => 'product_cat' ) ) ), 'show_in_rest' => 0 ) );
+}
+add_action( 'acf/include_fields', 'voiceweb_register_category_landing_fields', 5 );
+
+function voiceweb_register_editorial_seo_visibility(): void {
+	if ( ! function_exists( 'acf_add_local_field_group' ) ) { return; }
+	acf_add_local_field_group( array( 'key' => 'group_voiceweb_seo_visibility', 'title' => 'وضعیت نمایش در موتور جستجو', 'fields' => array(
+		array( 'key' => 'field_vw_brand_noindex', 'name' => 'vw_brand_noindex', 'label' => 'این محتوا در نتایج جستجو نمایش داده نشود', 'type' => 'true_false', 'ui' => 1, 'default_value' => 0, 'instructions' => 'برای محتوای آزمایشی یا صفحه‌ای که نباید ورودی گوگل بگیرد. در صورت فعال‌بودن افزونهٔ سئو، گزینهٔ noindex را در همان افزونه نیز تنظیم کنید. محتوای انتخاب‌شده از نقشهٔ سایت بومی وردپرس خارج می‌شود.' ),
+	), 'location' => array( array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'product' ) ), array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'page' ) ), array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'post' ) ) ), 'show_in_rest' => 0 ) );
+}
+add_action( 'acf/include_fields', 'voiceweb_register_editorial_seo_visibility', 5 );

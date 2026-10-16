@@ -1,18 +1,20 @@
-# قالب والد VoiceWeb
+# قالب والد آوان چرم — VoiceWeb
 
 `voiceweb` لایهٔ پایهٔ قالب وردپرس است و تمپلیت‌ها، helperها، لودر asset، ترجمه،
 تنظیمات سایت و APIهای مشترک را فراهم می‌کند. شخصی‌سازی‌های همین سایت در قالب
 `voiceweb-child` نگهداری می‌شوند.
 
 > مرجع اصلی و به‌روز پروژه:
-> [راهنمای یکپارچهٔ قالب VoiceWeb](./Doc/README.fa.md)
+> [فهرست یکپارچهٔ مستندات](./Doc/README.fa.md)
+
+راهنماهای تازه: [هویت و صفحات آوان چرم](./Doc/AVAN-CHARM.fa.md) · [مدیریت لندینگ‌های مناسبتی](./Doc/GIFT-LANDINGS.fa.md) · [برنامهٔ پنج‌ماههٔ سئو](./Doc/SEO-ROADMAP.fa.md)
 
 ## شروع سریع
 
 پیش‌نیازها:
 
 - WordPress `6.3+`
-- PHP `7.4+`
+- PHP `8.0+` برای مجموعهٔ قالب، ورود و پرداخت
 - `ACF PRO`
 
 راه‌اندازی:
@@ -36,14 +38,4 @@
 - برای قالب تکی هر post type از
   `template-parts/{post_type}/single-{post_type}.php` استفاده کن؛ نوشته‌های عادی داخل `template-parts/blog/` هستند.
 
-راهنماهای پرکاربرد:
-
-- [محتوای فروشگاه کیف و چرم](./Doc/LEATHER-CONTENT.fa.md)
-- [خرید عادی یا درخواست تماس](./Doc/INQUIRIES.fa.md)
-- [معماری اجرایی](./Doc/SYSTEM.fa.md)
-- [قالب‌های سینگل](./Doc/SINGLE-TEMPLATES.fa.md)
-- [JavaScript و Sass](./Doc/JS-SASS-LOADING.fa.md)
-- [فونت](./Doc/FONTS.fa.md)
-- [ترجمه](./Doc/TRANSLATION-SYSTEM.fa.md)
-- [مدیریت code-first گروه‌های ACF](./Doc/ACF-CODE-FIRST.fa.md)
-- [تنظیمات هدر و فوتر](./Doc/SITE-SETTINGS.fa.md)
+همهٔ راهنماهای مدیریت، توسعه، ابزارها و رفع خطا در `Doc/` نگهداری می‌شوند؛ این فایل ورودی کوتاه نصب است. برای اجرای فرمان‌ها [راهنمای اجرا](./Doc/RUNBOOK.fa.md) و برای خطای `Filename too long` [راهنمای Git در Windows](./Doc/GIT-WINDOWS.fa.md) را بخوانید.

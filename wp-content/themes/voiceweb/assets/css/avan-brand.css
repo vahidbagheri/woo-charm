@@ -1,0 +1,103 @@
+/* Avan Charm's shared signature. Plain CSS is valid Sass and needs no runtime JavaScript. */
+.cn-header-logo.avan-brand,
+.vw-store-footer .cn-footer__logo.avan-brand {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  inline-size: 172px;
+  min-block-size: 52px;
+  flex: 0 0 auto;
+  padding: 2px 0;
+  color: #183c32;
+  direction: rtl;
+  line-height: 1;
+  text-decoration: none;
+  border-radius: 6px;
+  overflow: hidden;
+  isolation: isolate;
+}
+.avan-brand__mark {
+  display: block;
+  inline-size: 46px;
+  block-size: 46px;
+  flex: 0 0 46px;
+  object-fit: contain;
+}
+.avan-brand__wordmark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  min-inline-size: 0;
+  padding-block: 3px;
+}
+.avan-brand__name {
+  display: block;
+  color: #183c32;
+  font-family: var(--cn-font-family);
+  font-size: 25px;
+  font-weight: 850;
+  line-height: 1.35;
+  letter-spacing: -.8px;
+  white-space: nowrap;
+}
+.avan-brand__name > span { font-weight: 550; }
+.avan-brand__latin {
+  display: block;
+  padding-inline-start: 2px;
+  color: #8b7145;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 8px;
+  font-weight: 400;
+  letter-spacing: 2.15px;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+.avan-brand::after {
+  position: absolute;
+  z-index: 1;
+  inset-block-start: -35%;
+  left: 0;
+  inline-size: 40%;
+  block-size: 170%;
+  content: '';
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent 8%, rgba(255, 250, 231, .08) 28%, rgba(255, 250, 231, .7) 49%, rgba(255, 250, 231, .08) 70%, transparent 92%);
+  opacity: 0;
+  transform: translateX(-180%) skewX(-18deg);
+  animation: avan-brand-shine 11s cubic-bezier(.4, 0, .6, 1) 1s infinite;
+}
+.avan-brand--footer::after { animation-delay: 3s; }
+.cn-header-logo.avan-brand:focus-visible,
+.vw-store-footer .cn-footer__logo.avan-brand:focus-visible {
+  outline: 2px solid #8c754c;
+  outline-offset: 4px;
+}
+.vw-store-footer .cn-footer__logo.avan-brand:hover { transform: none; }
+.cn-header-logo.avan-brand--custom,
+.vw-store-footer .cn-footer__logo.avan-brand--custom { inline-size: auto; min-inline-size: 44px; }
+.avan-brand__custom-image { display: block; object-fit: contain; }
+@keyframes avan-brand-shine {
+  0%, 8% { opacity: 0; transform: translateX(-180%) skewX(-18deg); }
+  11% { opacity: .6; }
+  26% { opacity: .6; transform: translateX(390%) skewX(-18deg); }
+  29%, 100% { opacity: 0; transform: translateX(390%) skewX(-18deg); }
+}
+@media (max-width: 1199.98px) {
+  .cn-header-mobile .cn-header-logo.avan-brand {
+    position: absolute;
+    inline-size: 154px;
+    min-block-size: 48px;
+    gap: 8px;
+  }
+  .cn-header-mobile .avan-brand__mark { inline-size: 40px; block-size: 40px; flex-basis: 40px; }
+  .cn-header-mobile .avan-brand__name { font-size: 23px; }
+  .cn-header-mobile .avan-brand__latin { font-size: 7px; letter-spacing: 1.85px; }
+  .cn-header-mobile .avan-brand__wordmark { gap: 4px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .avan-brand::after { display: none !important; animation: none !important; }
+  .avan-brand, .avan-brand * { animation: none !important; transition: none !important; }
+}

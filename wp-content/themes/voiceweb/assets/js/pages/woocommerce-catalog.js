@@ -82,6 +82,14 @@
     form.querySelector('[data-vw-apply-filters]').disabled = value;
     form.querySelector('[data-vw-apply-filters]').textContent = value ? strings.loading : strings.apply;
   }
+  function syncHeadMetadata(source) {
+    // Only copy metadata owned by the fetched page; never import executable scripts or assets.
+    const selectors = ['meta[name="description"]', 'meta[name="robots"]', 'link[rel="canonical"]', 'script.vw-category-schema[type="application/ld+json"]'];
+    selectors.forEach(selector => {
+      document.head.querySelectorAll(selector).forEach(node => node.remove());
+      source.head.querySelectorAll(selector).forEach(node => document.head.append(document.importNode(node, true)));
+    });
+  }
   async function navigate(target, { history = true, scroll = true, restoreScroll } = {}) {
     const url = new URL(target, location.href);
     if (url.origin !== location.origin) { location.assign(url); return; }
@@ -91,13 +99,13 @@
     setBusy(true); setFeedback(strings.loading);
     try {
       const response = await fetch(url, { credentials: 'same-origin', signal: requestController.signal, headers: { 'Accept': 'text/html', 'X-VoiceWeb-Catalog': '1' }, cache: 'no-store' });
-      if (!response.ok) throw new Error();
+      if (!response.ok || new URL(response.url || url.href).origin !== location.origin) throw new Error();
       const documentResult = new DOMParser().parseFromString(await response.text(), 'text/html'), next = documentResult.querySelector('[data-vw-catalog]');
       if (!next || id !== requestId) throw new Error();
       const details = [...form.querySelectorAll('details')].map(el => ({ group: el.dataset.group, open: el.open }));
       closeDialogs(false); filterDialog.remove(); sortDialog.remove();
       const replacement = document.importNode(next, true); root.replaceWith(replacement);
-      document.title = documentResult.title || document.title; init(replacement);
+      document.title = documentResult.title || document.title; syncHeadMetadata(documentResult); init(replacement);
       details.forEach(({ group, open }) => { const detail = [...form.querySelectorAll('details')].find(el => el.dataset.group === group); if (detail) detail.open = open; });
       if (history) {
         window.history.replaceState({ ...(window.history.state || {}), vwCatalogScroll: previousScroll }, '');

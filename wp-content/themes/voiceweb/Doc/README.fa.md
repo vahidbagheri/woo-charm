@@ -1,46 +1,70 @@
-# راهنمای یکپارچهٔ قالب VoiceWeb
+# مستندات یکپارچهٔ آوان چرم و قالب VoiceWeb
 
-این سند مرجع اصلی توسعه و نگهداری قالب والد `voiceweb` و قالب چایلد
-`voiceweb-child` است. محتوای آن با ساختار فعلی مخزن تطبیق داده شده و هرجا میان
-کد و یک مثال قدیمی اختلافی باشد، کد فعلی منبع نهایی حقیقت است.
+از این فایل شروع کنید. تمام راهنماهای اصلی قالب در همین پوشهٔ `Doc` و مرجع فایل‌های زیرساخت در `Doc/inc` نگهداری می‌شوند. **آوان چرم** نام فروشگاه است؛ `voiceweb` و `voiceweb-child` نام فنی قالب‌ها و پیشوندهای قدیمی بخشی از قرارداد کد و دیتابیس‌اند. آخرین یکپارچه‌سازی: **۱۶ اکتبر ۲۰۲۶**.
+
+برای مدیریت روزمره، [راهنمای آوان چرم](AVAN-CHARM.fa.md)؛ برای اجرا و عیب‌یابی، [راهنمای اجرا](RUNBOOK.fa.md)؛ و برای ادامهٔ توسعه، [سند تحویل](HANDOFF.fa.md) را بخوانید. نمونه‌ها و نتایج تاریخی با تاریخ خودشان باقی مانده‌اند؛ وضعیت جاری نصب در ابتدای راهنمای اجرا آمده است. در اختلاف میان مثال تاریخی و پیاده‌سازی، کد فعلی مرجع است.
 
 ## مسیر مطالعه
 
-برای ادامهٔ این پروژه، ابتدا [سند تحویل و تاریخچهٔ تصمیم‌ها](./HANDOFF.fa.md) را
-بخوان؛ این فایل نمای معماری و راهنماهای تخصصی جزئیات هر بخش را نگه می‌دارند.
-آخرین تطبیق مستندات با کد و تنظیمات محلی: **۱۴ اکتبر ۲۰۲۶**.
+### فروشگاه، محتوا و سئو
 
 | موضوع | سند تخصصی |
 |---|---|
-| تمام کارهای این گفتگو، تصمیم‌ها و موارد باقی‌مانده | [HANDOFF.fa.md](./HANDOFF.fa.md) |
-| ورود، ثبت‌نام، OTP و دو سرویس پیامک | [AUTH.fa.md](./AUTH.fa.md) |
-| بله‌پی، کارت‌به‌کارت و بررسی رسید | [PAYMENTS.fa.md](./PAYMENTS.fa.md) |
-| وضعیت محیط، فرمان‌های اجرا، آزمون و عیب‌یابی | [RUNBOOK.fa.md](./RUNBOOK.fa.md) |
-| معماری اجرای درخواست و نقاط توسعه | [SYSTEM.fa.md](./SYSTEM.fa.md) |
-| قالب تکی هر نوع محتوا | [SINGLE-TEMPLATES.fa.md](./SINGLE-TEMPLATES.fa.md) |
-| بارگذاری `JavaScript`، `Sass` و `CSS` | [JS-SASS-LOADING.fa.md](./JS-SASS-LOADING.fa.md) |
-| طراحی ووکامرس، حساب کاربری و دفترچهٔ چندآدرسی | [WOOCOMMERCE.fa.md](./WOOCOMMERCE.fa.md) |
+| برند، لوگو، درباره، تماس، دسته‌ها، مجله و انتقال سایت | [AVAN-CHARM.fa.md](AVAN-CHARM.fa.md) |
+| مدیریت ۲۰ لندینگ مناسبتی و انتخاب خودکار/دستی محصول | [GIFT-LANDINGS.fa.md](GIFT-LANDINGS.fa.md) |
+| برنامهٔ پنج‌ماهه، نقشهٔ عبارت‌ها و سنجه‌های سئو | [SEO-ROADMAP.fa.md](SEO-ROADMAP.fa.md) |
 | صفحهٔ اصلی، اسلایدر، ACF، پیشنهاد زمان‌دار و درباره | [HOMEPAGE.fa.md](./HOMEPAGE.fa.md) |
 | داده‌گذاری محصولات، تنوع‌ها و عکس‌های کیف و چرم | [LEATHER-CONTENT.fa.md](./LEATHER-CONTENT.fa.md) |
 | کارت مشترک محصول و ظاهر سبد/checkout/account | [COMMERCE-DESIGN.fa.md](./COMMERCE-DESIGN.fa.md) |
+
+### اجرا، تحویل و Git
+
+| موضوع | سند تخصصی |
+|---|---|
+| وضعیت فعلی محیط، فرمان‌های اجرا، آزمون و عیب‌یابی | [RUNBOOK.fa.md](RUNBOOK.fa.md) |
+| ساختار ابزارها و اجرای امن فرمان‌های کمکی | [TOOLS.fa.md](TOOLS.fa.md) |
+| خطای مسیر بلند Windows و Git در VS Code | [GIT-WINDOWS.fa.md](GIT-WINDOWS.fa.md) |
+| تصمیم‌ها، تاریخچهٔ توسعه و تحویل پروژه | [HANDOFF.fa.md](HANDOFF.fa.md) |
+
+### ووکامرس، ورود و پرداخت
+
+| موضوع | سند تخصصی |
+|---|---|
+| فروشگاه، حساب کاربری و دفترچهٔ چندآدرسی | [WOOCOMMERCE.fa.md](WOOCOMMERCE.fa.md) |
+| ورود، ثبت‌نام، OTP و سرویس پیامک | [AUTH.fa.md](AUTH.fa.md) |
+| بله‌پی، کارت‌به‌کارت و بررسی رسید | [PAYMENTS.fa.md](PAYMENTS.fa.md) |
 | گزینهٔ سراسری/محصولی درخواست تماس و پیگیری مدیریت | [INQUIRIES.fa.md](./INQUIRIES.fa.md) |
 | پایان sale، قیمت variation و cache بومی | [SALE-EXPIRY.fa.md](./SALE-EXPIRY.fa.md) |
+
+### توسعه، ACF و زیرساخت
+
+| موضوع | سند تخصصی |
+|---|---|
+| معماری اجرای درخواست و نقاط توسعه | [SYSTEM.fa.md](SYSTEM.fa.md) |
+| محافظ پوشه‌ها، ثبت رویداد و بررسی دیتابیس | [INFRASTRUCTURE.fa.md](INFRASTRUCTURE.fa.md) |
+| قالب تکی هر نوع محتوا | [SINGLE-TEMPLATES.fa.md](SINGLE-TEMPLATES.fa.md) |
+| بارگذاری `JavaScript`، `Sass` و `CSS` | [JS-SASS-LOADING.fa.md](JS-SASS-LOADING.fa.md) |
+| تعریف گروه‌های ACF در کد | [ACF-CODE-FIRST.fa.md](ACF-CODE-FIRST.fa.md) |
+| تنظیمات هدر و فوتر | [SITE-SETTINGS.fa.md](SITE-SETTINGS.fa.md) |
+| آیکون‌های Iconly | [ICONLY-TERM-ICONS.fa.md](ICONLY-TERM-ICONS.fa.md) |
+| کش مرورگر و نسخه‌گذاری فایل‌ها | [CACHE.fa.md](CACHE.fa.md) |
+| مرجع فایل‌های PHP زیرساخت | [inc/README.fa.md](inc/README.fa.md) |
+
+### فونت و ترجمه
+
+| موضوع | سند تخصصی |
+|---|---|
 | فونت چندزبانه | [FONTS.fa.md](./FONTS.fa.md) |
 | آموزش پله‌به‌پلهٔ افزودن فونت با شرح کد و عیب‌یابی | [FONT-ADDING-STEP-BY-STEP.fa.md](./FONT-ADDING-STEP-BY-STEP.fa.md) |
 | استفاده از `Yekan Bakh Variable` | [YEKAN-BAKH-VARIABLE.fa.md](./YEKAN-BAKH-VARIABLE.fa.md) |
 | ترجمهٔ فرانت‌اند و مدیریت | [TRANSLATION-SYSTEM.fa.md](./TRANSLATION-SYSTEM.fa.md) |
 | ترجمهٔ رابط فیلدهای `ACF` | [ACF-TRANSLATION.fa.md](./ACF-TRANSLATION.fa.md) |
-| تعریف code-first گروه‌های `ACF` | [ACF-CODE-FIRST.fa.md](./ACF-CODE-FIRST.fa.md) |
-| تنظیمات هدر و فوتر | [SITE-SETTINGS.fa.md](./SITE-SETTINGS.fa.md) |
-| آیکون‌های `Iconly` | [ICONLY-TERM-ICONS.fa.md](./ICONLY-TERM-ICONS.fa.md) |
-| کش مرورگر و نسخه‌گذاری فایل‌ها | [CACHE.fa.md](./CACHE.fa.md) |
-| مرجع یک‌به‌یک فایل‌های ریشهٔ `inc` | [inc/README.fa.md](./inc/README.fa.md) |
 
 ورودی‌های کوتاه هر بخش:
 
 - [راهنمای قالب والد](../README.md)
 - [راهنمای قالب چایلد](../../voiceweb-child/README.md)
-- [ابزار کامپایل ترجمه](../tools/README.fa.md)
+- [راهنمای متمرکز ابزارها](TOOLS.fa.md)
 
 ## معرفی پروژه
 
@@ -48,8 +72,7 @@
 مسئولیت‌ها در چهار لایهٔ روشن قرار دارند:
 
 - قالب والد `voiceweb` منطق عمومی، تمپلیت‌های پایه، helperها و لودر asset را دارد.
-- قالب چایلد `voiceweb-child` شخصی‌سازی‌های همین سایت، overrideهای ظاهری و آرشیو
-  اختصاصی دسته‌ها را نگه می‌دارد.
+- قالب چایلد `voiceweb-child` محل شخصی‌سازی همین سایت، overrideهای ظاهری و یکسان‌سازی رقم‌ها با زبان جاری است.
 - افزونهٔ مستقل `voiceweb-auth` ورود پیامکی، ثبت‌نام، ورود با رمز و نوار موبایل را دارد.
 - افزونهٔ مستقل `voiceweb-payments` دو درگاه پرداخت و رسیدهای کارت‌به‌کارت را دارد.
 
@@ -61,9 +84,7 @@ JavaScript هستند. ساختار قدیمی `inc/Modules` مبنای توسع
 از مدیریت قابل تعویض است. پیشنهادهای ویژه زمان پایان واقعی sale بومی دارند؛
 کارت‌های صفحهٔ اصلی، فروشگاه و related از یک template مشترک استفاده می‌کنند.
 
-صفحهٔ نوشته‌ها با `home.php` و فیلد Flexible Content به نام `home_sections`
-ساخته می‌شود. قالب هر سکشن در `template-parts/blog/` و کارت‌های قابل استفادهٔ
-مجدد در `template-parts/blog/` قرار دارند.
+صفحهٔ نوشته‌ها با `home.php` والد ساخته می‌شود. با وجود دستهٔ `leather-journal`، شاخهٔ مجلهٔ آوان چرم و query اصلی وردپرس فعال است؛ `inc/leather-magazine.php` آن را به مقاله‌های چرم محدود می‌کند. فیلد Flexible Content به نام `home_sections` برای حالت جایگزین، در نبود این دسته باقی است. کارت‌ها و بخش‌های مجله در `template-parts/blog/` قرار دارند.
 
 ## پیش‌نیازها
 
@@ -77,8 +98,7 @@ JavaScript هستند. ساختار قدیمی `inc/Modules` مبنای توسع
 `ACF PRO` بخش‌های وابسته به Flexible Content و تنظیمات سایت در دسترس نیستند.
 عدد PHP بالا فقط متادیتای فعلی قالب است؛ مجموعهٔ کامل با افزونه‌های ورود و پرداخت
 به **PHP 8.0 یا جدیدتر** نیاز دارد. پرداخت به PHP 64-bit و OpenSSL، و پردازش رسید
-به GD یا Imagick نیاز دارد. محیط بررسی‌شده PHP `8.4.0` است؛ نسخه‌های دقیق و تنظیمات
-فعال در [راهنمای اجرا](./RUNBOOK.fa.md) ثبت شده‌اند.
+به GD یا Imagick نیاز دارد. نسخه و مسیر اجرایی محیط فعلی و snapshotهای قدیمی در [راهنمای اجرا](./RUNBOOK.fa.md) تفکیک شده‌اند.
 
 ## قرارداد واژه‌ها و نگارش
 
@@ -115,8 +135,7 @@ code span نوشته می‌شود. واژه‌های پرتکرار این سن
 6. یک برگهٔ جدا برای بلاگ بساز و آن را در **Settings → Reading → Posts page** انتخاب
    کن. برای این برگه template دستی انتخاب نکن؛ وردپرس خودکار `home.php` را
    استفاده می‌کند.
-7. فیلد `Home sections` را روی برگهٔ بلاگ تکمیل و مرتب کن؛ این فیلد کنترل
-   صفحهٔ اصلی فروشگاه نیست.
+7. مقاله‌های مجلهٔ آوان چرم را در دستهٔ `leather-journal` یا زیردسته‌های آن قرار بده. در نبود این دسته، فیلد `Home sections` برگهٔ بلاگ چیدمان جایگزین را می‌سازد؛ این فیلد کنترل صفحهٔ اصلی فروشگاه نیست.
 8. فهرست‌های دسکتاپ، موبایل و فوتر را در **تنظیمات سایت → هدر و فوتر** انتخاب کن.
 9. یک‌بار **Settings → Permalinks** را ذخیره کن تا rewriteها تازه شوند.
 
@@ -128,9 +147,9 @@ code span نوشته می‌شود. واژه‌های پرتکرار این سن
 تاریخ پایان انتخابی تنها با مجوز مناسب روی sale موجود حداکثر ۱۲ محصول
 انتخاب‌شده ذخیره می‌شود؛ [راهنمای صفحهٔ اصلی](./HOMEPAGE.fa.md) را ببین.
 
-### ACF صفحهٔ بلاگ
+### ACF چیدمان جایگزین بلاگ
 
-گروه `group_home_blog` در `inc/acf-field-groups.php` ثبت می‌شود و Field
+در نبود دستهٔ `leather-journal`، گروه `group_home_blog` در `inc/acf-field-groups.php` استفاده می‌شود و Field
 Group یا JSON جداگانه‌ای در دیتابیس لازم ندارد. فیلد اصلی آن:
 
 ```text
@@ -155,9 +174,12 @@ news
 | درخواست وردپرس | فایل مؤثر با چایلد فعال | توضیح |
 |---|---|---|
 | صفحهٔ اصلی سایت | `voiceweb-child/front-page.php` → `voiceweb/front-page.php` | فروشگاه editable با `template-parts/front/` و `vw_front_*` |
-| برگهٔ نوشته‌ها | `voiceweb-child/home.php` | Loop فیلد `home_sections` |
+| برگهٔ نوشته‌ها | `voiceweb/home.php` | مجلهٔ چرم با query اصلی؛ `home_sections` در حالت جایگزین |
 | برگهٔ معمولی | `voiceweb/page.php` | عنوان، محتوا و صفحه‌بندی داخلی |
-| برگهٔ درباره با قالب انتخاب‌شده | `voiceweb/page-templates/about.php` | بدنهٔ برگه و بلوک‌های brand مشترک ACF صفحهٔ اصلی |
+| درباره و تماس | `voiceweb/page-templates/about.php` و `contact.php` | متن و `vw_brand_*` مستقل روی هر برگه |
+| لندینگ مناسبتی | `voiceweb/page-templates/gift-landing.php` | متن و محصول انتخابی از `vw_gift_*` |
+| فهرست مناسبت‌ها | `voiceweb/page-templates/gift-hub.php` | فهرست برگه‌های مناسبتی منتشرشده |
+| دستهٔ محصول | `voiceweb/template-parts/woocommerce/catalog.php` | آرشیو بومی و محتوای `vw_cat_*` |
 | نوشتهٔ تکی | `voiceweb/single.php` | router برای `single-{post_type}.php` |
 | نوشتهٔ بلاگ | `voiceweb/template-parts/blog/single-post.php` | محتوای کامل، فهرست مطالب و سایدبار |
 | آرشیو یک دسته | `voiceweb/category.php` | بخش ویژه، محبوب، تازه و بارگذاری بیشتر |
@@ -201,25 +223,37 @@ voiceweb/
 ├─ index.php
 ├─ comments.php
 ├─ page-templates/
-│  └─ about.php
+│  ├─ about.php
+│  ├─ contact.php
+│  ├─ gift-hub.php
+│  └─ gift-landing.php
 ├─ config/
-│  └─ fonts.php
+│  ├─ fonts.php
+│  ├─ avan-brand-content.php
+│  ├─ category-landings.php
+│  └─ gift-occasions.php
 ├─ inc/
 │  ├─ assets.php
 │  ├─ fonts.php
 │  ├─ helpers.php
 │  ├─ acf-field-groups.php
 │  ├─ front-page.php            # helperهای storefront و پایان پیشنهاد
+│  ├─ brand.php                 # برند، درباره/تماس، متادیتا و noindex
+│  ├─ gift-landing.php          # محصولات و متادیتای مناسبت‌ها
+│  ├─ category-landing.php      # راهنمای دسته و سئوی کاتالوگ
+│  ├─ leather-magazine.php      # مجلهٔ چرم و لینک‌های مرتبط
 │  ├─ search.php
 │  ├─ site-settings.php
 │  ├─ security.php
-│  ├─ category.php
 │  ├─ cache.php                  # موجود، اما در وضعیت فعلی غیرفعال
 │  ├─ woocommerce.php           # فایل ورودی و hookهای ووکامرس
 │  └─ woocommerce/              # فایل‌های معمول PHP با مسئولیت مشخص
 ├─ template-parts/
 │  ├─ blog/
 │  ├─ front/                   # بخش‌های صفحهٔ اصلی و درباره
+│  ├─ brand/                   # لوگوی مشترک
+│  ├─ gifts/                   # کارت‌های راهنمای هدیه
+│  ├─ woocommerce/             # کاتالوگ، محصول و راهنمای دسته
 │  ├─ header/
 │  ├─ shared/
 ├─ assets/
@@ -248,7 +282,6 @@ voiceweb/
 voiceweb-child/
 ├─ functions.php
 ├─ front-page.php
-├─ home.php
 ├─ template-parts/
 │  └─ home/
 ├─ assets/
@@ -343,7 +376,7 @@ npx sass wp-content/themes/voiceweb-child/assets/scss/global.scss wp-content/the
 
 ## ACF و مدل داده
 
-پروژه چهار گروه مستقل از `ACF` دارد:
+گروه‌های ACF قالب در `inc/acf-field-groups.php` ثبت می‌شوند. دسته‌های اصلی داده:
 
 | کاربرد | منبع تعریف |
 |---|---|
@@ -351,6 +384,10 @@ npx sass wp-content/themes/voiceweb-child/assets/scss/global.scss wp-content/the
 | صفحهٔ اصلی فروشگاه، hero و محتوای برند | ثبت `group_voiceweb_front_page` در همان فایل؛ post meta برگهٔ `front_page` |
 | تنظیمات هدر و فوتر | ثبت Local PHP در `inc/acf-field-groups.php` |
 | آیکون دسته | ثبت با PHP در `inc/acf-field-groups.php` |
+| لندینگ‌ها و متادیتای مناسبت | گروه‌های `group_voiceweb_gift_*`؛ post meta با پیشوند `vw_gift_*` |
+| درباره، تماس، تولید و جنس چرم | گروه‌های `group_voiceweb_brand_*`؛ post meta با پیشوند `vw_brand_*` |
+| راهنمای خرید دسته | `group_voiceweb_category_landing`؛ term meta با پیشوند `vw_cat_*` |
+| محتوای آزمایشی و منع ایندکس | `group_voiceweb_seo_visibility`؛ فیلد `vw_brand_noindex` |
 
 تعریف Local PHP در runtime بر رکورد هم‌کلید دیتابیس مقدم است؛ بنابراین schema
 همراه آپدیت قالب تغییر می‌کند و import یا migration لازم نیست. صفحهٔ Field
@@ -492,7 +529,9 @@ php wp-content/themes/voiceweb/tools/compile-translations.php fa_IR
 |---|---|
 | محتوای صفحهٔ اصلی فروشگاه | ACF برگهٔ Homepage؛ schema در `inc/acf-field-groups.php` |
 | ترتیب/markup بخش‌های صفحهٔ اصلی | `template-parts/front/` و `inc/front-page.php`؛ override partial در چایلد |
-| چیدمان مجله | `voiceweb-child/home.php` و `home_sections` روی Posts page |
+| چیدمان مجله | `voiceweb/home.php`، `template-parts/blog/leather-magazine.php` و `inc/leather-magazine.php` |
+| متن و محصولات مناسبت‌ها | برگهٔ مناسبت و گروه ACF `vw_gift_*`؛ [راهنما](GIFT-LANDINGS.fa.md) |
+| درباره، تماس، لوگو و دسته‌ها | [مدیریت آوان چرم](AVAN-CHARM.fa.md) |
 | استایل سراسری سایت | `voiceweb-child/assets/scss/global.scss` |
 | استایل یک صفحه | `voiceweb-child/assets/scss/pages/{key}.scss` |
 | خروجی CSS صفحه | `voiceweb-child/assets/css/pages/{key}.css` |

@@ -1,0 +1,134 @@
+/* Editorial brand pages share storefront colors, typography and controls. */
+.vw-brand { --store-muted: #59665d; }
+.vw-brand .vw-store-eyebrow { color: #617063; font-size: 11px; letter-spacing: 0; }
+.vw-brand-breadcrumb { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-block: 0 18px; color: #637063; font-size: 11px; }
+.vw-brand-breadcrumb a { display: inline-flex; align-items: center; min-height: 44px; }
+.vw-brand-breadcrumb [aria-current] { overflow-wrap: anywhere; }
+.vw-brand-hero { display: grid; grid-template-columns: .9fr 1.1fr; min-height: 470px; border: 1px solid var(--store-border); border-radius: 24px; background: #f0ece3; overflow: hidden; }
+.vw-brand-hero__copy { align-self: center; padding: 54px 45px; min-width: 0; }
+.vw-brand-hero h1 { font-size: clamp(32px, 3.5vw, 47px); line-height: 1.6; font-weight: 850; letter-spacing: -.6px; }
+.vw-brand-hero__copy > p { max-width: 510px; margin-top: 21px; font-size: 15px; line-height: 2.2; color: #526253; }
+.vw-brand-hero__image { min-width: 0; background: #e8e3d8; }
+.vw-brand-hero__image img { display: block; width: 100%; height: 100%; max-height: 650px; object-fit: cover; }
+.vw-brand-hero--text { grid-template-columns: 1fr; min-height: 0; }
+.vw-brand-hero--text .vw-brand-hero__copy { max-width: 920px; }
+.vw-brand-hero--text .vw-brand-hero__copy > p { max-width: 740px; }
+.vw-brand-actions { display: flex; flex-wrap: wrap; gap: 14px 20px; align-items: center; margin-top: 26px; }
+.vw-brand .vw-store-section { margin-top: 64px; scroll-margin-top: 130px; }
+.vw-brand-section-heading h2 { font-size: clamp(25px, 2.5vw, 33px); line-height: 1.75; font-weight: 800; }
+.vw-brand-section-heading > p { max-width: 680px; margin-top: 15px; font-size: 14px; line-height: 2.2; color: #5d6b5e; }
+.vw-brand-story { display: grid; grid-template-columns: .8fr 1.2fr; gap: 70px; padding-block: 8px; }
+.vw-brand-story > .vw-brand-section-heading { padding-top: 8px; }
+.vw-brand-prose { color: #44584b; font-size: 15px; line-height: 2.3; min-width: 0; overflow-wrap: anywhere; }
+.vw-brand-prose :is(p, ul, ol) { margin-block: 0 18px; }
+.vw-brand-prose :is(ul, ol) { padding-inline-start: 22px; }
+.vw-brand-prose :is(h2, h3, h4) { color: var(--store-ink); line-height: 1.85; margin-block: 27px 12px; }
+.vw-brand-prose h2 { font-size: 24px; }
+.vw-brand-prose h3 { font-size: 19px; }
+.vw-brand-prose > :first-child { margin-top: 0; }
+.vw-brand-prose > :last-child { margin-bottom: 0; }
+.vw-brand-prose a { text-decoration: underline; text-underline-offset: 4px; color: var(--store-green); }
+.vw-brand-prose img { max-width: 100%; height: auto; }
+.vw-brand-process { background: var(--store-green); color: #f8f5ed; padding: 44px; border-radius: 24px; }
+.vw-brand-process .vw-brand-section-heading { max-width: 780px; }
+.vw-brand-process .vw-store-eyebrow { color: #c9d6c5; }
+.vw-brand-process .vw-brand-section-heading > p { color: #d3decf; }
+.vw-brand-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); list-style: none; margin: 37px 0 0; padding: 0; gap: 28px; }
+.vw-brand-steps li { border-top: 1px solid #496657; padding-top: 23px; min-width: 0; }
+.vw-brand-step-number { display: inline-grid; place-items: center; width: 39px; height: 39px; border: 1px solid #708772; border-radius: 50%; font-size: 14px; color: #e3e8d9; margin-bottom: 18px; }
+.vw-brand-steps h3 { font-size: 18px; line-height: 1.9; }
+.vw-brand-steps p { margin-top: 12px; font-size: 13px; line-height: 2.15; color: #d3decf; }
+.vw-brand-leather { display: grid; grid-template-columns: .85fr 1.15fr; gap: 55px; align-items: start; }
+.vw-brand-materials { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.vw-brand-materials article { padding: 28px; border-radius: 18px; background: #eeebe3; border: 1px solid #e3dfd4; }
+.vw-brand-material-mark { display: grid; place-items: center; width: 43px; height: 43px; background: #dde5d7; color: #31533f; border-radius: 50%; margin-bottom: 18px; }
+.vw-brand-materials h3 { font-size: 20px; line-height: 1.8; }
+.vw-brand-materials p { margin-top: 12px; font-size: 13px; line-height: 2.2; color: #526352; }
+.vw-brand-faq { margin-top: 64px; }
+.vw-brand-faq > div > p { color: #5d6b5e; font-size: 13px; line-height: 2.1; }
+.vw-brand-faq summary { font-size: 14px; line-height: 2; }
+.vw-brand-faq details > div { color: #536454; font-size: 14px; }
+.vw-brand-next { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 40px; padding: 38px 42px; border-radius: 22px; background: #e9eee2; }
+.vw-brand-next h2 { font-size: 28px; line-height: 1.8; }
+.vw-brand-next p { margin-top: 10px; font-size: 13px; color: #526352; line-height: 2.2; }
+.vw-brand-next .vw-brand-actions { margin-top: 0; justify-content: flex-start; }
+.vw-brand-next__links > .vw-store-link { margin-top: 16px; }
+.vw-brand-category-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px 22px; }
+.vw-brand-category-links a { display: flex; align-items: center; justify-content: space-between; min-height: 44px; gap: 12px; font-size: 13px; padding-block: 8px; border-bottom: 1px solid #cad5c4; }
+.vw-brand-category-links svg { width: 16px; height: 16px; }
+.vw-brand-category-links a:hover { color: #315b42; }
+.vw-brand-hero--contact { grid-template-columns: 1.1fr .9fr; min-height: 410px; }
+.vw-brand-hero--contact.vw-brand-hero--text { grid-template-columns: 1fr; }
+.vw-brand-hero--contact .vw-brand-hero__image img { max-height: 500px; }
+.vw-brand-contact-methods .vw-brand-section-heading { max-width: 850px; }
+.vw-brand-contact-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 27px; }
+.vw-brand-contact-card { position: relative; display: flex; flex-direction: column; align-items: flex-start; min-width: 0; padding: 30px 30px 30px 75px; border: 1px solid #dedfd3; border-radius: 19px; background: #f0eee6; transition: background .2s, border-color .2s; }
+.vw-brand-contact-card:only-child { grid-column: 1 / -1; background: var(--store-green); border-color: var(--store-green); color: #fbf8ef; }
+.vw-brand-contact-card > .vw-store-eyebrow { margin-bottom: 10px; }
+.vw-brand-contact-card strong { display: block; max-width: 100%; font-size: 25px; line-height: 1.7; font-weight: 750; overflow-wrap: anywhere; }
+.vw-brand-contact-card:only-child strong { font-size: clamp(30px, 3vw, 40px); letter-spacing: .8px; }
+.vw-brand-contact-card__note { display: block; color: #5b6a5b; margin-top: 10px; font-size: 13px; line-height: 2; }
+.vw-brand-contact-card:only-child :is(.vw-store-eyebrow, .vw-brand-contact-card__note) { color: #d2dfcd; }
+.vw-brand-contact-card__arrow { position: absolute; inset-inline-end: 25px; top: 50%; transform: translateY(-50%); display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid #c2cdbd; border-radius: 50%; }
+.vw-brand-contact-card:hover { background: #e7ecdf; border-color: #abbda5; }
+.vw-brand-contact-card:only-child:hover { background: #244b3c; border-color: #244b3c; }
+.vw-brand-contact-details { display: flex; flex-wrap: wrap; gap: 28px 65px; padding-block: 28px; border-block: 1px solid var(--store-border); }
+.vw-brand-contact-details > div { flex: 1 1 250px; }
+.vw-brand-contact-details p { color: #4c614f; font-size: 14px; line-height: 2.2; }
+.vw-brand-contact .vw-brand-next { background: var(--store-green); color: #faf7ef; }
+.vw-brand-contact .vw-brand-next :is(.vw-store-eyebrow, p) { color: #d1decb; }
+.vw-brand #brand-contact-faq { scroll-margin-top: 130px; }
+@media (max-width: 1100px) {
+  .vw-brand-hero__copy { padding: 38px 30px; }
+  .vw-brand-hero { min-height: 420px; }
+  .vw-brand-story { gap: 40px; }
+  .vw-brand-process { padding: 34px; }
+  .vw-brand-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .vw-brand-leather { grid-template-columns: 1fr; gap: 28px; }
+  .vw-brand-leather .vw-brand-section-heading { max-width: 800px; }
+  .vw-brand-next { padding: 30px; gap: 30px; }
+}
+@media (max-width: 767px) {
+  .vw-brand-breadcrumb { font-size: 10px; gap: 7px; margin-bottom: 12px; }
+  .vw-brand-hero, .vw-brand-hero--contact { grid-template-columns: 1fr; min-height: 0; border-radius: 20px; }
+  .vw-brand-hero__copy { padding: 33px 25px; }
+  .vw-brand-hero h1 { font-size: 34px; }
+  .vw-brand-hero__copy > p { font-size: 14px; margin-top: 16px; }
+  .vw-brand-hero__image { height: 290px; }
+  .vw-brand-hero__image img { object-position: center; }
+  .vw-brand-hero--contact .vw-brand-hero__image { height: 240px; }
+  .vw-brand-actions { gap: 12px 18px; margin-top: 21px; }
+  .vw-brand .vw-store-section { margin-top: 39px; }
+  .vw-brand-story { grid-template-columns: 1fr; gap: 25px; }
+  .vw-brand-section-heading h2 { font-size: 26px; }
+  .vw-brand-section-heading > p { font-size: 13px; margin-top: 11px; }
+  .vw-brand-prose { font-size: 14px; }
+  .vw-brand-prose h2 { font-size: 22px; }
+  .vw-brand-prose h3 { font-size: 18px; }
+  .vw-brand-process { padding: 29px 24px; border-radius: 20px; }
+  .vw-brand-steps { grid-template-columns: 1fr; gap: 25px; margin-top: 28px; }
+  .vw-brand-steps li { padding-top: 20px; }
+  .vw-brand-step-number { width: 34px; height: 34px; margin-bottom: 11px; }
+  .vw-brand-steps h3 { font-size: 18px; }
+  .vw-brand-steps p { margin-top: 8px; }
+  .vw-brand-materials { grid-template-columns: 1fr; gap: 15px; }
+  .vw-brand-materials article { padding: 25px; }
+  .vw-brand-materials h3 { font-size: 21px; }
+  .vw-brand-faq { margin-top: 39px; }
+  .vw-brand-next { grid-template-columns: 1fr; gap: 23px; padding: 29px 25px; }
+  .vw-brand-next h2 { font-size: 25px; }
+  .vw-brand-category-links { gap: 8px 17px; }
+  .vw-brand-category-links a { font-size: 12px; }
+  .vw-brand-contact-cards { grid-template-columns: 1fr; margin-top: 22px; }
+  .vw-brand-contact-card { padding: 27px 24px 27px 65px; }
+  .vw-brand-contact-card strong { font-size: 22px; }
+  .vw-brand-contact-card:only-child strong { font-size: 29px; }
+  .vw-brand-contact-card__note { font-size: 12px; }
+  .vw-brand-contact-card__arrow { inset-inline-end: 18px; width: 32px; height: 32px; }
+  .vw-brand-contact-details { gap: 22px; padding-block: 23px; }
+}
+@media (max-width: 380px) {
+  .vw-brand-hero h1 { font-size: 30px; }
+  .vw-brand-contact-card:only-child strong { font-size: 26px; }
+  .vw-brand-category-links { grid-template-columns: 1fr; }
+}

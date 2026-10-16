@@ -1,6 +1,6 @@
 <?php
 /**
- * VoiceWeb site header.
+ * Avan Charm site header.
  *
  * @package voiceweb
  */
@@ -89,31 +89,7 @@ $english_name = ( isset( $english_names[ $language_code ] ) )
  * @return void
  */
 $render_logo = function () use ( $logo_id ) {
-	$brand_name = trim( (string) get_bloginfo( 'name' ) );
-	if ( $brand_name === '' ) {
-		$brand_name = 'VoiceWeb';
-	}
-	$image_args = array(
-		'class'    => 'cn-header-logo__image d-block object-fit-contain',
-		'alt'      => $brand_name,
-		'decoding' => 'async',
-	);
-	?>
-	<a class="cn-header-logo d-inline-flex align-items-center justify-content-center flex-shrink-0 text-decoration-none" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php echo esc_attr( $brand_name ); ?>">
-		<?php if ( $logo_id ) { ?>
-			<?php
-			echo wp_get_attachment_image(
-				$logo_id,
-				'full',
-				false,
-				$image_args
-			); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			?>
-		<?php } else { ?>
-			<img class="cn-header-logo__image d-block object-fit-contain" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/voiceweb-store-logo.svg' ); ?>" width="172" height="46" alt="<?php echo esc_attr( $brand_name ); ?>" decoding="async">
-		<?php } ?>
-	</a>
-	<?php
+	get_template_part( 'template-parts/brand/logo', null, array( 'context' => 'header', 'logo_id' => $logo_id ) );
 };
 $search_icon_args = array(
 	'name' => 'search',

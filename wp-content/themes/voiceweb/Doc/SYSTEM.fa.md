@@ -23,7 +23,8 @@ WordPress request
       │    ├─ فونت و assetها
       │    ├─ جست‌وجو و حریم خصوصی
       │    ├─ ووکامرس، دفترچهٔ آدرس و درخواست تماس
-      │    └─ helperهای صفحهٔ اصلی فروشگاه و زمان تخفیف
+      │    ├─ helperهای صفحهٔ اصلی فروشگاه و زمان تخفیف
+      │    └─ برند، مناسبت‌ها، سئوی دسته و مجلهٔ چرم
       │
       ├─ WordPress Template Hierarchy
       │    └─ template چایلد، سپس template والد
@@ -37,11 +38,9 @@ WordPress request
 
 `voiceweb-child/functions.php` پیش از والد اجرا می‌شود. وظایف فعلی آن:
 
-- یکسان‌سازی رقم‌های فارسی و لاتین با زبان فرانت‌اند؛
-- ساخت endpoint مجازی `/categories/`؛
-- افزودن query var و template اختصاصی این endpoint؛
-- افزودن کلید asset برابر `categories`؛
-- handler مربوط به AJAX آرشیو دسته‌ها.
+- یکسان‌سازی رقم‌های فارسی و لاتین با زبان فرانت‌اند.
+
+در فایل فعلی چایلد، endpoint مجازی `/categories/` یا handler آرشیو دسته ثبت نشده است. مثال‌های این مسیر در یادداشت‌های قدیمی، پیاده‌سازی فعال این نسخه نیستند.
 
 این فایل برای enqueue دستی asset استفاده نمی‌شود؛ لودر والد assetهای چایلد را
 نیز resolve می‌کند.
@@ -55,6 +54,7 @@ WordPress request
 helpers.php → security.php → log.php → fonts.php → assets.php
 → acf-field-groups.php → admin.php → site-settings.php → search.php
 → actions.php → filters.php → ajax-callbacks.php → woocommerce.php → front-page.php
+→ gift-landing.php → brand.php → category-landing.php → leather-magazine.php
 ```
 
 ثبت hook با اجرای callback آن یکسان نیست؛ callbackها در مرحلهٔ متناظر وردپرس اجرا می‌شوند.
@@ -115,29 +115,18 @@ inc/helpers.php
 همان برگه و helperهای `inc/front-page.php` می‌آید. `home_sections` متعلق
 به صفحهٔ نوشته‌هاست.
 
-قالب اختیاری `page-templates/about.php` با نام **About VoiceWeb**، عنوان و
-بدنهٔ برگهٔ درباره را با بلوک‌های about/story مشترک صفحهٔ اصلی ترکیب می‌کند
-و کلید asset `front` می‌گیرد. `assets/{css,js}/storefront.*` componentهای
+قالب‌های `page-templates/about.php` و `contact.php` متن اصلی و فیلدهای `vw_brand_*` خود برگه را می‌خوانند و کلیدهای `front` و `brand-pages` می‌گیرند. لندینگ‌های مناسبتی از `vw_gift_*` و راهنمای دسته از `vw_cat_*` استفاده می‌کنند. [راهنمای آوان چرم](AVAN-CHARM.fa.md) قرارداد محتوای این صفحات را نگه می‌دارد. `assets/{css,js}/storefront.*` componentهای
 سراسری هویت هدر/فوتر هستند؛ JS ارتفاع واقعی هدر را در
 `--vw-header-height` قرار می‌دهد. [شرح صفحهٔ اصلی](./HOMEPAGE.fa.md)
 
 ### صفحهٔ نوشته‌ها
 
 برگه‌ای که در **Settings → Reading → Posts page** انتخاب شده است با `home.php`
-رندر می‌شود. با چایلد فعال، `voiceweb-child/home.php` اولویت دارد.
+رندر می‌شود. چایلد فعلی `home.php` ندارد و فایل والد فعال است.
 
-چایلد از API حلقه‌ای ACF استفاده می‌کند:
+با وجود دستهٔ `leather-journal`، query اصلی وردپرس به مقاله‌های چرم و زیردسته‌های آن محدود می‌شود و `template-parts/blog/leather-magazine.php` فهرست را با صفحه‌بندی بومی می‌سازد. نشانی اصلی `/blog/` است و فهرست قدیمی همین دسته با ۳۰۱ به آن می‌رود. مقاله‌ها و نشانی آن‌ها حفظ شده‌اند.
 
-```text
-have_rows('home_sections')
-→ the_row()
-→ get_row_layout()
-→ template-parts/blog/section-{layout}.php
-```
-
-والد همان داده را ابتدا با `get_field()` به آرایه تبدیل می‌کند و آرایهٔ هر سکشن
-را در `$args` به template part می‌فرستد. هنگام توسعه باید نسخهٔ فعال چایلد را
-مبنای رفتار runtime دانست.
+در نبود این دسته، والد دادهٔ `home_sections` را با `get_field()` به آرایه تبدیل می‌کند و هر سکشن را در `$args` به `template-parts/blog/section-{layout}.php` می‌فرستد. این حالت جایگزین است و در مجلهٔ فعال آوان چرم استفاده نمی‌شود.
 
 ### سینگل post type
 

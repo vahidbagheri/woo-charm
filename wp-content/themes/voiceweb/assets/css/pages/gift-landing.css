@@ -1,0 +1,93 @@
+/* Shared gift guide layout. Storefront tokens and product cards stay in their existing assets. */
+.vw-gift { --store-muted: #59665d; }
+.vw-gift-breadcrumb { display:flex; flex-wrap:wrap; align-items:center; gap:10px; font-size:11px; color:#626b61; margin-block:0 20px; }
+.vw-gift-breadcrumb a { display:inline-flex; align-items:center; min-height:44px; }
+.vw-gift-breadcrumb [aria-current] { max-width:100%; overflow-wrap:anywhere; }
+.vw-gift-hero { display:grid; grid-template-columns:1fr 1fr; background:#eeeae1; border:1px solid var(--store-border); border-radius:24px; overflow:hidden; }
+.vw-gift-hero__copy { padding:50px; align-self:center; }
+.vw-gift .vw-store-eyebrow { letter-spacing:0; font-size:11px; color:#5f6c60; }
+.vw-gift-hero h1 { font-size:clamp(28px,3vw,42px); line-height:1.65; font-weight:850; max-width:540px; }
+.vw-gift-hero__copy > p { margin-top:20px; color:#536154; font-size:14px; line-height:2.2; max-width:520px; }
+.vw-gift-hero__actions { display:flex; flex-wrap:wrap; align-items:center; gap:16px; margin-top:26px; }
+.vw-gift-hero__image { min-width:0; min-height:410px; }
+.vw-gift-hero__image img { display:block; width:100%; height:100%; max-height:570px; object-fit:cover; }
+.vw-gift-hero--text { grid-template-columns:1fr; }
+.vw-gift-hero--text .vw-gift-hero__copy { max-width:900px; }
+.vw-gift-jump { display:flex; flex-wrap:wrap; gap:12px 30px; border-bottom:1px solid var(--store-border); padding-block:14px; }
+.vw-gift-jump a { display:inline-flex; align-items:center; min-height:44px; font-size:12px; color:#48604e; }
+.vw-gift-jump a:hover { text-decoration:underline; text-underline-offset:6px; }
+.vw-gift :is(#gift-advice,#gift-faq,#gift-related,#gift-products) { scroll-margin-top:130px; }
+.vw-gift-categories { display:flex; flex-wrap:wrap; gap:10px; margin-block:0 24px; }
+.vw-gift-categories a { display:inline-flex; align-items:center; gap:12px; min-height:44px; border:1px solid #d4dacd; border-radius:30px; padding:9px 16px; font-size:12px; background:#f1f0e8; }
+.vw-gift-categories svg { width:16px; height:16px; }
+.vw-gift-categories a:hover { background:#e7ebdf; }
+.vw-gift .vw-product-grid { max-width:100%; }
+.vw-gift-empty { background:#f0eee7; border:1px solid var(--store-border); border-radius:16px; padding:28px; font-size:14px; color:#536154; line-height:2; }
+.vw-gift-advice { padding-top:42px; border-top:1px solid var(--store-border); }
+.vw-gift-advice__heading { max-width:800px; }
+.vw-gift-advice__heading h2 { font-size:28px; line-height:1.7; font-weight:800; }
+.vw-gift-advice__heading > p { font-size:14px; color:#536154; line-height:2.1; margin-top:10px; }
+.vw-gift-tips { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; margin-block:28px 38px; }
+.vw-gift-tips article { padding:25px; background:#eeeae1; border-radius:17px; }
+.vw-gift-tips__number { display:grid; place-items:center; width:34px; height:34px; margin-bottom:16px; color:#fff; background:var(--store-green); border-radius:50%; font-size:13px; }
+.vw-gift-tips h3 { font-size:17px; line-height:1.9; }
+.vw-gift-tips p { font-size:13px; color:#536154; line-height:2.1; margin-top:10px; }
+.vw-gift-prose { max-width:900px; font-size:15px; line-height:2.25; color:#445649; overflow-wrap:anywhere; }
+.vw-gift-prose:empty { display:none; }
+.vw-gift-prose :is(h2,h3,h4) { color:var(--store-ink); margin-block:28px 12px; line-height:1.8; }
+.vw-gift-prose h2 { font-size:24px; }
+.vw-gift-prose h3 { font-size:20px; }
+.vw-gift-prose :is(p,ul,ol) { margin-block:0 18px; }
+.vw-gift-prose a { text-decoration:underline; text-underline-offset:4px; color:var(--store-green); }
+.vw-gift-prose img { max-width:100%; height:auto; }
+.vw-gift .vw-store-faq details > div { color:#536154; font-size:14px; }
+.vw-gift .vw-store-faq summary { font-size:14px; line-height:2; }
+.vw-gift .vw-store-faq > div > p { color:#59665d; font-size:13px; }
+.vw-gift-cards { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:20px; }
+.vw-gift-card { display:flex; flex-direction:column; min-width:0; overflow:hidden; border-radius:17px; background:#f0ede7; border:1px solid #e5e1d8; text-decoration:none; transition:border-color .2s,transform .2s; }
+.vw-gift-card:hover { border-color:#9aaa96; transform:translateY(-2px); }
+.vw-gift-card__image { aspect-ratio:1.45; overflow:hidden; background:#e8e5dc; }
+.vw-gift-card__image img { display:block; width:100%; height:100%; object-fit:cover; }
+.vw-gift-card__body { padding:22px; display:flex; flex:1; flex-direction:column; align-items:flex-start; }
+.vw-gift-card h3 { font-size:17px; line-height:1.9; font-weight:750; }
+.vw-gift-card p { margin-block:10px 12px; font-size:12px; line-height:2.05; color:#5b665a; }
+.vw-gift-card .vw-store-link { margin-top:auto; }
+.vw-gift-hub__heading { max-width:850px; padding-block:25px 10px; }
+.vw-gift-hub__heading h1 { font-size:clamp(30px,3.3vw,44px); line-height:1.7; margin-bottom:20px; }
+@media (max-width:1100px) {
+  .vw-gift-hero__copy { padding:32px; }
+  .vw-gift-cards { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .vw-gift-tips { gap:14px; }
+  .vw-gift-tips article { padding:20px; }
+}
+@media (max-width:767px) {
+  .vw-gift-breadcrumb { font-size:10px; gap:7px; margin-bottom:14px; }
+  .vw-gift-hero { grid-template-columns:1fr; border-radius:20px; }
+  .vw-gift-hero__copy { padding:29px 24px; }
+  .vw-gift-hero h1 { font-size:29px; }
+  .vw-gift-hero__copy > p { font-size:13px; margin-top:14px; }
+  .vw-gift-hero__image { height:290px; min-height:0; }
+  .vw-gift-hero__image img { object-position:center 45%; }
+  .vw-gift-hero__actions { gap:10px; margin-top:19px; }
+  .vw-gift-jump { gap:4px 20px; padding-block:10px; }
+  .vw-gift-jump a { font-size:11px; }
+  .vw-gift-categories { gap:8px; margin-bottom:20px; }
+  .vw-gift-categories a { padding:8px 12px; font-size:11px; }
+  .vw-gift-advice { padding-top:28px; }
+  .vw-gift-advice__heading h2 { font-size:24px; }
+  .vw-gift-tips { grid-template-columns:1fr; margin-block:22px 28px; }
+  .vw-gift-tips article { padding:23px; }
+  .vw-gift-prose { font-size:14px; }
+  .vw-gift-prose h2 { font-size:22px; }
+  .vw-gift-prose h3 { font-size:18px; }
+  .vw-gift-cards { gap:12px; }
+  .vw-gift-card__body { padding:15px; }
+  .vw-gift-card h3 { font-size:14px; }
+  .vw-gift-card p { font-size:11px; }
+  .vw-gift-card .vw-store-link { font-size:11px; gap:7px; }
+}
+@media (max-width:380px) {
+  .vw-gift-cards { grid-template-columns:1fr; }
+  .vw-gift-hero__copy { padding:26px 20px; }
+  .vw-gift-hero h1 { font-size:26px; }
+}

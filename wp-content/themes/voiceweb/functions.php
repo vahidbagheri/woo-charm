@@ -27,6 +27,10 @@ require_once get_template_directory() . '/inc/filters.php';
 require_once get_template_directory() . '/inc/ajax-callbacks.php';
 require_once get_template_directory() . '/inc/woocommerce.php';
 require_once get_template_directory() . '/inc/front-page.php';
+require_once get_template_directory() . '/inc/gift-landing.php';
+require_once get_template_directory() . '/inc/brand.php';
+require_once get_template_directory() . '/inc/category-landing.php';
+require_once get_template_directory() . '/inc/leather-magazine.php';
 
 // Optional media URL versioning; enable when the site's cache policy needs it.
 // require_once get_template_directory() . '/inc/cache.php';

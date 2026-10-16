@@ -3,13 +3,35 @@
 [سند تحویل](./HANDOFF.fa.md) · [نمای کلی](./README.fa.md) ·
 [ورود](./AUTH.fa.md) · [ووکامرس](./WOOCOMMERCE.fa.md) · [پرداخت](./PAYMENTS.fa.md)
 
-این سند فرمان‌های قابل تکرار و وضعیت نصب بررسی‌شده در **۱۴ اکتبر ۲۰۲۶** را نگه می‌دارد.
-دستورها از ریشهٔ WordPress و در PowerShell اجرا می‌شوند. snapshot محیط، تضمین نسخهٔ آینده
-یا پیش‌نیاز تمام نصب‌ها نیست. در نوبت اولیهٔ مستندسازی فقط بررسی کد/تنظیمات و اعتبارسنجی
-مستندات انجام شده بود. در مرحلهٔ بعدی طراحی چرم، آزمون‌های کاربردی تازه اجرا و نتایج آن‌ها
-در این سند افزوده شده‌اند؛ ارسال واقعی پیامک یا وجه مجدداً انجام نشده است.
+فرمان‌ها و وضعیت جاری این سند با مرحلهٔ آوان چرم در **۱۶ اکتبر ۲۰۲۶ / ۲۰۲۶-۱۰-۱۶** به‌روز
+شده‌اند. دستورها از ریشهٔ WordPress و در PowerShell اجرا می‌شوند. جدول محیط و نتایج دارای
+تاریخ ۱۴ اکتبر، snapshot تاریخی‌اند و به‌عنوان نتیجهٔ جدید بازنویسی نشده‌اند. تست پیامک یا
+پرداخت واقعی در مرحلهٔ برند/سئو دوباره انجام نشده است.
 
-## وضعیت نصب محلی
+## وضعیت جاری آوان چرم — ۱۶ اکتبر ۲۰۲۶
+
+| مورد | وضعیت فعلی |
+|---|---|
+| ریشهٔ WordPress | `C:/Users/baghe/Local Sites/woo-charm-main/app/public` |
+| سایت محلی | `http://woo-charm-main.local` |
+| PHP خط فرمان | `8.3.30`؛ نسخهٔ وب‌سرور ممکن است متفاوت باشد |
+| پورت دیتابیس CLI | `10113`؛ در فرمان وابسته به DB از `-d mysqli.default_port=10113` استفاده کن |
+| هویت عمومی / نام فنی | آوان چرم / `voiceweb` و `voiceweb-child` |
+| تلفن عمومی تأییدشده | `09101719687`؛ راه تماس دیگری بدون تأیید وارد نشده است |
+| نمایش محلی | `woocommerce_coming_soon=no`؛ محصولات و دسته‌ها برای بازبینی دیده می‌شوند |
+| ایندکس محلی | `blog_public=0`؛ درخواست noindex محلی حفظ شده و دامنهٔ عمومی هنوز موضوع انتشار جداگانه است |
+| محتوای سئو | هاب `/gifts/`، ۲۰ مناسبت، ۶ دستهٔ محصول با راهنمای خرید، درباره و تماس مستقل |
+| مجله | `/blog/`، مقاله‌های `leather-journal` و زیرمجموعه‌ها با کوئری اصلی؛ آرشیو خود دسته انتقال ۳۰۱ دارد |
+| نمونهٔ قدیمی | محصول «تست» در DB حفظ، از کاتالوگ مخفی، noindex و از sitemap بومی خارج است |
+
+مرجع محتوا، مالکیت خروجی سئو، انتقال و شواهد نهایی:
+[AVAN-CHARM.fa.md](./AVAN-CHARM.fa.md)، [GIFT-LANDINGS.fa.md](./GIFT-LANDINGS.fa.md) و
+[SEO-ROADMAP.fa.md](./SEO-ROADMAP.fa.md). اطلاعات اتصال محرمانه، کلید سرویس، کارت و رمز در Doc قرار نمی‌گیرند.
+
+## بایگانی وضعیت نصب پیشین — ۱۴ اکتبر ۲۰۲۶
+
+جدول زیر برای حفظ سابقهٔ محیط قبلی است؛ مسیر، پورت، PHP و وضعیت Coming soon آن را برای
+فرمان‌های جاری به کار نبر. در ۱۶ اکتبر نمایش محلی باز و تلفن عمومی تأیید شد؛ ردیف‌های جاری بالا مرجع‌اند.
 
 | مورد | مقدار مشاهده‌شده |
 |---|---|
@@ -27,14 +49,14 @@
 | Auth | `1.1.0` فعال؛ مهر افراز تنظیم‌شده؛ کاوه‌نگار تنظیم‌نشده |
 | OTP | اعتبار ۳۰۰ ثانیه، فاصلهٔ ارسال ۶۰ ثانیه |
 | Payments | `1.0.0` فعال؛ کارت‌به‌کارت فعال با یک کارت؛ بله غیرفعال/بدون اعتبارنامه |
-| کاتالوگ فعلی | ۶ محصول چرمی + محصول قبلی 878؛ ۲ متغیر با ۸ variation و ۶ دستهٔ محتوایی |
+| کاتالوگ آن snapshot | ۶ محصول چرمی + محصول قبلی 878؛ ۲ متغیر با ۸ variation و ۶ دستهٔ محتوایی |
 | محتوای جدید | ۱۱ WebP در Media، ۳ نوشتهٔ مجله و محتوای برگهٔ موجود دربارهٔ ما 857 |
 | روش خرید | `voiceweb_wc_purchase_mode=purchase`؛ فقط محصول نمونهٔ مهر 1079 متای inquiry دارد |
-| ACF قالب | ۴ گروه PHP؛ storefront جدا از `posts_page` مجله، آیکون با guard افزونهٔ Iconly |
+| ACF آن مرحله | گروه‌های اولیهٔ PHP؛ storefront جدا از `posts_page` مجله، آیکون با guard افزونهٔ Iconly؛ خانواده‌های هدیه/برند/دسته/noindex بعداً افزوده شدند |
 
-این نوبت حالت «به‌زودی»، شیوهٔ ارسال، کارت‌ها، تنظیمات پرداخت یا تلفن/راه تماس واقعی را
-تغییر نداده است. قیمت/موجودی/ابعاد و عکس‌های اولیهٔ چرم باید پیش از انتشار با کالا تطبیق شوند.
-بازشدن فروشگاه برای مدیر/مشتری آزمایشی به معنی عمومی‌شدن آن نیست.
+در مرحلهٔ تاریخی ۱۴ اکتبر، حالت «به‌زودی»، شیوهٔ ارسال، کارت‌ها، تنظیمات پرداخت یا تلفن واقعی
+تغییر نکرده بود؛ وضعیت نمایش و تلفن ۱۶ اکتبر بالاتر ثبت شده است. قیمت/موجودی/ابعاد و عکس‌های
+اولیهٔ چرم باید پیش از انتشار با کالا تطبیق شوند. نمایش روی `.local` به معنی انتشار دامنهٔ اصلی نیست.
 
 | صفحه | ID محلی | نوع |
 |---|---|---|
@@ -46,7 +68,7 @@
 IDها را روی نصب دیگر کپی نکن؛ از `wc_get_page_id()` و URLهای بومی Woo استفاده کن.
 مسیر `/checkout/order-pay/{id}` سفارش موجود است؛ با checkout خرید جدید یکی نیست.
 
-### افزونه‌های فعال هنگام بررسی
+### بایگانی افزونه‌های فعال هنگام بررسی ۱۴ اکتبر
 
 | افزونه | نسخه |
 |---|---|
@@ -71,22 +93,22 @@ IDها را روی نصب دیگر کپی نکن؛ از `wc_get_page_id()` و UR
 ## ابزارهای محلی و تنظیم ترمینال
 
 ```powershell
-Set-Location -LiteralPath 'C:\Users\123\Local Sites\woo-theme-1405\app\public'
+Set-Location -LiteralPath 'C:\Users\baghe\Local Sites\woo-charm-main\app\public'
 Get-Command php, node
 php -v
 node --version
 ```
 
-مسیرهای مشاهده‌شده:
+مسیرهای ابزار این محیط؛ وجود ابزار مرورگر را در هر جلسه جدا بررسی کن:
 
 | ابزار | مسیر این دستگاه |
 |---|---|
-| PHP | `C:\Users\123\.config\herd-lite\bin\php.exe` |
+| PHP CLI | `C:\laragon\bin\php\php-8.3.30-Win32-vs16-x64\php.exe` |
 | Node | `C:\Program Files\nodejs\node.exe` |
 | Edge | `C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe` |
 
 برنامهٔ محلی سایت باید روشن و HTTP/MySQL در دسترس باشند. PHP CLI ممکن است پورت پیش‌فرض
-۳۳۰۶ را بگیرد؛ در این نصب برای فرمان وابسته به دیتابیس از `-d mysqli.default_port=10046`
+۳۳۰۶ را بگیرد؛ در این نصب برای فرمان وابسته به دیتابیس از `-d mysqli.default_port=10113`
 استفاده کن. برای lint/کامپایل ترجمهٔ مستقل به اتصال دیتابیس نیاز نیست.
 
 تست‌های مرورگر `require('playwright')` می‌کنند. Playwright را در محیط توسعه فراهم کن؛
@@ -95,12 +117,16 @@ node --version
 ثابت نیست و نباید به تنظیمات اجرایی قالب تبدیل شود. Edge قابل استفاده است یا مرورگر
 Chromium نصب‌شدهٔ Playwright؛ تست‌ها headless اجرا می‌شوند.
 
+این‌ها ابزارهای موجود مخزنند؛ در جلسه‌ای که کنترل مرورگر به CUA محدود است، تست‌های مرورگر
+را بیرون آن مسیر اجرا نکن. در مرحلهٔ ۱۶ اکتبر مرورگر متصل برای QA تصویری در دسترس نبود؛
+تست‌های HTTP/source زیر، ارزیابی بصری یا رفتار تعاملی کامل را اثبات نمی‌کنند.
+
 ```powershell
-$env:VOICEWEB_WC_SITE = 'http://woo-theme-1405.local'
+$env:VOICEWEB_WC_SITE = 'http://woo-charm-main.local'
 $env:VOICEWEB_AUTH_SITE = $env:VOICEWEB_WC_SITE
-$env:VOICEWEB_WC_TEST_HOST = 'woo-theme-1405.local'
-$env:VOICEWEB_AUTH_TEST_HOST = 'woo-theme-1405.local'
-$env:VOICEWEB_WC_MYSQL_PORT = '10046'
+$env:VOICEWEB_WC_TEST_HOST = 'woo-charm-main.local'
+$env:VOICEWEB_AUTH_TEST_HOST = 'woo-charm-main.local'
+$env:VOICEWEB_WC_MYSQL_PORT = '10113'
 $env:VOICEWEB_BROWSER_EXECUTABLE = 'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe'
 # فقط در صورت resolve نشدن بسته، مسیر نصب خودت را قرار بده:
 # $env:VOICEWEB_PLAYWRIGHT_PATH = 'C:\path\to\node_modules\playwright'
@@ -173,8 +199,39 @@ php wp-content/themes/voiceweb/tools/compile-translations.php en_US
 | عبور واقعی زمان تخفیف و cache/lookup | test-sale-expiry.php |
 | قیمت صفحهٔ باز محصول و JSON متغیر پس از انقضا | test-product-price-expiry-browser.cjs |
 | دادهٔ چرم و ۸ ترکیب Swatch بدون خرید | test-leather-content-browser.cjs، محصولات فقط خواندنی با مشتری موقت |
+| برند، تلفن و لینک‌های صفحات مستقل | test-avan-brand.php |
+| لندینگ دسته‌ها و مالکیت SEO plugin | test-category-landings.php و test-category-landings-http.php |
+| مناسبت‌ها، انتخاب محصول و لینک‌های هاب | test-gift-landings.php و test-gift-landings-http.php |
+| سئوی shop، canonical/robots و همگامی AJAX | test-catalog-seo.php و test-catalog-metadata.js |
+| مجلهٔ چرم، صفحه‌بندی و انتقال آرشیو تکراری | test-leather-magazine.php |
 | روش‌های پرداخت، رسید، وب‌هوک و موجودی | integration.php و browser.cjs افزونهٔ پرداخت |
 | فقط مستندات | بررسی لینک، تطبیق نام/مسیر و git diff --check؛ fixture لازم نیست |
+
+### فرمان‌های برند، لندینگ‌ها و سئوی فعلی
+
+ابزارهای آماده‌سازی در حالت پیش‌فرض dry-run هستند. اجرای `--apply` دادهٔ وردپرس را می‌نویسد
+و تست نیست؛ پیش از اجرا خروجی برنامه و راهنمای [برند](./AVAN-CHARM.fa.md) و
+[مناسبت‌ها](./GIFT-LANDINGS.fa.md) را بخوان. محتوای فعلی در DB و Media است و کپی PHP به‌تنهایی آن را منتقل نمی‌کند.
+
+```powershell
+php -d mysqli.default_port=10113 wp-content/themes/voiceweb/tools/setup-avan-brand.php
+php -d mysqli.default_port=10113 wp-content/themes/voiceweb/tools/seed-gift-landings.php
+php -d mysqli.default_port=10113 wp-content/themes/voiceweb/tools/refine-avan-seo.php
+php -d mysqli.default_port=10113 wp-content/themes/voiceweb/tools/test-avan-brand.php
+php -d mysqli.default_port=10113 wp-content/themes/voiceweb/tools/test-category-landings.php
+php wp-content/themes/voiceweb/tools/test-category-landings-http.php
+php -d mysqli.default_port=10113 wp-content/themes/voiceweb/tools/test-gift-landings.php
+php wp-content/themes/voiceweb/tools/test-gift-landings-http.php
+php -d mysqli.default_port=10113 wp-content/themes/voiceweb/tools/test-catalog-seo.php
+node --preserve-symlinks --preserve-symlinks-main wp-content/themes/voiceweb/tools/test-catalog-metadata.js
+php -d mysqli.default_port=10113 wp-content/themes/voiceweb/tools/test-leather-magazine.php
+```
+
+آزمون دسته‌ها fixture اختصاصی term/page می‌سازد و پاک می‌کند؛ آن را با آزمون‌های نویسندهٔ
+دیگر روی همان نصب هم‌زمان اجرا نکن. ابزارهای HTTP برای این نصبِ دارای پیش‌نمایش باز، HTML
+واقعی را می‌خوانند؛ `--cli-templates` جای بررسی HTTP عمومی را نمی‌گیرد. ابزار متادیتای JS
+آزمون مستقل منطق است و مرورگر باز نمی‌کند. شواهد ۱۶ اکتبر در [راهنمای برند](./AVAN-CHARM.fa.md)
+ثبت شده‌اند و از نتایج مرورگر تاریخی پایین جدا هستند.
 
 ### بررسی‌های مستقل و PHP
 
@@ -184,13 +241,13 @@ php wp-content/themes/voiceweb/tools/test-single-template.php
 php wp-content/themes/voiceweb/tools/test-blog-components.php
 php wp-content/themes/voiceweb/tools/protect-directories.php --check
 
-php -d mysqli.default_port=10046 wp-content/plugins/voiceweb-auth/tests/regression.php
-php -d mysqli.default_port=10046 wp-content/plugins/voiceweb-auth/tests/module-bootstrap.php
-php -d mysqli.default_port=10046 wp-content/plugins/voiceweb-auth/tests/sms-gateways.php
-php -d mysqli.default_port=10046 wp-content/themes/voiceweb/tools/test-woocommerce.php
-php -d mysqli.default_port=10046 wp-content/themes/voiceweb/tools/test-inquiries.php
-php -d mysqli.default_port=10046 wp-content/themes/voiceweb/tools/test-sale-expiry.php
-php -d mysqli.default_port=10046 wp-content/plugins/voiceweb-payments/tests/integration.php
+php -d mysqli.default_port=10113 wp-content/plugins/voiceweb-auth/tests/regression.php
+php -d mysqli.default_port=10113 wp-content/plugins/voiceweb-auth/tests/module-bootstrap.php
+php -d mysqli.default_port=10113 wp-content/plugins/voiceweb-auth/tests/sms-gateways.php
+php -d mysqli.default_port=10113 wp-content/themes/voiceweb/tools/test-woocommerce.php
+php -d mysqli.default_port=10113 wp-content/themes/voiceweb/tools/test-inquiries.php
+php -d mysqli.default_port=10113 wp-content/themes/voiceweb/tools/test-sale-expiry.php
+php -d mysqli.default_port=10113 wp-content/plugins/voiceweb-payments/tests/integration.php
 ```
 
 test-single-template و test-infrastructure ممکن است از post type فرضی `tour` استفاده کنند؛
@@ -299,15 +356,17 @@ mu-plugin یا دادهٔ کاربران/سفارش‌ها را حذف نکن. �
 تشخیص دادهٔ اولیه‌اند. ابزار seed قبل از نوشتن حالت dry-run دارد:
 
 ```powershell
-php -d mysqli.default_port=10046 wp-content/themes/voiceweb/tools/seed-leather-store.php
+php -d mysqli.default_port=10113 wp-content/themes/voiceweb/tools/seed-leather-store.php
 # فقط برای نصب محلی/staging مناسب با رسانه‌های منبع حاضر و تصمیم به داده‌ورودی:
-php -d mysqli.default_port=10046 wp-content/themes/voiceweb/tools/seed-leather-store.php --apply
+php -d mysqli.default_port=10113 wp-content/themes/voiceweb/tools/seed-leather-store.php --apply
 ```
 
 اجرای `--apply` دیتا می‌نویسد و آزمون صرف نیست. seed متعلق به خودش، قابل ویرایش و idempotent
 است؛ اجرای بعدی ویرایش مدیر را برنمی‌گرداند و زمان هفت‌روزهٔ تخفیف را تمدید نمی‌کند.
 موجودی، قیمت، وزن/ابعاد، عکس و ادعای متن اولیه باید با موجودی واقعی انبار تطبیق داده شوند.
-دربارهٔ ما فقط اگر بدنهٔ قبلی خالی بوده تکمیل شده؛ محتوای دستی موجود بازنویسی نمی‌شود.
+در seed اولیهٔ ۱۴ اکتبر، دربارهٔ ما فقط در صورت خالی‌بودن بدنه تکمیل می‌شد. مرحلهٔ برند آوان
+چرم از `setup-avan-brand.php` و schema مستقل `vw_brand_*` استفاده می‌کند؛ اجرای اول آن در
+این نصب انجام شده و محافظ نسخه، ویرایش‌های بعدی برند را در اجرای دوباره بازنویسی نمی‌کند.
 [جزئیات داده و مهاجرت](./LEATHER-CONTENT.fa.md)
 
 1. از دیتابیس و uploads و پیکربندی امنیتی پشتیبان امن بگیر. رسید ciphertext بدون salts
@@ -323,14 +382,14 @@ php -d mysqli.default_port=10046 wp-content/themes/voiceweb/tools/seed-leather-s
 ZIP موقت ساخته‌شده در گفتگو artifact دائمی محسوب نمی‌شود. برای نصب روی سایت دیگر، فایل
 افزونهٔ مستقل لازم است، نه کل پوشهٔ قالب. بعد از تغییر rewrite/endpoint، permalink را یک بار ذخیره کن.
 
-مسیر پیش‌فرض logger خود قالب بیرون public، در `...\woo-theme-1405\app\voiceweb-log` است؛
+مسیر پیش‌فرض logger خود قالب بیرون public، در `...\woo-charm-main\app\voiceweb-log` است؛
 `CN_LOG_DIR` می‌تواند عوضش کند. اگر افزونهٔ ثالث قبلاً `voiceweb_log` تعریف کرده باشد،
 همان پیاده‌سازی حفظ می‌شود. گزارش پرداخت با source `voiceweb-payments` در log Woo است.
 پوشه‌های `uploads/wc-logs` و `uploads/voiceweb-payment-receipts` در Git نروند.
 
-## نتایج تازهٔ مرحلهٔ طراحی چرم
+## بایگانی نتایج مرحلهٔ طراحی چرم — ۱۴ اکتبر ۲۰۲۶
 
-در همین مرحله روی نصب محلی: PHP آدرس **۳۹**، inquiry **۳۴** و sale expiry **۱۵** بررسی
+در همان مرحله روی نصب محلی پیشین: PHP آدرس **۳۹**، inquiry **۳۴** و sale expiry **۱۵** بررسی
 موفق داشتند. آخرین تست، sale پنج‌ثانیه‌ای را با cron خاموش و cache قبلی واقعاً منقضی کرد؛
 تغییر date/meta هنگام عبور مرز انجام نشد. مبلغ، range/badge و ترمیم lookup بومی، بدون
 تغییر موجودی یا ایجاد سفارش مالی بررسی شدند.
