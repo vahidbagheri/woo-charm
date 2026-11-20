@@ -3,14 +3,17 @@
 body { background: var(--vw-store-surface); }
 .cn-site-header { background: #faf8f4 !important; border-bottom: 1px solid #e8e5dd; box-shadow: none !important; }
 .vw-store-announcement { display: flex; align-items: center; justify-content: center; gap: 24px; min-height: 31px; background: #183c32; color: #e7eade; font-size: 10px; letter-spacing: .15px; .vw-store-announcement__link { display: inline-flex; align-items: center; gap: 7px; color: #edf0e5; font-size: 9px; svg { width: 12px; height: 12px; } } }
-.cn-header-desktop { max-width: 1360px !important; min-height: 80px; padding-inline: 36px !important; }
+.cn-header-desktop { max-width: 1360px !important; min-height: 80px; padding-inline: 36px !important; gap: clamp(10px, 1.1vw, 18px); }
 .cn-header-logo__image { height: 46px !important; width: 172px; max-width: 172px; }
-.cn-header-menu > .menu-item > a { color: #334a3b !important; font-size: 12px; padding-inline: 11px; }
+.cn-header-desktop .cn-header-navigation { gap: 6px; }
+.cn-header-desktop .cn-header-nav .cn-header-menu > .menu-item { padding-inline: clamp(1px, .48vw, 7px); }
+.cn-header-desktop .cn-header-nav .cn-header-menu > .menu-item > a { color: #334a3b !important; font-size: clamp(11px, 1vw, 14px); padding-inline: clamp(3px, .38vw, 6px); }
 .cn-header-menu > .menu-item > a::after { background: #3c5947 !important; }
 .cn-header-menu > .menu-item::after { background: #3c5947 !important; }
 .cn-header-menu .sub-menu { border-color: #e7e4db !important; background: #faf8f4 !important; border-radius: 14px !important; box-shadow: 0 15px 32px #2638250e !important; }
 .cn-header-menu .sub-menu a:hover { color: #183c32 !important; background: #f0eee6 !important; }
 .cn-header-tools { gap: 7px; color: #183c32 !important; }
+html .cn-header-tools .cn-header-tool--phone { margin: 0; }
 .cn-header-tool, .cn-search-trigger, .cn-header-phone, .cn-header-toggle, .cn-header-language, .cn-header-cart, .cn-header-account { color: #183c32 !important; }
 .cn-header-cart, .cn-header-account { border-color: #d9ded2 !important; background: #f4f4ed !important; border-radius: 13px !important; }
 .cn-header-cart__count, .vw-cart-badge, .vw-mobile-cart__count { background: #183c32 !important; }

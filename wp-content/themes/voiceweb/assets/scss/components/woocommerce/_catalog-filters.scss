@@ -22,6 +22,12 @@
   .vw-catalog.is-enhanced [data-vw-reset-filters] { display: inline-flex; }
   .vw-catalog.is-enhanced .vw-catalog-empty [data-vw-open-filters] { display: inline-flex; }
   .vw-catalog .woocommerce ul.products, .vw-catalog ul.products { margin-top: 18px; gap: 18px; }
+  .vw-catalog-more {
+    display: flex; flex-direction: column; align-items: center; gap: 8px; margin-block: 16px 26px;
+    > .vw-button { min-width: min(100%, 200px); text-align: center; }
+    > .vw-button[aria-disabled='true'] { opacity: .6; cursor: wait; }
+  }
+  .vw-catalog-more__feedback { margin: 0; color: var(--vw-muted); font-size: 12px; text-align: center; &:empty { display: none; } &.is-error { color: #ac2b43; } }
   @media (min-width: 992px) and (max-width: 1199px) { .vw-catalog-layout { grid-template-columns: 250px minmax(0, 1fr); gap: 18px; } .vw-catalog ul.products { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 991px) {
     .vw-catalog-layout { grid-template-columns: minmax(0, 1fr); }

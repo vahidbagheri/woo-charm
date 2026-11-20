@@ -3,6 +3,30 @@
 [سند تحویل](./HANDOFF.fa.md) · [نمای کلی](./README.fa.md) ·
 [ورود](./AUTH.fa.md) · [ووکامرس](./WOOCOMMERCE.fa.md) · [پرداخت](./PAYMENTS.fa.md)
 
+## تحویل کاتالوگ آوان چرم — ۲۰ نوامبر ۲۰۲۶
+
+کاتالوگ محلی ۵۹ محصول و ست دارد. هفت محصول نمونه در زباله‌دان وردپرس‌اند. در ۲۰ راهنمای مناسبت، چهار پیشنهاد از کاتالوگ جدید انتخاب شده و هفت دستهٔ فروشگاه توضیح، عکس و عنوان جست‌وجوی متناسب دارند. آدرس صفحات قدیمی حفظ شده است.
+
+دستهٔ «جاکارتی چرم» چهار ورودی گلدوزی‌شده، رنگی با تزیین بافتی، تاشوی قرمز و زرشکی و قهوه‌ای بنددار را از عکس‌های خود کاتالوگ نشان می‌دهد. دو ست کیف پول و جاکارتی در دستهٔ «ست هدیه چرمی» قرار دارند. در `/shop/` دکمهٔ «نمایش محصولات بیشتر» محصولات مرحلهٔ بعد را با فیلترها و ترتیب جاری به انتهای فهرست اضافه می‌کند. پیوند همین دکمه با جاوااسکریپت غیرفعال، صفحهٔ بعد را باز می‌کند.
+
+در **ووکامرس ← کاتالوگ و قیمت‌گذاری** نرخ یک دلار را به **تومان** وارد کنید. فیلد مبلغ دلاری هر محصول و هر تنوع در همان جدول قرار دارد. برای نمونه، ۵۰ دلار با نرخ فرضی ۱۰۰٬۰۰۰ تومان، ۵٬۰۰۰٬۰۰۰ تومان یا ۵۰٬۰۰۰٬۰۰۰ ریال می‌شود. ذخیرهٔ نرخ، قیمت محصولاتِ دارای مبلغ دلاری را در ووکامرس به‌روزرسانی می‌کند. با پاک‌کردن مبلغ دلاری، قیمت عادی قبلی محصول برمی‌گردد. برای فعال‌کردن خرید اینترنتی، روش سفارش محصول را در همان جدول به «خرید آنلاین» تغییر دهید. کاتالوگ تحویلی در حالت «تماس بگیرید» است.
+
+عکس‌های محصول از بستهٔ `Leather-Shop-Upload.zip` آمده‌اند. افزونهٔ تبدیل رسانهٔ سایت نسخهٔ WebP آن‌ها را برای نمایش ساخته است. عکس‌های ترکیبی در کتابخانهٔ رسانه ذخیره شده‌اند و از عکس‌های دارای نمای مشخص جاکارتی در دستهٔ جاکارتی استفاده شده است. سه گروه در انتظار تطبیق عبارت‌اند از نماهای داخلی کیف پول صورتی، نمای داخلی کیف نظم‌دهندهٔ قرمز و دو نمای داخلی زرشکی/قرمز.
+
+سه بنر با ImageGen و با ارجاع به عکس‌های کاتالوگ ساخته شده‌اند. پرامپت‌های زیر برای هر تصویر استفاده شدند.
+
+- [بنر اصلی](../assets/images/avan-catalog-hero.webp) — Create a single 3:2 landscape editorial homepage banner photograph for a boutique leather shop. Use the supplied references as exact product references, particularly the cognac buckled shoulder bag and black chain bag, with the small blue embroidered wallet as a subtle accent. Keep silhouettes, stitching, buckles, colors and real textures faithful. Art direct a layered arrangement on low travertine blocks, with deep evergreen backdrop, warm side light, refined shadows, spare framing and generous breathing room on all four sides for responsive clipping. All products near the center with no overlap obscuring their key features. Image only, no lettering, graphic marks, extra props, or people.
+- [بنر کیف پول](../assets/images/avan-catalog-wallets.webp) — Create one 3:2 landscape product editorial banner showing exactly these three embroidered wallets, preserving original colors, shapes, and individual flower and clasp details. Arrange on warm ivory plaster with soft daylight and delicate shadows, a refined boutique leather catalog aesthetic. Broad framing with generous space around all edges, no text, no extra products, no lettering or logos.
+- [بنر ست هدیه](../assets/images/avan-catalog-sets.webp) — Create one 3:2 landscape editorial banner for selected leather gift sets. Feature the matched ivory floral set and burgundy wallet/cardholder shown in these original catalog references, preserving the visible product shapes, color, edges, closures and stitching. Arrange as one balanced display on muted clay and soft limestone under natural editorial lighting. Framed with room on all edges, no text, no extras or people.
+
+برای انتقال، پایگاه‌دادهٔ فعلی و پوشهٔ `wp-content` را با هم منتقل کنید. عکس‌ها و بنرهای فعال در کتابخانهٔ رسانه‌اند و تنظیم صفحه‌ها در پایگاه‌داده ذخیره شده است. پس از تنظیم دامنهٔ مقصد، پیوندهای دائمی، تماس، رسانه‌ها و وضعیت ایندکس را در همان محیط بررسی کنید. نسخهٔ محلی با `blog_public=0` تحویل داده می‌شود.
+
+ابزار واردکردن در اجرای عادی فقط گزارش می‌دهد. اجرای موفق ثبت می‌شود تا اجرای دوباره تغییرات بعدی مدیر را بازنویسی نکند.
+
+```powershell
+php -d mysqli.default_port=10113 wp-content/themes/voiceweb/tools/import-avan-catalog.php 'C:/Users/baghe/Downloads/Leather-Shop-Upload.zip'
+```
+
 فرمان‌ها و وضعیت جاری این سند با مرحلهٔ آوان چرم در **۱۶ اکتبر ۲۰۲۶ / ۲۰۲۶-۱۰-۱۶** به‌روز
 شده‌اند. دستورها از ریشهٔ WordPress و در PowerShell اجرا می‌شوند. جدول محیط و نتایج دارای
 تاریخ ۱۴ اکتبر، snapshot تاریخی‌اند و به‌عنوان نتیجهٔ جدید بازنویسی نشده‌اند. تست پیامک یا

@@ -9,7 +9,7 @@ $GLOBALS['post'] = get_post( $card_product->get_id() );
 setup_postdata( $GLOBALS['post'] );
 $GLOBALS['product'] = $card_product;
 ?>
-<li <?php wc_product_class( 'vw-product-card' . ( function_exists( 'voiceweb_wc_product_is_inquiry' ) && voiceweb_wc_product_is_inquiry( $card_product ) ? ' vw-product-card--inquiry' : ' vw-product-card--icon' ), $card_product ); ?>>
+<li <?php wc_product_class( 'vw-product-card' . ( function_exists( 'voiceweb_wc_product_is_inquiry' ) && voiceweb_wc_product_is_inquiry( $card_product ) ? ' vw-product-card--inquiry' : ' vw-product-card--icon' ), $card_product ); ?> data-vw-product-id="<?php echo esc_attr( $card_product->get_id() ); ?>">
 	<?php do_action( 'woocommerce_before_shop_loop_item' ); ?>
 	<div class="vw-product-card__media"><?php do_action( 'woocommerce_before_shop_loop_item_title' ); ?></div>
 	<div class="vw-product-card__body">
@@ -17,6 +17,7 @@ $GLOBALS['product'] = $card_product;
 		<?php do_action( 'woocommerce_after_shop_loop_item_title' ); ?>
 	</div>
 	<?php do_action( 'woocommerce_after_shop_loop_item' ); ?>
+	<?php voiceweb_wc_custom_order_link( true ); ?>
 	<?php voiceweb_wc_product_card_wishlist( $card_product ); ?>
 	<p class="vw-wishlist-feedback screen-reader-text" role="status" aria-live="polite" hidden></p>
 </li>

@@ -11,10 +11,10 @@ if ( ! $slides ) { $slides[] = array( 'eyebrow' => 'LEATHER COLLECTION', 'title'
 		<?php get_template_part( 'template-parts/front/hero', null, array( 'slides' => $slides ) ); ?>
 		<?php get_template_part( 'template-parts/front/collections' ); ?>
 		<?php get_template_part( 'template-parts/front/categories', null, array( 'categories' => voiceweb_front_categories(), 'shop' => $shop ) ); ?>
+		<?php if ( voiceweb_front_enabled( 'arrivals' ) ) { get_template_part( 'template-parts/front/products', null, array( 'section' => 'arrivals', 'shop' => $shop ) ); } ?>
 		<?php get_template_part( 'template-parts/front/gifts' ); ?>
 		<?php if ( voiceweb_front_enabled( 'offers' ) ) { get_template_part( 'template-parts/front/products', null, array( 'section' => 'offers', 'shop' => $shop ) ); } ?>
 		<?php get_template_part( 'template-parts/front/story' ); ?>
-		<?php if ( voiceweb_front_enabled( 'arrivals' ) ) { get_template_part( 'template-parts/front/products', null, array( 'section' => 'arrivals', 'shop' => $shop ) ); } ?>
 		<?php get_template_part( 'template-parts/front/about' ); ?>
 		<?php get_template_part( 'template-parts/front/blog', null, array( 'blog_url' => $blog_url ) ); ?>
 		<?php get_template_part( 'template-parts/front/faq' ); ?>

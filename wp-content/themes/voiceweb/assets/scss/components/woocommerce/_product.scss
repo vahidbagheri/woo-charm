@@ -55,3 +55,9 @@
     div.product .related > h2, div.product .upsells > h2 { font-size: 20px; }
   }
 }
+.vw-product-custom {
+  display: grid; gap: 6px; padding: 14px 16px; margin-block: 16px;
+  border-inline-start: 3px solid #496a57; border-radius: 9px; background: #edf0e8; color: #183c32;
+  p { margin: 0; line-height: 1.9; font-size: 13px; }
+  a { justify-self: start; color: inherit; font-size: 13px; font-weight: 650; text-decoration: underline; text-underline-offset: 3px; }
+}

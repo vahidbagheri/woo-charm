@@ -48,6 +48,8 @@ function voiceweb_wc_page_intro( string $content ): string {
 }
 
 function voiceweb_wc_product_benefits(): void {
+	global $product;
+	if ( voiceweb_wc_product_is_inquiry( $product ) ) { return; }
 	?>
 	<div class="vw-product-services">
 		<span><?php echo voiceweb_wc_icon( 'pin' ); ?> انتخاب از آدرس‌های ذخیره‌شده</span>

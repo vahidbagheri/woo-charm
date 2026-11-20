@@ -65,7 +65,9 @@ function voiceweb_brand_seo_head(): void {
 		$product = wc_get_product( get_queried_object_id() );
 		if ( $product ) { $description = $product->get_short_description() ?: $product->get_description(); }
 	} elseif ( ! is_front_page() && function_exists( 'is_shop' ) && is_shop() ) {
-		$description = 'خرید کیف و کیف پول چرم طبیعی از آوان چرم؛ مدل‌های مردانه، زنانه و جاکارتی را از نظر ابعاد، رنگ، کاربرد و قیمت مقایسه کنید.';
+		$shop_id = wc_get_page_id( 'shop' );
+		$description = $shop_id > 0 ? trim( get_post_field( 'post_excerpt', $shop_id ) ) : '';
+		if ( $description === '' ) { $description = 'خرید کیف و کیف پول چرم طبیعی از آوان چرم؛ مدل‌های مردانه، زنانه و جاکارتی را از نظر ابعاد، رنگ، کاربرد و قیمت مقایسه کنید.'; }
 	} elseif ( ! is_front_page() && is_singular( 'post' ) && get_post_field( 'post_password', get_queried_object_id() ) === '' && get_post_status() === 'publish' ) {
 		$description = get_the_excerpt();
 	}

@@ -95,6 +95,22 @@ function voiceweb_wc_catalog_setup(): void {
 	remove_action( 'woocommerce_before_shop_loop', 'woocommerce_result_count', 20 );
 	remove_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30 );
 	remove_action( 'woocommerce_no_products_found', 'wc_no_products_found', 10 );
+	if ( is_shop() ) { remove_action( 'woocommerce_after_shop_loop', 'woocommerce_pagination', 10 ); }
+}
+
+/** Keep a real next-page URL for browsers and crawlers. */
+function voiceweb_wc_shop_more(): void {
+	$current = max( 1, (int) wc_get_loop_prop( 'current_page', 1 ) );
+	$pages = (int) wc_get_loop_prop( 'total_pages' );
+	if ( $current >= $pages ) { return; }
+	?>
+	<div class="vw-catalog-more" data-vw-catalog-more>
+		<p class="vw-catalog-more__feedback" data-vw-more-feedback role="status" aria-live="polite"></p>
+		<a class="vw-button" data-vw-load-more href="<?php echo esc_url( get_pagenum_link( $current + 1, false ) ); ?>">
+			<?php echo esc_html( voiceweb_wc_display_text( 'Show more products', 'نمایش محصولات بیشتر' ) ); ?>
+		</a>
+	</div>
+	<?php
 }
 
 function voiceweb_wc_catalog_base_url(): string {
@@ -196,5 +212,11 @@ function voiceweb_wc_catalog_script_data(): void {
 	wp_add_inline_script( 'cn-page-woocommerce-catalog', 'window.VoiceWebCatalog=' . wp_json_encode( array(
 		'locale' => str_replace( '_', '-', get_locale() ), 'decimals' => wc_get_price_decimals(),
 		'strings' => array( 'loading' => cn_translate( 'Updating products…' ), 'error' => cn_translate( 'Products could not be loaded. Your selections are kept; please try again.' ), 'range' => cn_translate( 'The minimum price must not exceed the maximum price.' ), 'number' => cn_translate( 'Enter a valid price.' ), 'apply' => cn_translate( 'Show products' ), 'selected' => cn_translate( 'selected filters' ), 'filters' => cn_translate( 'Filters' ) ),
+		'loadMore' => array(
+			'loading' => voiceweb_wc_display_text( 'Loading more products…', 'در حال بارگذاری محصولات بیشتر…' ),
+			'loaded'  => voiceweb_wc_display_text( '%s more products were added.', '%s محصول دیگر اضافه شد.' ),
+			'end'     => voiceweb_wc_display_text( 'All products on this list are displayed.', 'همهٔ محصولات این فهرست نمایش داده شدند.' ),
+			'error'   => voiceweb_wc_display_text( 'More products could not be loaded. Please try again.', 'بارگذاری محصولات بیشتر انجام نشد. دوباره تلاش کنید.' ),
+		),
 	), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT ) . ';', 'before' );
 }

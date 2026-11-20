@@ -16,8 +16,8 @@
   &:hover { border-color: #d4d4c8; box-shadow: 0 10px 26px rgba(35, 49, 33, .06); }
   .woocommerce-loop-product__link { color: var(--vw-ink); text-decoration: none; display: flex; flex-direction: column; flex: 1; }
   .vw-product-card__media { aspect-ratio: 1; border-radius: 15px 15px 0 0; overflow: hidden; background: #f1eee8; position: relative; }
-  .vw-product-card__media img { width: 100%; height: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 0; margin: 0; transition: transform .45s; }
-  &:hover .vw-product-card__media img { transform: scale(1.035); }
+  .vw-product-card__media img { width: 100%; height: 100%; aspect-ratio: 1; object-fit: contain; border-radius: 0; margin: 0; }
+  .vw-product-card__custom { display: flex; align-items: center; min-height: 40px; margin: 4px 12px 0; padding-inline: 2px; color: var(--vw-accent); font-size: 11px; line-height: 1.65; text-decoration: underline; text-underline-offset: 3px; }
   .vw-product-card__body { display: flex; flex-direction: column; flex: 1; padding: 15px 15px 0; }
   .woocommerce-loop-product__title { font-size: 14px; font-weight: 650; line-height: 1.85; padding: 0; margin: 0 0 7px; color: var(--vw-ink); overflow-wrap: anywhere; }
   .price { color: var(--vw-ink); font-weight: 650; font-size: 15px; line-height: 1.8; margin: 0 0 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; ins { text-decoration: none; } del { font-size: 11px; color: #7f7c73; font-weight: 400; } .woocommerce-Price-currencySymbol { font-size: 10px; font-weight: 400; } }
@@ -29,13 +29,14 @@
   .onsale { position: absolute; border-radius: 100px; min-height: 0; min-width: 0; line-height: 1.4; padding: 5px 9px; background: #83442e; color: #fff; font-size: 10px; font-weight: 600; inset-inline-start: 10px; inset-inline-end: auto; top: 11px; margin: 0; left: auto; right: auto; z-index: 2; }
   .vw-product-card__favorite { position: absolute; z-index: 3; top: 5px; inset-inline-end: 5px; display: grid; place-items: center; width: 44px; height: 44px; min-height: 44px; padding: 8px; margin: 0; color: var(--vw-ink); border: 0; border-radius: 50%; background: transparent; cursor: pointer; svg { width: 19px; height: 19px; } &:hover { background: rgba(255, 255, 255, .8); } &:disabled { opacity: .4; cursor: wait; } &[aria-pressed='true'] { color: #8c453c; svg { fill: currentColor; } } &:focus-visible { outline: 2px solid #627e59; outline-offset: -2px; } }
   &.vw-product-card--icon {
-    --vw-card-feedback-size: 0px; --vw-card-cart-size: 0px;
+    --vw-card-feedback-size: 0px; --vw-card-cart-size: 0px; --vw-card-custom-size: 0px;
+    &:has(> .vw-product-card__custom) { --vw-card-custom-size: 44px; }
     padding-bottom: calc(17px + var(--vw-card-feedback-size));
     .woocommerce-loop-product__title { order: 0; }
     .star-rating { order: 1; }
     .vw-product-card__colors { order: 2; }
     .price { order: 3; margin-bottom: 0; margin-top: auto; padding-inline-end: 50px; min-height: 44px; align-content: center; }
-    .button.vw-product-card__buy { position: absolute; inset-inline-end: 12px; bottom: calc(17px + var(--vw-card-feedback-size) + var(--vw-card-cart-size)); margin: 0; width: 44px; height: 44px; min-height: 44px; max-width: 44px; border-radius: 50%; padding: 0; svg { width: 19px; height: 19px; flex: 0 0 19px; } &.added::after { display: none; } &.loading svg { opacity: 0; } }
+    .button.vw-product-card__buy { position: absolute; inset-inline-end: 12px; bottom: calc(17px + var(--vw-card-feedback-size) + var(--vw-card-cart-size) + var(--vw-card-custom-size)); margin: 0; width: 44px; height: 44px; min-height: 44px; max-width: 44px; border-radius: 50%; padding: 0; svg { width: 19px; height: 19px; flex: 0 0 19px; } &.added::after { display: none; } &.loading svg { opacity: 0; } }
     &:has(> .added_to_cart) { --vw-card-cart-size: 30px; }
     > .added_to_cart { min-height: 22px; line-height: 14px; }
     &:has(> .vw-wishlist-feedback.is-error:not([hidden])) { --vw-card-feedback-size: 90px; }
@@ -53,7 +54,7 @@
     .price { font-size: 12px; gap: 2px 5px; del { font-size: 10px; } }
     .button { margin-inline: 10px; max-width: calc(100% - 20px); min-height: 40px; padding: 7px 11px; font-size: 10px; }
     .vw-product-card__favorite { top: 1px; inset-inline-end: 1px; }
-    &.vw-product-card--icon { padding-bottom: calc(12px + var(--vw-card-feedback-size)); .button.vw-product-card__buy { inset-inline-end: 8px; bottom: calc(12px + var(--vw-card-feedback-size) + var(--vw-card-cart-size)); } .price { padding-inline-end: 43px; } }
+    &.vw-product-card--icon { padding-bottom: calc(12px + var(--vw-card-feedback-size)); .button.vw-product-card__buy { inset-inline-end: 8px; bottom: calc(12px + var(--vw-card-feedback-size) + var(--vw-card-cart-size) + var(--vw-card-custom-size)); } .price { padding-inline-end: 43px; } }
   }
   .vw-commerce .woocommerce-ordering { float: none; }
   .vw-commerce .woocommerce-result-count { float: none; margin: 0; padding-block: 5px 12px; }

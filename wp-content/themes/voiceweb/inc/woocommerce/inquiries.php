@@ -28,6 +28,15 @@ function voiceweb_wc_inquiry_loop_button( string $html, WC_Product $product ): s
 	return voiceweb_wc_product_is_inquiry( $product ) ? voiceweb_wc_inquiry_button( $product, 'button' ) : $html;
 }
 
+function voiceweb_wc_inquiry_price_html( string $html, WC_Product $product ): string {
+	return voiceweb_wc_product_is_inquiry( $product ) ? '' : $html;
+}
+
+function voiceweb_wc_inquiry_product_schema( array $schema, WC_Product $product ): array {
+	if ( voiceweb_wc_product_is_inquiry( $product ) ) { unset( $schema['offers'] ); }
+	return $schema;
+}
+
 function voiceweb_wc_inquiry_settings( array $settings, string $section = '' ): array {
 	if ( $section !== '' ) { return $settings; }
 	$settings[] = array( 'title' => 'درخواست تماس ویس وب', 'type' => 'title', 'id' => 'voiceweb_inquiry_settings', 'desc' => 'حالت پیش‌فرض محصولات ساده و متغیر. هر محصول می‌تواند در بخش اطلاعات محصول این تنظیم را تغییر دهد. درخواست تماس، سفارش مالی یا پرداخت ایجاد نمی‌کند.' );
@@ -256,7 +265,7 @@ function voiceweb_wc_inquiry_private_response( $response, $server, WP_REST_Reque
 }
 
 function voiceweb_wc_inquiry_asset_keys( array $keys ): array {
-	if ( is_front_page() || is_woocommerce() || is_cart() || ( is_checkout() && ! is_wc_endpoint_url( 'order-pay' ) && ! is_order_received_page() ) ) { $keys[] = 'woocommerce-inquiry'; }
+	if ( is_front_page() || is_woocommerce() || is_page_template( 'page-templates/gift-landing.php' ) || is_cart() || ( is_checkout() && ! is_wc_endpoint_url( 'order-pay' ) && ! is_order_received_page() ) ) { $keys[] = 'woocommerce-inquiry'; }
 	return $keys;
 }
 
@@ -354,6 +363,8 @@ add_action( 'woocommerce_product_options_general_product_data', 'voiceweb_wc_inq
 add_action( 'woocommerce_admin_process_product_object', 'voiceweb_wc_inquiry_save_product' );
 add_action( 'wp', 'voiceweb_wc_inquiry_product_setup', 30 );
 add_filter( 'woocommerce_loop_add_to_cart_link', 'voiceweb_wc_inquiry_loop_button', 25, 2 );
+add_filter( 'woocommerce_get_price_html', 'voiceweb_wc_inquiry_price_html', 30, 2 );
+add_filter( 'woocommerce_structured_data_product', 'voiceweb_wc_inquiry_product_schema', 20, 2 );
 add_filter( 'woocommerce_add_to_cart_validation', 'voiceweb_wc_inquiry_cart_validation', 20, 4 );
 add_action( 'woocommerce_store_api_validate_add_to_cart', 'voiceweb_wc_inquiry_store_cart_validation', 20 );
 add_action( 'woocommerce_check_cart_items', 'voiceweb_wc_inquiry_check_cart', 20 );

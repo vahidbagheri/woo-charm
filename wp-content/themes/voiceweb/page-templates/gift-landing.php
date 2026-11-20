@@ -54,7 +54,7 @@ while ( have_posts() ) :
 
 		<section id="gift-products" class="vw-store-section" aria-labelledby="gift-products-title">
 			<div class="vw-store-heading">
-				<div><span class="vw-store-eyebrow">برای انتخابی متناسب با سلیقهٔ او</span><h2 id="gift-products-title"><?php echo esc_html( voiceweb_gift_value( 'products_title', 'پیشنهادهای این مناسبت', $page_id ) ); ?></h2><p>قیمت، رنگ و جزئیات هر مدل را در صفحهٔ محصول بررسی کنید.</p></div>
+				<div><h2 id="gift-products-title"><?php echo esc_html( voiceweb_gift_value( 'products_title', 'پیشنهادهای این مناسبت', $page_id ) ); ?></h2><p>عکس‌ها و جزئیات هر مدل را ببینید و برای سفارش مدل دلخواه تماس بگیرید.</p></div>
 			</div>
 			<?php if ( $categories ) : ?>
 			<div class="vw-gift-categories" aria-label="دیدن همهٔ مدل‌های هر دسته">

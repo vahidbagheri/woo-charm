@@ -35,6 +35,7 @@ $bounds = voiceweb_wc_catalog_price_bounds();
 				<?php woocommerce_product_loop_start(); ?>
 				<?php if ( wc_get_loop_prop( 'total' ) ) : ?><?php while ( have_posts() ) : the_post(); do_action( 'woocommerce_shop_loop' ); wc_get_template_part( 'content', 'product' ); endwhile; ?><?php endif; ?>
 				<?php woocommerce_product_loop_end(); do_action( 'woocommerce_after_shop_loop' ); ?>
+				<?php if ( is_shop() ) { voiceweb_wc_shop_more(); } ?>
 			<?php else : ?>
 				<?php do_action( 'woocommerce_no_products_found' ); ?>
 				<div class="vw-catalog-empty"><?php echo voiceweb_wc_icon( 'search' ); ?><h3><?php echo esc_html( cn_translate( 'No products match these filters.' ) ); ?></h3><p><?php echo esc_html( cn_translate( 'Try a wider price range or remove a filter.' ) ); ?></p><div><button class="vw-button" type="button" data-vw-open-filters><?php echo esc_html( cn_translate( 'Change filters' ) ); ?></button><a href="<?php echo esc_url( voiceweb_wc_catalog_clear_url() ); ?>" class="vw-button vw-button--light" data-vw-catalog-link><?php echo esc_html( cn_translate( 'Clear all' ) ); ?></a></div></div>

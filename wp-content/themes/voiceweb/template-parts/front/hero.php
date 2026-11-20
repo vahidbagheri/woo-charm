@@ -2,9 +2,9 @@
 defined( 'ABSPATH' ) || exit;
 $slides = $args['slides'];
 ?>
-<section class="vw-store-hero" data-vw-hero data-autoplay="<?php echo voiceweb_front_value( 'autoplay', false ) ? '1' : '0'; ?>" data-interval="<?php echo esc_attr( max( 5, min( 20, (int) voiceweb_front_value( 'interval', 8 ) ) ) ); ?>" aria-label="کالکشن‌های منتخب" aria-roledescription="carousel">
+<section class="vw-store-hero<?php echo count( $slides ) === 1 ? ' vw-store-hero--single' : ''; ?>" data-vw-hero data-autoplay="<?php echo voiceweb_front_value( 'autoplay', false ) ? '1' : '0'; ?>" data-interval="<?php echo esc_attr( max( 5, min( 20, (int) voiceweb_front_value( 'interval', 8 ) ) ) ); ?>" aria-label="کالکشن‌های منتخب"<?php echo count( $slides ) > 1 ? ' aria-roledescription="carousel"' : ''; ?>>
 	<?php foreach ( $slides as $i => $slide ) : $tone = in_array( $slide['tone'] ?? '', array( 'ice', 'ink', 'rose' ), true ) ? $slide['tone'] : 'ice'; ?>
-	<article class="vw-store-hero__slide" data-vw-slide data-tone="<?php echo esc_attr( $tone ); ?>" role="group" aria-roledescription="slide" aria-label="<?php echo esc_attr( sprintf( '%s از %s', number_format_i18n( $i + 1 ), number_format_i18n( count( $slides ) ) ) ); ?>"<?php echo $i ? ' hidden inert aria-hidden="true"' : ' aria-hidden="false"'; ?>>
+	<article class="vw-store-hero__slide" data-vw-slide data-tone="<?php echo esc_attr( $tone ); ?>"<?php if ( count( $slides ) > 1 ) : ?> role="group" aria-roledescription="slide" aria-label="<?php echo esc_attr( sprintf( '%s از %s', number_format_i18n( $i + 1 ), number_format_i18n( count( $slides ) ) ) ); ?>"<?php endif; ?><?php echo $i ? ' hidden inert aria-hidden="true"' : ' aria-hidden="false"'; ?>>
 		<div class="vw-store-hero__stage">
 			<picture>
 				<?php $mobile = absint( $slide['mobile_image'] ?? 0 ); $src = $mobile ? wp_get_attachment_image_url( $mobile, 'large' ) : ''; $srcset = $mobile ? wp_get_attachment_image_srcset( $mobile, 'large' ) : ''; if ( $src ) : ?>

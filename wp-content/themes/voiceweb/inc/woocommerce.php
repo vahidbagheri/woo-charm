@@ -3,7 +3,7 @@
 defined( 'ABSPATH' ) || exit;
 if ( ! class_exists( 'WooCommerce' ) ) { return; }
 
-foreach ( array( 'address-store', 'address-api', 'assets', 'account', 'checkout', 'templates', 'mobile-navigation', 'wishlist', 'orders', 'catalog', 'inquiries', 'product-display', 'sale-expiry' ) as $file ) {
+foreach ( array( 'address-store', 'address-api', 'assets', 'account', 'checkout', 'templates', 'mobile-navigation', 'wishlist', 'orders', 'catalog', 'inquiries', 'product-display', 'sale-expiry', 'catalog-pricing' ) as $file ) {
 	require_once get_template_directory() . '/inc/woocommerce/' . $file . '.php';
 }
 

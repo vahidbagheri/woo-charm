@@ -103,6 +103,22 @@ function voiceweb_wc_product_variation_deadline( array $data, WC_Product $produc
 
 function voiceweb_wc_product_options_anchor(): void { echo '<span id="vw-product-options" class="vw-product-options-anchor" aria-hidden="true"></span>'; }
 
+/** Let customers discuss their own design in either purchase mode. */
+function voiceweb_wc_custom_order_link( bool $card = false ): void {
+	$phone = cn_site_phone_href( cn_get_site_setting( 'cn_header_phone_link', '' ) ?: cn_get_site_setting( 'cn_header_phone', '' ) );
+	$url = 'tel:' . $phone;
+	if ( ! preg_match( '/^\+?[0-9]{6,15}$/', $phone ) ) {
+		$contact = get_page_by_path( 'contact' );
+		$url = $contact && $contact->post_status === 'publish' ? get_permalink( $contact ) : '';
+	}
+	if ( ! $url ) { return; }
+	if ( $card ) {
+		echo '<a class="vw-product-card__custom" href="' . esc_url( $url ) . '">تماس برای سفارش مدل دلخواه</a>';
+		return;
+	}
+	echo '<aside class="vw-product-custom"><strong>مدل دیگری در نظر دارید؟</strong><p>برای سفارش مدل دلخواهتان با ما تماس بگیرید و دربارهٔ طرح، رنگ و جزئیات ساخت هماهنگ کنید.</p><a href="' . esc_url( $url ) . '">تماس برای سفارش مدل دلخواه</a></aside>';
+}
+
 /** Preserve the native href, AJAX classes, data and accessible description; only replace its visual label. */
 function voiceweb_wc_product_loop_icon( string $html, WC_Product $product ): string {
 	if ( function_exists( 'voiceweb_wc_product_is_inquiry' ) && voiceweb_wc_product_is_inquiry( $product ) ) { return $html; }
@@ -128,5 +144,6 @@ add_action( 'woocommerce_after_shop_loop_item_title', 'voiceweb_wc_product_card_
 add_action( 'woocommerce_single_product_summary', 'voiceweb_wc_product_summary_intro', 4 );
 add_action( 'woocommerce_single_product_summary', 'voiceweb_wc_product_offer_timer', 11 );
 add_action( 'woocommerce_before_add_to_cart_form', 'voiceweb_wc_product_options_anchor', 1 );
+add_action( 'woocommerce_single_product_summary', 'voiceweb_wc_custom_order_link', 32, 0 );
 add_filter( 'woocommerce_available_variation', 'voiceweb_wc_product_variation_deadline', 20, 3 );
 add_filter( 'woocommerce_loop_add_to_cart_link', 'voiceweb_wc_product_loop_icon', 40, 2 );

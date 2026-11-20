@@ -1,7 +1,7 @@
 /* Public, server-rendered WooCommerce filtering. Links/forms still work without JavaScript. */
 (() => {
   'use strict';
-  const config = window.VoiceWebCatalog || {}, strings = config.strings || {};
+  const config = window.VoiceWebCatalog || {}, strings = config.strings || {}, moreStrings = config.loadMore || {};
   const mobile = matchMedia('(max-width: 991px)'), reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let root, form, home, filterDialog, sortDialog, applied, controller, requestId = 0, debounce;
   const formatter = new Intl.NumberFormat(config.locale || 'fa-IR', { maximumFractionDigits: config.decimals ?? 0 });
@@ -77,10 +77,40 @@
     minRange.setAttribute('aria-valuetext', formatter.format(lo)); maxRange.setAttribute('aria-valuetext', formatter.format(hi));
     draftCount();
   }
-  function setBusy(value) {
-    root.classList.toggle('is-loading', value); root.querySelector('[data-vw-results]').setAttribute('aria-busy', String(value));
+  function setBusy(value, append) {
+    root.classList.toggle('is-loading', value && !append); root.querySelector('[data-vw-results]').setAttribute('aria-busy', String(value));
     form.querySelector('[data-vw-apply-filters]').disabled = value;
     form.querySelector('[data-vw-apply-filters]').textContent = value ? strings.loading : strings.apply;
+    const more = root.querySelector('[data-vw-load-more]');
+    if (more) more.setAttribute('aria-disabled', String(value));
+  }
+  function setMoreFeedback(message, error = false) {
+    const feedback = root.querySelector('[data-vw-more-feedback]');
+    if (!feedback) return;
+    feedback.textContent = message;
+    feedback.classList.toggle('is-error', error);
+  }
+  function appendProducts(next, url) {
+    const gridSelector = '[data-vw-results] > ul.products';
+    const grid = root.querySelector(gridSelector), nextGrid = next.querySelector(gridSelector);
+    const trigger = root.querySelector('[data-vw-load-more]');
+    const following = next.querySelector('[data-vw-load-more]');
+    if (next.dataset.base !== root.dataset.base || !grid || !nextGrid || !trigger || following?.href === url.href) throw new Error();
+    const ids = new Set([...grid.children].map(card => card.dataset.vwProductId));
+    const cards = [...nextGrid.children].filter(card => {
+      const id = card.dataset.vwProductId;
+      if (!id || ids.has(id)) return false;
+      ids.add(id);
+      return true;
+    }).map(card => document.importNode(card, true));
+    grid.append(...cards);
+    if (trigger === document.activeElement && cards.length) {
+      cards[0].querySelector('.woocommerce-loop-product__link')?.focus({ preventScroll: true });
+    }
+    if (following) trigger.href = following.href;
+    else trigger.remove();
+    setMoreFeedback(following ? (moreStrings.loaded || '%s more products were added.').replace('%s', formatter.format(cards.length)) : (moreStrings.end || 'All products on this list are displayed.'));
+    document.dispatchEvent(new CustomEvent('voiceweb:catalog-updated', { detail: { url: location.href } }));
   }
   function syncHeadMetadata(source) {
     // Only copy metadata owned by the fetched page; never import executable scripts or assets.
@@ -90,18 +120,21 @@
       source.head.querySelectorAll(selector).forEach(node => document.head.append(document.importNode(node, true)));
     });
   }
-  async function navigate(target, { history = true, scroll = true, restoreScroll } = {}) {
+  async function navigate(target, { history = true, scroll = true, restoreScroll, append = false } = {}) {
     const url = new URL(target, location.href);
     if (url.origin !== location.origin) { location.assign(url); return; }
     const previousScroll = window.scrollY;
     const id = ++requestId; controller?.abort(); clearTimeout(debounce); const requestController = new AbortController(); controller = requestController;
     const timeout = setTimeout(() => requestController.abort(), 20000);
-    setBusy(true); setFeedback(strings.loading);
+    setBusy(true, append);
+    if (append) setMoreFeedback(moreStrings.loading || strings.loading);
+    else { setMoreFeedback(''); setFeedback(strings.loading); }
     try {
       const response = await fetch(url, { credentials: 'same-origin', signal: requestController.signal, headers: { 'Accept': 'text/html', 'X-VoiceWeb-Catalog': '1' }, cache: 'no-store' });
       if (!response.ok || new URL(response.url || url.href).origin !== location.origin) throw new Error();
       const documentResult = new DOMParser().parseFromString(await response.text(), 'text/html'), next = documentResult.querySelector('[data-vw-catalog]');
       if (!next || id !== requestId) throw new Error();
+      if (append) { appendProducts(next, url); return; }
       const details = [...form.querySelectorAll('details')].map(el => ({ group: el.dataset.group, open: el.open }));
       closeDialogs(false); filterDialog.remove(); sortDialog.remove();
       const replacement = document.importNode(next, true); root.replaceWith(replacement);
@@ -116,8 +149,11 @@
       root.querySelector('[data-vw-result-title]').focus({ preventScroll: true });
       document.dispatchEvent(new CustomEvent('voiceweb:catalog-updated', { detail: { url: url.href } }));
     } catch (error) {
-      if (id === requestId) setFeedback(strings.error, true);
-    } finally { clearTimeout(timeout); if (id === requestId) setBusy(false); }
+      if (id === requestId) {
+        if (append) setMoreFeedback(moreStrings.error || strings.error, true);
+        else setFeedback(strings.error, true);
+      }
+    } finally { clearTimeout(timeout); if (id === requestId) setBusy(false, append); }
   }
   function reset() {
     form.querySelectorAll('input[type=checkbox]').forEach(input => input.checked = false);
@@ -131,8 +167,11 @@
   }
   function intercept(event) {
     const close = event.target.closest('[data-vw-close-dialog]'); if (close) { closeDialogs(); return; }
-    const link = event.target.closest('[data-vw-catalog-link],.woocommerce-pagination a');
-    if (link && !event.defaultPrevented && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) { event.preventDefault(); navigate(link.href); }
+    const link = event.target.closest('[data-vw-load-more],[data-vw-catalog-link],.woocommerce-pagination a');
+    if (link && !event.defaultPrevented && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
+      event.preventDefault();
+      if (link.getAttribute('aria-disabled') !== 'true') navigate(link.href, { append: link.matches('[data-vw-load-more]') });
+    }
   }
   function init(nextRoot) {
     root = nextRoot; form = root.querySelector('[data-vw-filter-form]'); home = root.querySelector('[data-vw-filter-home]');
