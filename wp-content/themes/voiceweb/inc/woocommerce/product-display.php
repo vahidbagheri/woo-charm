@@ -86,18 +86,59 @@ function voiceweb_wc_product_deadline( WC_Product $product ): int {
 function voiceweb_wc_product_offer_timer(): void {
 	global $product;
 	if ( ! $product instanceof WC_Product || ( ! $product->is_type( 'variable' ) && ! voiceweb_wc_product_deadline( $product ) ) ) { return; }
-	$deadline = $product->is_type( 'variable' ) ? 0 : voiceweb_wc_product_deadline( $product );
+	voiceweb_wc_product_offer_markup( $product, false );
+}
+
+/** A variable card describes one actual timed variation; never mix its price and another model's dates. */
+function voiceweb_wc_product_offer_data( WC_Product $product, bool $card = false ): array {
+	if ( $product->is_type( 'variable' ) ) {
+		if ( ! $card ) { return array(); }
+		$best = array();
+		foreach ( $product->get_visible_children() as $id ) {
+			$child = wc_get_product( $id );
+			$data = $child ? voiceweb_wc_product_offer_data( $child ) : array();
+			if ( $data && ( ! $best || $data['discount'] > $best['discount'] || ( $data['discount'] === $best['discount'] && $data['end'] < $best['end'] ) ) ) { $best = $data; }
+		}
+		return $best;
+	}
+	$deadline = voiceweb_wc_product_deadline( $product );
+	if ( ! $deadline ) { return array(); }
+	$start = $product->get_date_on_sale_from();
+	$managed = function_exists( 'voiceweb_wc_pricing_offer' ) ? voiceweb_wc_pricing_offer( $product ) : array();
+	return array( 'start' => $start ? $start->getTimestamp() : (int) ( $managed['since'] ?? 0 ), 'end' => $deadline, 'discount' => voiceweb_wc_product_discount( $product ) );
+}
+
+function voiceweb_wc_product_card_offer(): void {
+	global $product;
+	if ( ! $product instanceof WC_Product ) { return; }
+	$data = voiceweb_wc_product_offer_data( $product, true );
+	if ( $data ) { voiceweb_wc_product_offer_markup( $product, true, $data ); }
+}
+
+function voiceweb_wc_product_offer_markup( WC_Product $product, bool $card, ?array $data = null ): void {
+	$data = $data ?? voiceweb_wc_product_offer_data( $product, $card );
+	$deadline = $data['end'] ?? 0;
+	$start = $data['start'] ?? 0;
+	$discount = $data['discount'] ?? 0;
+	$remaining = $start && $deadline > $start ? max( 0, min( 100, 100 * ( $deadline - time() ) / ( $deadline - $start ) ) ) : 0;
+	$discount_label = $card && $product->is_type( 'variable' ) ? voiceweb_wc_display_text( 'off one option', 'تخفیف یک مدل' ) : voiceweb_wc_display_text( 'off', 'تخفیف' );
 	?>
-	<div class="vw-product-offer" data-vw-product-offer <?php echo $deadline ? '' : 'hidden'; ?>>
-		<div><strong><?php echo esc_html( voiceweb_wc_display_text( 'A special opportunity', 'فرصتی برای یک انتخاب ویژه' ) ); ?></strong><span><?php echo esc_html( voiceweb_wc_display_text( 'This offer ends in', 'زمان باقی‌ماندهٔ این تخفیف' ) ); ?></span></div>
-		<time class="vw-product-offer__time" data-vw-product-deadline="<?php echo esc_attr( $deadline ); ?>" <?php echo $deadline ? 'datetime="' . esc_attr( gmdate( 'c', $deadline ) ) . '"' : ''; ?>></time>
-		<?php if ( $deadline ) : ?><noscript><?php echo esc_html( wp_date( get_option( 'date_format' ) . ' H:i', $deadline ) ); ?></noscript><?php endif; ?>
+	<div class="vw-sale-timeline <?php echo $card ? 'vw-sale-timeline--card' : 'vw-product-offer'; ?>" <?php echo $card ? 'data-vw-card-offer data-vw-card-url="' . esc_url( $product->get_permalink() ) . '"' : 'data-vw-product-offer'; ?> data-vw-sale-start="<?php echo esc_attr( $start ); ?>" data-vw-sale-discount="<?php echo esc_attr( $discount ); ?>" <?php echo $deadline ? '' : 'hidden'; ?>>
+		<div class="vw-sale-timeline__heading"><strong><b data-vw-sale-percent><?php echo esc_html( cn_localize_digits( (string) $discount ) . ( cn_is_persian_language() ? '٪' : '%' ) ); ?></b> <?php echo esc_html( $discount_label ); ?></strong><span><?php echo esc_html( voiceweb_wc_display_text( 'Limited offer', 'فرصت محدود' ) ); ?></span></div>
+		<div class="vw-sale-timeline__countdown"><span><?php echo esc_html( voiceweb_wc_display_text( 'Time left', 'زمان باقی‌مانده' ) ); ?></span><time class="vw-product-offer__time" <?php echo $card ? 'data-vw-card-deadline' : 'data-vw-product-deadline'; ?>="<?php echo esc_attr( $deadline ); ?>" <?php echo $deadline ? 'datetime="' . esc_attr( gmdate( 'c', $deadline ) ) . '"' : ''; ?>><?php echo $deadline ? esc_html( wp_date( 'Y/m/d H:i', $deadline ) ) : ''; ?></time></div>
+		<div class="vw-sale-timeline__track" data-vw-sale-track role="progressbar" aria-label="<?php echo esc_attr( voiceweb_wc_display_text( 'Offer time remaining', 'زمان باقی‌ماندهٔ تخفیف' ) ); ?>" aria-valuemin="0" aria-valuemax="100" aria-valuenow="<?php echo esc_attr( (int) $remaining ); ?>" <?php echo $start ? '' : 'hidden'; ?>><i style="width:<?php echo esc_attr( round( $remaining, 2 ) ); ?>%"></i></div>
+		<div class="vw-sale-timeline__dates" data-vw-sale-dates <?php echo $start ? '' : 'hidden'; ?>><span data-vw-sale-from><?php echo $start ? esc_html( voiceweb_wc_display_text( 'From ', 'از ' ) . wp_date( 'j M', $start ) ) : ''; ?></span><span data-vw-sale-to><?php echo $deadline ? esc_html( voiceweb_wc_display_text( 'Until ', 'تا ' ) . wp_date( 'j M', $deadline ) ) : ''; ?></span></div>
 	</div>
 	<?php
 }
 
 function voiceweb_wc_product_variation_deadline( array $data, WC_Product $product, WC_Product_Variation $variation ): array {
 	$data['voiceweb_sale_deadline'] = voiceweb_wc_product_deadline( $variation );
+	$offer = voiceweb_wc_product_offer_data( $variation );
+	$data['voiceweb_sale_start'] = $offer['start'] ?? 0;
+	$data['voiceweb_sale_discount'] = $offer['discount'] ?? 0;
+	$data['voiceweb_sale_from_label'] = empty( $offer['start'] ) ? '' : voiceweb_wc_display_text( 'From ', 'از ' ) . wp_date( 'j M', $offer['start'] );
+	$data['voiceweb_sale_to_label'] = empty( $offer['end'] ) ? '' : voiceweb_wc_display_text( 'Until ', 'تا ' ) . wp_date( 'j M', $offer['end'] );
 	return $data;
 }
 
@@ -141,6 +182,7 @@ function voiceweb_wc_product_loop_icon( string $html, WC_Product $product ): str
 
 add_filter( 'woocommerce_sale_flash', 'voiceweb_wc_product_sale_badge', 20, 3 );
 add_action( 'woocommerce_after_shop_loop_item_title', 'voiceweb_wc_product_card_colors', 20 );
+add_action( 'woocommerce_after_shop_loop_item_title', 'voiceweb_wc_product_card_offer', 25 );
 add_action( 'woocommerce_single_product_summary', 'voiceweb_wc_product_summary_intro', 4 );
 add_action( 'woocommerce_single_product_summary', 'voiceweb_wc_product_offer_timer', 11 );
 add_action( 'woocommerce_before_add_to_cart_form', 'voiceweb_wc_product_options_anchor', 1 );

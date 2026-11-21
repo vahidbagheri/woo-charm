@@ -39,6 +39,20 @@ function voiceweb_wc_catalog_sort_options(): array {
 	);
 }
 
+/** Larger editorial priorities lead the default catalog order, including paginated taxonomy archives. */
+function voiceweb_wc_catalog_priority_order( array $args, string $orderby ): array {
+	if ( $orderby === 'menu_order' && ! is_admin() ) {
+		$args['orderby'] = array( 'menu_order' => 'DESC', 'title' => 'ASC', 'ID' => 'ASC' );
+	}
+	return $args;
+}
+add_filter( 'woocommerce_get_catalog_ordering_args', 'voiceweb_wc_catalog_priority_order', 20, 2 );
+
+function voiceweb_wc_catalog_default_order( string $orderby ): string {
+	return is_admin() ? $orderby : 'menu_order';
+}
+add_filter( 'woocommerce_default_catalog_orderby', 'voiceweb_wc_catalog_default_order' );
+
 /** Normalize public query parameters before WooCommerce reads its native layered-navigation filters. */
 function voiceweb_wc_catalog_normalize( WP_Query $query ): void {
 	if ( ! voiceweb_wc_catalog_query_context( $query ) ) { return; }

@@ -3,11 +3,24 @@
 defined( 'ABSPATH' ) || exit;
 
 const VOICEWEB_WC_USD_AMOUNT = '_voiceweb_usd_amount';
+const VOICEWEB_WC_USD_OFFER = '_voiceweb_usd_offer';
 const VOICEWEB_WC_USD_RATE = 'voiceweb_usd_toman_rate';
 const VOICEWEB_WC_USD_LOCAL_PRICE = '_voiceweb_before_usd_price';
 
 function voiceweb_wc_pricing_modes(): array {
 	return array( '' => 'پیش‌فرض فروشگاه', 'inquiry' => 'تماس بگیرید', 'purchase' => 'خرید آنلاین' );
+}
+
+function voiceweb_wc_pricing_digits( string $value ): string {
+	return strtr( $value, array_combine( preg_split( '//u', '۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩', -1, PREG_SPLIT_NO_EMPTY ), str_split( '01234567890123456789' ) ) );
+}
+
+function voiceweb_wc_pricing_priority( $value ): int {
+	if ( ! is_string( $value ) ) { throw new InvalidArgumentException( 'اولویت نمایش معتبر نیست.' ); }
+	$value = trim( voiceweb_wc_pricing_digits( $value ) );
+	if ( $value === '' ) { return 0; }
+	if ( ! preg_match( '/^[0-9]{1,9}$/D', $value ) ) { throw new InvalidArgumentException( 'اولویت نمایش باید عدد صحیح از صفر تا ۹۹۹۹۹۹۹۹۹ باشد.' ); }
+	return (int) $value;
 }
 
 function voiceweb_wc_pricing_number( $value, int $decimals ): string {
@@ -41,11 +54,64 @@ function voiceweb_wc_pricing_local_amount( string $usd, string $rate ): string {
 	return number_format( $amount, 0, '.', '' );
 }
 
+/** Keep the dollar schedule after Woo clears an ended native sale, so changing rates cannot restart it. */
+function voiceweb_wc_pricing_offer( WC_Product $product ): array {
+	$offer = $product->get_meta( VOICEWEB_WC_USD_OFFER, true, 'edit' );
+	return is_array( $offer ) ? $offer : array();
+}
+
+function voiceweb_wc_pricing_date( $value ): ?int {
+	if ( ! is_string( $value ) ) { throw new InvalidArgumentException( 'تاریخ تخفیف معتبر نیست.' ); }
+	$value = trim( voiceweb_wc_pricing_digits( $value ) );
+	if ( $value === '' ) { return null; }
+	if ( preg_match( '/^([0-9]{4})\/([0-9]{2})\/([0-9]{2}) ([0-9]{2}):([0-9]{2})(?::([0-9]{2}))?$/D', $value, $parts ) && voiceweb_wc_pricing_has_jalali() ) {
+		[ , $year, $month, $day, $hour, $minute ] = $parts;
+		$second = $parts[6] ?? '00';
+		if ( (int) $year < 1200 || (int) $year > 1600 || (int) $month < 1 || (int) $month > 12 || (int) $day < 1 || (int) $day > 31 || (int) $hour > 23 || (int) $minute > 59 || (int) $second > 59 ) { throw new InvalidArgumentException( 'تاریخ و ساعت شمسی تخفیف معتبر نیست.' ); }
+		$calendar = \WPParsidate\Core\WPP_ParsiDate::getInstance();
+		$gregorian = $calendar->persian_to_gregorian( (int) $year, (int) $month, (int) $day );
+		$roundtrip = array_map( 'intval', $calendar->gregorian_to_persian( ...$gregorian ) );
+		if ( $roundtrip !== array( (int) $year, (int) $month, (int) $day ) ) { throw new InvalidArgumentException( 'روز انتخاب‌شده در تقویم شمسی وجود ندارد.' ); }
+		$value = sprintf( '%04d-%02d-%02dT%02d:%02d:%02d', ...array_merge( $gregorian, array( (int) $hour, (int) $minute, (int) $second ) ) );
+	}
+	// Continue accepting an already-open legacy Gregorian form without reinterpreting its dates.
+	$format = strlen( $value ) === 16 ? 'Y-m-d\TH:i' : 'Y-m-d\TH:i:s';
+	$date = DateTimeImmutable::createFromFormat( '!' . $format, $value, wp_timezone() );
+	if ( ! $date || $date->format( $format ) !== $value ) { throw new InvalidArgumentException( 'تاریخ و ساعت تخفیف معتبر نیست.' ); }
+	return $date->getTimestamp();
+}
+
+function voiceweb_wc_pricing_has_jalali(): bool {
+	return class_exists( '\WPParsidate\Core\WPP_ParsiDate' );
+}
+
+/** Render the Jalali wall-clock value; native sale timestamps always stay timezone-aware UTC. */
+function voiceweb_wc_pricing_date_input( ?int $timestamp ): string {
+	if ( ! $timestamp ) { return ''; }
+	$date = ( new DateTimeImmutable( '@' . $timestamp ) )->setTimezone( wp_timezone() );
+	if ( ! voiceweb_wc_pricing_has_jalali() ) { return $date->format( 'Y-m-d\TH:i:s' ); }
+	$calendar = \WPParsidate\Core\WPP_ParsiDate::getInstance();
+	$jalali = $calendar->gregorian_to_persian( (int) $date->format( 'Y' ), (int) $date->format( 'n' ), (int) $date->format( 'j' ) );
+	return sprintf( '%04d/%02d/%02d ', ...array_map( 'intval', $jalali ) ) . $date->format( 'H:i:s' );
+}
+
+function voiceweb_wc_pricing_admin_assets( string $hook ): void {
+	if ( $hook !== 'woocommerce_page_voiceweb-catalog-pricing' || ! voiceweb_wc_pricing_has_jalali() ) { return; }
+	$handle = WP_PARSI_KEY . '_jalali_datepicker';
+	wp_enqueue_script( $handle, \WPParsidate\Helper\Assets::url( 'js-admin/jalalidatepicker.min.js' ), array(), \WPParsidate\Helper\Assets::getVersion(), true );
+	wp_enqueue_style( $handle, \WPParsidate\Helper\Assets::url( 'css-admin/jalalidatepicker.min.css' ), array(), \WPParsidate\Helper\Assets::getVersion() );
+	$file = '/assets/js/admin/catalog-pricing.js';
+	wp_enqueue_script( 'voiceweb-catalog-pricing', get_template_directory_uri() . $file, array( $handle ), filemtime( get_template_directory() . $file ), true );
+}
+add_action( 'admin_enqueue_scripts', 'voiceweb_wc_pricing_admin_assets', 100 );
+
 /** Write regular, effective and lookup prices through the WooCommerce data store. */
-function voiceweb_wc_pricing_set_amount( WC_Product $product, string $usd, string $rate ): void {
+function voiceweb_wc_pricing_set_amount( WC_Product $product, string $usd, string $rate, ?array $offer = null ): void {
+	$offer = $offer ?? voiceweb_wc_pricing_offer( $product );
 	$previous = $product->get_meta( VOICEWEB_WC_USD_LOCAL_PRICE, true, 'edit' );
 	if ( $usd === '' ) {
 		$product->delete_meta_data( VOICEWEB_WC_USD_AMOUNT );
+		$product->delete_meta_data( VOICEWEB_WC_USD_OFFER );
 		$product->delete_meta_data( VOICEWEB_WC_USD_LOCAL_PRICE );
 		if ( is_array( $previous ) ) {
 			$product->set_regular_price( $previous['regular'] );
@@ -67,10 +133,13 @@ function voiceweb_wc_pricing_set_amount( WC_Product $product, string $usd, strin
 	$price = voiceweb_wc_pricing_local_amount( $usd, $rate );
 	$product->update_meta_data( VOICEWEB_WC_USD_AMOUNT, $usd );
 	$product->set_regular_price( $price );
-	$product->set_sale_price( '' );
-	$product->set_date_on_sale_from( null );
-	$product->set_date_on_sale_to( null );
-	$product->set_price( $price );
+	if ( $offer ) { $product->update_meta_data( VOICEWEB_WC_USD_OFFER, $offer ); }
+	else { $product->delete_meta_data( VOICEWEB_WC_USD_OFFER ); }
+	$expired = ! empty( $offer['to'] ) && $offer['to'] < time();
+	$product->set_sale_price( $offer && ! $expired ? voiceweb_wc_pricing_local_amount( $offer['amount'], $rate ) : '' );
+	$product->set_date_on_sale_from( $offer && ! $expired ? $offer['from'] : null );
+	$product->set_date_on_sale_to( $offer && ! $expired ? $offer['to'] : null );
+	$product->set_price( $product->is_on_sale( 'edit' ) ? $product->get_sale_price( 'edit' ) : $price );
 }
 
 function voiceweb_wc_pricing_preserve_usd( WC_Product $product ): void {
@@ -123,7 +192,9 @@ function voiceweb_wc_pricing_page(): void {
 		</form>
 		<p>با ذخیرهٔ نرخ، قیمت تمام محصولاتی که مبلغ دلاری دارند در ووکامرس به‌روز می‌شود. در فروشگاه ریالی، مبلغ تومانی در ۱۰ ضرب می‌شود. برای فروش آنلاین، روش سفارش و موجودی را هم بررسی کنید.</p>
 		<h2>محصولات (<?php echo esc_html( number_format_i18n( $list->found_posts ) ); ?>)</h2>
-		<p>برای استفاده از قیمت معمول ووکامرس، مبلغ دلاری را خالی بگذارید. حالت تماس بگیرید مبلغ را از دید مشتری پنهان می‌کند.</p>
+		<p>عدد بزرگ‌تر در «اولویت نمایش»، محصول را در ترتیب پیشنهادی فروشگاه و تمام دسته‌بندی‌ها جلوتر می‌آورد. اولویت صفر، حالت عادی است؛ تنوع‌ها از اولویت محصول اصلی پیروی می‌کنند.</p>
+		<p>مبلغ با تخفیف باید کمتر از مبلغ پایه باشد. شروع خالی یعنی اعمال فوری و پایان خالی یعنی بدون محدودیت زمانی. برای حذف تخفیف، مبلغ با تخفیف را پاک کنید. با پاک‌کردن مبلغ پایه، قیمت معمول ووکامرس برمی‌گردد. حالت تماس بگیرید مبلغ را از دید مشتری پنهان می‌کند.</p>
+		<p id="vw-sale-timezone">تاریخ‌ها <?php echo voiceweb_wc_pricing_has_jalali() ? 'شمسی' : 'میلادی'; ?> و ساعت‌ها بر اساس منطقهٔ زمانی فروشگاه (<?php echo esc_html( wp_timezone_string() ); ?>) هستند. پس از پایان بازه، تخفیف اعمال نمی‌شود و قیمت پایه برمی‌گردد. برای نمایش تایم‌لاین، پایان تخفیف را مشخص کنید.</p>
 		<form method="get" action="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>">
 			<input type="hidden" name="page" value="voiceweb-catalog-pricing">
 			<label class="screen-reader-text" for="vw-catalog-search">نام محصول</label>
@@ -136,8 +207,9 @@ function voiceweb_wc_pricing_page(): void {
 			<input type="hidden" name="catalog_page" value="<?php echo esc_attr( $page ); ?>">
 			<input type="hidden" name="catalog_search" value="<?php echo esc_attr( $search ); ?>">
 			<?php wp_nonce_field( 'voiceweb_catalog_rows' ); ?>
-			<table class="widefat striped" style="margin-top:12px">
-				<thead><tr><th scope="col">محصول</th><th scope="col">روش سفارش</th><th scope="col">مبلغ پایه (دلار)</th><th scope="col">قیمت پایه در ووکامرس</th></tr></thead>
+			<div style="overflow-x:auto;margin-top:12px">
+			<table class="widefat striped" style="min-width:1200px">
+				<thead><tr><th scope="col">محصول</th><th scope="col">روش سفارش</th><th scope="col">اولویت نمایش</th><th scope="col">مبلغ پایه (دلار)</th><th scope="col">مبلغ با تخفیف (دلار)</th><th scope="col">شروع تخفیف</th><th scope="col">پایان تخفیف</th><th scope="col">قیمت در ووکامرس</th></tr></thead>
 				<tbody>
 				<?php foreach ( $list->posts as $post ) :
 					$product = wc_get_product( $post->ID );
@@ -168,6 +240,7 @@ function voiceweb_wc_pricing_page(): void {
 				<?php endforeach; ?>
 				</tbody>
 			</table>
+			</div>
 			<?php submit_button( 'ذخیرهٔ محصولات این صفحه' ); ?>
 		</form>
 		<?php echo wp_kses_post( paginate_links( array( 'base' => str_replace( '987654321', '%#%', voiceweb_wc_pricing_url( array( 'catalog_page' => 987654321, 'catalog_search' => $search ) ) ), 'current' => $page, 'total' => $list->max_num_pages ) ) ); ?>
@@ -177,13 +250,39 @@ function voiceweb_wc_pricing_page(): void {
 
 function voiceweb_wc_pricing_cells( WC_Product $product ): void {
 	$regular = $product->get_regular_price( 'edit' );
+	$editable = $product->is_type( array( 'simple', 'variation' ) ) && current_user_can( 'edit_product', $product->get_parent_id() ?: $product->get_id() );
+	$id = $product->get_id();
+	$offer = voiceweb_wc_pricing_offer( $product );
 	echo '<td>';
-	if ( $product->is_type( array( 'simple', 'variation' ) ) && current_user_can( 'edit_product', $product->get_parent_id() ?: $product->get_id() ) ) {
-		$id = $product->get_id();
-		echo '<label class="screen-reader-text" for="vw-usd-' . esc_attr( $id ) . '">' . esc_html( 'مبلغ دلاری ' . $product->get_name() ) . '</label>';
-		echo '<input type="text" inputmode="decimal" dir="ltr" class="small-text" id="vw-usd-' . esc_attr( $id ) . '" name="usd_amount[' . esc_attr( $id ) . ']" value="' . esc_attr( $product->get_meta( VOICEWEB_WC_USD_AMOUNT, true, 'edit' ) ) . '">';
+	if ( $product->is_type( 'variation' ) ) { echo 'تابع محصول اصلی'; }
+	elseif ( current_user_can( 'edit_product', $id ) ) {
+		echo '<label class="screen-reader-text" for="vw-priority-' . esc_attr( $id ) . '">' . esc_html( 'اولویت نمایش ' . $product->get_name() ) . '</label><input type="text" inputmode="numeric" dir="ltr" class="small-text" id="vw-priority-' . esc_attr( $id ) . '" name="display_priority[' . esc_attr( $id ) . ']" value="' . esc_attr( $product->get_menu_order( 'edit' ) ) . '">';
 	} else { echo '—'; }
-	echo '</td><td>' . ( $regular === '' ? '—' : wp_kses_post( wc_price( $regular ) ) ) . '</td>';
+	echo '</td>';
+	$date_type = voiceweb_wc_pricing_has_jalali() ? 'jalali' : 'datetime-local';
+	$fields = array(
+		'usd_amount' => array( 'مبلغ پایه دلاری', $product->get_meta( VOICEWEB_WC_USD_AMOUNT, true, 'edit' ), 'text' ),
+		'usd_sale_amount' => array( 'مبلغ با تخفیف دلاری', $offer['amount'] ?? '', 'text' ),
+		'sale_from' => array( 'شروع تخفیف', voiceweb_wc_pricing_date_input( $offer['from'] ?? null ), $date_type ),
+		'sale_to' => array( 'پایان تخفیف', voiceweb_wc_pricing_date_input( $offer['to'] ?? null ), $date_type ),
+	);
+	foreach ( $fields as $key => $field ) {
+		echo '<td>';
+		if ( $editable ) {
+			$field_id = 'vw-' . $key . '-' . $id;
+			echo '<label class="screen-reader-text" for="' . esc_attr( $field_id ) . '">' . esc_html( $field[0] . ' ' . $product->get_name() ) . '</label>';
+			$attributes = $field[2] === 'text' ? 'inputmode="decimal" class="small-text"' : 'aria-describedby="vw-sale-timezone"';
+			$attributes .= $field[2] === 'jalali' ? ' data-vw-jalali placeholder="1405/09/01 12:00:00" autocomplete="off" style="width:190px"' : ( $field[2] === 'datetime-local' ? ' step="1"' : '' );
+			echo '<input type="' . esc_attr( $field[2] === 'jalali' ? 'text' : $field[2] ) . '" dir="ltr" ' . $attributes . ' id="' . esc_attr( $field_id ) . '" name="' . esc_attr( $key ) . '[' . esc_attr( $id ) . ']" value="' . esc_attr( $field[1] ) . '">';
+		} else { echo $product->is_type( 'variable' ) ? 'برای هر تنوع' : '—'; }
+		echo '</td>';
+	}
+	echo '<td>' . ( $regular === '' ? '—' : wp_kses_post( $product->is_on_sale( 'edit' ) ? wc_format_sale_price( $regular, $product->get_sale_price( 'edit' ) ) : wc_price( $regular ) ) );
+	if ( $offer ) {
+		$status = ! empty( $offer['to'] ) && $offer['to'] < time() ? 'پایان‌یافته' : ( ! empty( $offer['from'] ) && $offer['from'] > time() ? 'زمان‌بندی‌شده' : 'فعال' );
+		echo '<br><small>' . esc_html( 'تخفیف: ' . $status ) . '</small>';
+	}
+	echo '</td>';
 }
 
 /** Validate a whole submission before persisting it and serialize catalog price jobs. */
@@ -219,7 +318,7 @@ function voiceweb_wc_pricing_apply( bool $rate_request, array $input ): void {
 	$products = $parents = array();
 	try {
 		$rate = (string) get_option( VOICEWEB_WC_USD_RATE, '' );
-		$amounts = $modes = array();
+		$amounts = $modes = $offers = $priorities = array();
 		if ( $rate_request ) {
 			$rate = voiceweb_wc_pricing_number( $input['usd_rate'] ?? '', 0 );
 			if ( $rate === '' ) { throw new InvalidArgumentException( 'نرخ دلار را وارد کنید.' ); }
@@ -235,30 +334,61 @@ function voiceweb_wc_pricing_apply( bool $rate_request, array $input ): void {
 				}
 			}
 		} else {
+			if ( isset( $input['display_priority'] ) && ! is_array( $input['display_priority'] ) ) { throw new InvalidArgumentException( 'اطلاعات اولویت نمایش معتبر نیست.' ); }
+			foreach ( $input['display_priority'] ?? array() as $id => $priority ) {
+				$product = voiceweb_wc_pricing_editable_product( $id, array_keys( wc_get_product_types() ) );
+				$priority = voiceweb_wc_pricing_priority( $priority );
+				if ( $priority === $product->get_menu_order( 'edit' ) ) { continue; }
+				$priorities[ $id ] = $priority;
+				$products[ $id ] = $product;
+			}
 			foreach ( (array) ( $input['product_mode'] ?? array() ) as $id => $mode ) {
-				$product = voiceweb_wc_pricing_editable_product( $id, array( 'simple', 'variable' ) );
+				$product = $products[ $id ] ?? voiceweb_wc_pricing_editable_product( $id, array( 'simple', 'variable' ) );
+				if ( ! $product->is_type( array( 'simple', 'variable' ) ) ) { throw new InvalidArgumentException( 'نوع محصول برای روش سفارش معتبر نیست.' ); }
 				if ( ! is_string( $mode ) || ! array_key_exists( $mode, voiceweb_wc_pricing_modes() ) ) { throw new InvalidArgumentException( 'روش سفارش معتبر نیست.' ); }
 				if ( $mode === $product->get_meta( '_voiceweb_purchase_mode', true, 'edit' ) ) { continue; }
 				$modes[ $id ] = $mode;
 				$products[ $id ] = $product;
 			}
-			foreach ( (array) ( $input['usd_amount'] ?? array() ) as $id => $amount ) {
+			$row_ids = array();
+			foreach ( array( 'usd_amount', 'usd_sale_amount', 'sale_from', 'sale_to' ) as $key ) {
+				if ( isset( $input[ $key ] ) && ! is_array( $input[ $key ] ) ) { throw new InvalidArgumentException( 'اطلاعات قیمت معتبر نیست.' ); }
+				$row_ids = array_merge( $row_ids, array_keys( $input[ $key ] ?? array() ) );
+			}
+			foreach ( array_unique( $row_ids ) as $id ) {
 				$product = $products[ $id ] ?? voiceweb_wc_pricing_editable_product( $id, array( 'simple', 'variation' ) );
 				if ( ! $product->is_type( array( 'simple', 'variation' ) ) ) { throw new InvalidArgumentException( 'نوع محصول برای قیمت دلاری معتبر نیست.' ); }
-				$amount = voiceweb_wc_pricing_number( $amount, 2 );
-				if ( $amount === $product->get_meta( VOICEWEB_WC_USD_AMOUNT, true, 'edit' ) ) { continue; }
+				$old_amount = (string) $product->get_meta( VOICEWEB_WC_USD_AMOUNT, true, 'edit' );
+				$amount = voiceweb_wc_pricing_number( $input['usd_amount'][ $id ] ?? $old_amount, 2 );
+				$old_offer = voiceweb_wc_pricing_offer( $product );
+				$sale = voiceweb_wc_pricing_number( $input['usd_sale_amount'][ $id ] ?? ( $old_offer['amount'] ?? '' ), 2 );
+				$from = array_key_exists( $id, $input['sale_from'] ?? array() ) ? voiceweb_wc_pricing_date( $input['sale_from'][ $id ] ) : ( $old_offer['from'] ?? null );
+				$to = array_key_exists( $id, $input['sale_to'] ?? array() ) ? voiceweb_wc_pricing_date( $input['sale_to'][ $id ] ) : ( $old_offer['to'] ?? null );
+				if ( $amount === '' && $old_amount !== '' ) { $sale = ''; }
+				if ( $sale !== '' && ( $amount === '' || (float) $sale >= (float) $amount ) ) { throw new InvalidArgumentException( 'مبلغ با تخفیف باید کمتر از مبلغ پایهٔ دلاری باشد: ' . $product->get_name() ); }
+				if ( $sale !== '' && $from && $to && $to <= $from ) { throw new InvalidArgumentException( 'پایان تخفیف باید بعد از شروع آن باشد: ' . $product->get_name() ); }
+				if ( $sale === '' && ! $old_offer && ( $from || $to ) ) { throw new InvalidArgumentException( 'برای زمان‌بندی، مبلغ با تخفیف را هم وارد کنید: ' . $product->get_name() ); }
+				$since = $from ?: ( empty( $old_offer['from'] ) ? ( $old_offer['since'] ?? time() ) : time() );
+				$offer = $sale === '' ? array() : array( 'amount' => $sale, 'from' => $from, 'to' => $to, 'since' => $since );
+				if ( $amount === $old_amount && $offer === $old_offer ) { continue; }
 				$amounts[ $id ] = $amount;
+				$offers[ $id ] = $offer;
 				$products[ $id ] = $product;
 			}
 		}
-		foreach ( $amounts as $amount ) { voiceweb_wc_pricing_local_amount( $amount, $rate ); }
+		foreach ( $amounts as $id => $amount ) {
+			$regular = voiceweb_wc_pricing_local_amount( $amount, $rate );
+			$offer = $offers[ $id ] ?? voiceweb_wc_pricing_offer( $products[ $id ] );
+			if ( $offer && (float) voiceweb_wc_pricing_local_amount( $offer['amount'], $rate ) >= (float) $regular ) { throw new InvalidArgumentException( 'قیمت با تخفیف پس از تبدیل باید کمتر از قیمت پایه باشد.' ); }
+		}
 
 		if ( false === $wpdb->query( 'START TRANSACTION' ) ) { throw new RuntimeException( 'Could not start the price transaction.' ); }
 		try {
 			foreach ( $products as $id => $product ) {
+				if ( isset( $priorities[ $id ] ) ) { $product->set_menu_order( $priorities[ $id ] ); }
 				if ( isset( $modes[ $id ] ) ) { $product->update_meta_data( '_voiceweb_purchase_mode', $modes[ $id ] ); }
 				if ( isset( $amounts[ $id ] ) ) {
-					voiceweb_wc_pricing_set_amount( $product, $amounts[ $id ], $rate );
+					voiceweb_wc_pricing_set_amount( $product, $amounts[ $id ], $rate, $offers[ $id ] ?? null );
 					if ( $product->get_parent_id() ) { $parents[ $product->get_parent_id() ] = true; }
 				}
 				if ( ! $product->save() || $wpdb->last_error ) { throw new RuntimeException( 'Price save failed for product ' . $id ); }

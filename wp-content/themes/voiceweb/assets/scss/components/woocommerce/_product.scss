@@ -13,8 +13,6 @@
   div.product p.price { display: flex; flex-wrap: wrap; align-items: center; gap: 7px 12px; color: var(--vw-accent); font-size: 25px; font-weight: 750; margin-block: 20px; ins { text-decoration: none; } del { font-size: 15px; color: var(--vw-muted); font-weight: 400; } .woocommerce-Price-currencySymbol { font-size: 14px; font-weight: 500; } }
   div.product span.onsale { border-radius: 100px; min-height: 0; min-width: 0; line-height: 1.4; padding: 8px 14px; background: #83442e; font-size: 12px; inset-inline-start: 12px; inset-inline-end: auto; top: 12px; margin: 0; z-index: 3; }
   .woocommerce-product-details__short-description { color: var(--vw-muted); font-size: 14px; line-height: 2.1; margin-bottom: 20px; p:last-child { margin: 0; } ul { padding-inline-start: 18px; } }
-  .vw-product-offer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding: 14px 16px; margin-block: 20px; border: 1px solid #dbd3bf; background: #efeade; border-radius: 13px; strong { display: block; font-weight: 600; font-size: 12px; } > div > span { display: block; margin-top: 5px; color: #716850; font-size: 10px; } &[hidden] { display: none; } }
-  .vw-product-offer__time { direction: ltr; font-size: 19px; font-weight: 750; font-variant-numeric: tabular-nums; color: #183c32; letter-spacing: .025em; }
   .vw-product-options-anchor { display: block; scroll-margin-top: 150px; }
   div.product form.cart { margin-block: 22px 12px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding-block: 18px; border-top: 1px solid var(--vw-border); border-bottom: 1px solid var(--vw-border); }
   div.product form.cart .quantity { float: none; margin: 0; }
