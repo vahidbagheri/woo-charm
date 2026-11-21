@@ -182,7 +182,7 @@ function voiceweb_wc_product_loop_icon( string $html, WC_Product $product ): str
 
 add_filter( 'woocommerce_sale_flash', 'voiceweb_wc_product_sale_badge', 20, 3 );
 add_action( 'woocommerce_after_shop_loop_item_title', 'voiceweb_wc_product_card_colors', 20 );
-add_action( 'woocommerce_after_shop_loop_item_title', 'voiceweb_wc_product_card_offer', 25 );
+add_action( 'woocommerce_before_shop_loop_item_title', 'voiceweb_wc_product_card_offer', 20 );
 add_action( 'woocommerce_single_product_summary', 'voiceweb_wc_product_summary_intro', 4 );
 add_action( 'woocommerce_single_product_summary', 'voiceweb_wc_product_offer_timer', 11 );
 add_action( 'woocommerce_before_add_to_cart_form', 'voiceweb_wc_product_options_anchor', 1 );

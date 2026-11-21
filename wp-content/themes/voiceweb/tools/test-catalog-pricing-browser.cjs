@@ -25,7 +25,7 @@ function php(source) {
       $prefix='${prefix}';$ids=[];$uid=wp_insert_user(['user_login'=>$prefix,'user_pass'=>wp_generate_password(40),'role'=>'shop_manager','user_email'=>'']);if(is_wp_error($uid))exit(1);
       update_user_meta($uid,'show_admin_bar_front','false');$term=wp_insert_term('مجموعهٔ آزمایشی تخفیف','product_cat',['slug'=>$prefix]);if(is_wp_error($term))exit(1);
       $sample=get_posts(['post_type'=>'product','post_status'=>'publish','numberposts'=>1,'meta_key'=>'_thumbnail_id']);$image=$sample?get_post_thumbnail_id($sample[0]->ID):0;
-      foreach(['simple'=>'کیف چرمی با تخفیف','plain'=>'کیف بدون تخفیف'] as $key=>$name){$p=new WC_Product_Simple();$p->set_name($name.' '.$prefix);$p->set_status('publish');$p->set_regular_price('1000000');$p->set_category_ids([$term['term_id']]);$p->set_image_id($image);$p->set_manage_stock(true);$p->set_stock_quantity(7);$p->update_meta_data('_voiceweb_purchase_mode','purchase');$ids[$key]=$p->save();}
+      foreach(['simple'=>'کیف چرمی با تخفیف','plain'=>'کیف بدون تخفیف'] as $key=>$name){$p=new WC_Product_Simple();$p->set_name($name.' '.$prefix);$p->set_status('publish');$p->set_regular_price('1000000');$p->set_category_ids([$term['term_id']]);$p->set_image_id($image);$p->set_manage_stock(true);$p->set_stock_quantity(7);$p->update_meta_data('_voiceweb_purchase_mode',$key==='plain'?'inquiry':'purchase');$ids[$key]=$p->save();}
       $p=new WC_Product_Variable();$p->set_name('کیف چندمدلی '.$prefix);$p->set_status('publish');$p->set_category_ids([$term['term_id']]);$p->set_image_id($image);$a=new WC_Product_Attribute();$a->set_name('model');$a->set_options(['standard','large']);$a->set_variation(true);$a->set_visible(true);$p->set_attributes([$a]);$p->set_default_attributes(['model'=>'standard']);$p->update_meta_data('_voiceweb_purchase_mode','purchase');$ids['variable']=$p->save();
       foreach(['standard','large'] as $model){$v=new WC_Product_Variation();$v->set_parent_id($p->get_id());$v->set_status('publish');$v->set_attributes(['model'=>$model]);$v->set_regular_price('2000000');$v->set_manage_stock(true);$v->set_stock_quantity(5);$ids[$model]=$v->save();}WC_Product_Variable::sync($p->get_id());
       echo wp_json_encode(['uid'=>$uid,'ids'=>$ids,'term'=>$term['term_id'],'archive'=>get_term_link($term['term_id'],'product_cat'),'simple'=>get_permalink($ids['simple']),'variable'=>get_permalink($ids['variable']),'plain'=>get_permalink($ids['plain']),'from'=>voiceweb_wc_pricing_date_input(time()-96*DAY_IN_SECONDS-7*HOUR_IN_SECONDS),'to'=>voiceweb_wc_pricing_date_input(time()+96*DAY_IN_SECONDS+7*HOUR_IN_SECONDS),'logged_name'=>LOGGED_IN_COOKIE,'logged_cookie'=>wp_generate_auth_cookie($uid,time()+1800,'logged_in'),'auth_name'=>AUTH_COOKIE,'auth_cookie'=>wp_generate_auth_cookie($uid,time()+1800,'auth')]);
@@ -113,6 +113,26 @@ function php(source) {
     assert.ok(await simpleCard.locator('[data-vw-card-offer]').isVisible());
     assert.equal(await variableCard.locator('[data-vw-card-offer]').getAttribute('data-vw-sale-discount'), '30');
     assert.equal(await page.locator(`[data-vw-product-id="${fixture.ids.plain}"] [data-vw-card-offer]`).count(), 0);
+    async function assertCardHeightsStable() {
+      assert.ok(await page.locator('[data-vw-catalog]').evaluate(catalog => {
+        const cards = [...catalog.querySelectorAll('[data-vw-product-id]')];
+        const offers = [...catalog.querySelectorAll('[data-vw-card-offer]')];
+        const before = cards.map(card => card.getBoundingClientRect().height);
+        const hidden = offers.map(offer => offer.hidden);
+        offers.forEach(offer => { offer.hidden = true; });
+        const after = cards.map(card => card.getBoundingClientRect().height);
+        offers.forEach((offer, index) => { offer.hidden = hidden[index]; });
+        return before.every((height, index) => Math.abs(height - after[index]) < 1);
+      }), 'Sale countdowns do not increase any card height or leave extra space in neighboring inquiry cards.');
+      await page.waitForFunction(() => [...document.querySelectorAll('[data-vw-card-offer]')].every(offer => Number(getComputedStyle(offer).opacity) >= .999));
+      assert.ok(await simpleCard.locator('[data-vw-card-offer]').evaluate(offer => {
+        const media = offer.closest('.vw-product-card__media');
+        if (!media) return false;
+        const box = offer.getBoundingClientRect(), image = media.getBoundingClientRect();
+        return box.left >= image.left && box.right <= image.right && box.top >= image.top && box.bottom <= image.bottom;
+      }), 'The compact countdown remains inside the existing image area.');
+    }
+    await assertCardHeightsStable();
     const clockOrder = () => simpleCard.locator('[data-vw-card-deadline]').evaluate(clock => {
       const days = clock.querySelector('[data-vw-sale-unit="days"]'), hours = clock.querySelector('[data-vw-sale-unit="hours"]');
       return days.getBoundingClientRect().right < hours.getBoundingClientRect().left && days.querySelector('b').getBoundingClientRect().right <= days.querySelector('span').getBoundingClientRect().left;
@@ -129,9 +149,11 @@ function php(source) {
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'No document overflow at ' + width);
       assert.ok(await simpleCard.evaluate(card => [...card.querySelectorAll('.vw-sale-timeline, .vw-sale-timeline time')].every(node => node.getBoundingClientRect().left >= card.getBoundingClientRect().left && node.getBoundingClientRect().right <= card.getBoundingClientRect().right + 1)), 'Countdown stays inside the card at ' + width);
       assert.ok(await clockOrder(), 'Day-first visual order stays correct at ' + width);
+      await assertCardHeightsStable();
     }
     await page.setViewportSize({ width: 390, height: 1000 });
     await page.screenshot({ path: path.join(screenshots, 'cards-mobile.png'), fullPage: true });
+    await simpleCard.screenshot({ path: path.join(screenshots, 'compact-card.png') });
     const detail = await context.newPage();
     const ends = Number(php(`$end=time()+12;foreach([${fixture.ids.simple},${fixture.ids.standard},${fixture.ids.large}] as $id){$p=wc_get_product($id);$offer=voiceweb_wc_pricing_offer($p);$offer['to']=$end;voiceweb_wc_pricing_set_amount($p,$p->get_meta(VOICEWEB_WC_USD_AMOUNT),(string)get_option(VOICEWEB_WC_USD_RATE),$offer);$p->save();}WC_Product_Variable::sync(${fixture.ids.variable});echo $end;`));
     await Promise.all([page.reload({ waitUntil: 'domcontentloaded' }), detail.goto(fixture.simple, { waitUntil: 'domcontentloaded' })]);

@@ -27,20 +27,22 @@
   &--card {
     --sale-ink: #183c32; --sale-muted: #5b705d; --sale-track: #e0e9dc; --sale-fill: #527657;
     --sale-chip: #fff; --sale-chip-border: #dbe6d7; --sale-badge: #183c32; --sale-badge-ink: #fff;
-    order: 3; flex: 0 0 auto; padding: 12px; gap: 10px; margin-block: 4px 12px;
-    background: radial-gradient(ellipse at 100% 0, #e5efdf, transparent 80%), #f7faf4; border-color: #d1dfcc; border-radius: 12px;
-    .vw-sale-timeline__heading { gap: 4px; strong { padding: 3px 7px; border-radius: 7px; font-size: 11px; gap: 3px; } b { font-size: 17px; } > span { font-size: 10px; } }
-    .vw-sale-timeline__countdown { gap: 6px; > span { font-size: 11px; } }
-    .vw-sale-clock__units { gap: 6px; }
-    .vw-sale-clock__unit { padding: 7px 4px; gap: 4px; border-radius: 8px; b { font-size: 23px; } > span { font-size: 11px; } }
-    .vw-sale-clock__join { font-size: 11px; }
-    .vw-sale-clock__detail { font-size: 11px; }
-    .vw-sale-timeline__dates { font-size: 10px; gap: 2px 6px; margin-top: -4px; }
-    .vw-sale-timeline__track { height: 4px; }
+    // The countdown shares the existing image area, so a sale never stretches the product row.
+    position: absolute; z-index: 2; inset-inline: 8px; bottom: 8px; margin: 0; padding: 8px;
+    grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 5px 8px;
+    background: rgba(247, 250, 244, .94); backdrop-filter: blur(8px); border-color: #d1dfcc; border-radius: 9px;
+    box-shadow: 0 3px 12px #183c3210; pointer-events: none;
+    .vw-sale-timeline__heading { strong { padding: 3px 6px; border-radius: 6px; font-size: 0; gap: 0; } b { font-size: 15px; } > span { display: none; } }
+    .vw-sale-timeline__countdown { gap: 0; > span { display: none; } time { gap: 0; } }
+    .vw-sale-clock__units { gap: 4px; }
+    .vw-sale-clock__unit { padding: 0; gap: 3px; border: 0; border-radius: 0; background: transparent; b { font-size: 17px; } > span { font-size: 11px; } }
+    .vw-sale-clock__join { font-size: 10px; }
+    .vw-sale-clock__detail, .vw-sale-timeline__dates { display: none; }
+    .vw-sale-timeline__track { grid-column: 1 / -1; height: 3px; }
     &[data-vw-sale-urgent='true'] { --sale-fill: #a86139; --sale-badge: #8e4f30; }
   }
   @media (max-width: 599px) {
-    &--card { padding: 8px; .vw-sale-timeline__heading > span { display: none; } .vw-sale-clock__units { gap: 4px; } .vw-sale-clock__unit { padding: 7px 2px; gap: 2px; b { font-size: 17px; } > span { font-size: 10px; } } .vw-sale-clock__detail { font-size: 10px; } }
+    &--card { inset-inline: 5px; bottom: 5px; padding: 6px; gap: 4px 5px; .vw-sale-timeline__heading strong { padding: 2px 4px; } .vw-sale-timeline__heading b { font-size: 13px; } .vw-sale-clock__units { gap: 3px; } .vw-sale-clock__unit { gap: 2px; b { font-size: 14px; } > span { font-size: 10px; } } }
   }
 }
 @keyframes vw-sale-reveal { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
