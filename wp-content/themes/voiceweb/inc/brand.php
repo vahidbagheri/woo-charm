@@ -94,7 +94,8 @@ add_action( 'admin_head', 'voiceweb_brand_favicon', 99 );
 
 /** Explicit editorial exclusions, also respected by the native WordPress sitemap. */
 function voiceweb_brand_noindex( array $robots ): array {
-	if ( is_singular() && get_post_meta( get_queried_object_id(), 'vw_brand_noindex', true ) && ! voiceweb_gift_has_seo_plugin() ) {
+	$excluded = is_singular() ? get_post_meta( get_queried_object_id(), 'vw_brand_noindex', true ) : ( ( is_category() || is_tag() ) ? get_term_meta( get_queried_object_id(), 'vw_brand_noindex', true ) : false );
+	if ( $excluded && ! voiceweb_gift_has_seo_plugin() ) {
 		unset( $robots['index'] ); $robots['noindex'] = true;
 	}
 	return $robots;
@@ -107,3 +108,4 @@ function voiceweb_brand_sitemap_query( array $args, string $post_type ): array {
 	return $args;
 }
 add_filter( 'wp_sitemaps_posts_query_args', 'voiceweb_brand_sitemap_query', 20, 2 );
+add_filter( 'wp_sitemaps_taxonomies_query_args', 'voiceweb_brand_sitemap_query', 20, 2 );

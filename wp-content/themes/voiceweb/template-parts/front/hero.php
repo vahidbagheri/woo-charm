@@ -7,10 +7,13 @@ $slides = $args['slides'];
 	<article class="vw-store-hero__slide" data-vw-slide data-tone="<?php echo esc_attr( $tone ); ?>"<?php if ( count( $slides ) > 1 ) : ?> role="group" aria-roledescription="slide" aria-label="<?php echo esc_attr( sprintf( '%s از %s', number_format_i18n( $i + 1 ), number_format_i18n( count( $slides ) ) ) ); ?>"<?php endif; ?><?php echo $i ? ' hidden inert aria-hidden="true"' : ' aria-hidden="false"'; ?>>
 		<div class="vw-store-hero__stage">
 			<picture>
-				<?php $mobile = absint( $slide['mobile_image'] ?? 0 ); $src = $mobile ? wp_get_attachment_image_url( $mobile, 'large' ) : ''; $srcset = $mobile ? wp_get_attachment_image_srcset( $mobile, 'large' ) : ''; if ( $src ) : ?>
-				<source media="(max-width: 767px)" <?php echo $i ? 'data-vw-srcset' : 'srcset'; ?>="<?php echo esc_attr( $srcset ?: $src ); ?>" sizes="100vw">
+				<?php $avif = function_exists( 'voiceweb_launch_hero_avif' ) ? voiceweb_launch_hero_avif( absint( $slide['image'] ?? 0 ) ) : array(); if ( $avif && empty( $slide['mobile_image'] ) ) : ?>
+				<source type="image/avif" <?php echo $i ? 'data-vw-srcset' : 'srcset'; ?>="<?php echo esc_attr( $avif['srcset'] ); ?>" sizes="<?php echo esc_attr( voiceweb_front_hero_sizes() ); ?>">
 				<?php endif; ?>
-				<?php voiceweb_front_image( absint( $slide['image'] ?? 0 ), 'vw-store-hero__image', $i === 0, $i > 0, '(max-width: 767px) 100vw, 58vw' ); ?>
+				<?php $mobile = absint( $slide['mobile_image'] ?? 0 ); $src = $mobile ? wp_get_attachment_image_url( $mobile, 'large' ) : ''; $srcset = $mobile ? wp_get_attachment_image_srcset( $mobile, 'large' ) : ''; if ( $src ) : ?>
+				<source media="(max-width: 767px)" <?php echo $i ? 'data-vw-srcset' : 'srcset'; ?>="<?php echo esc_attr( $srcset ?: $src ); ?>" sizes="<?php echo esc_attr( voiceweb_front_hero_sizes() ); ?>">
+				<?php endif; ?>
+				<?php voiceweb_front_image( absint( $slide['image'] ?? 0 ), 'vw-store-hero__image', $i === 0, $i > 0, voiceweb_front_hero_sizes() ); ?>
 			</picture>
 			<?php foreach ( array_slice( (array) ( $slide['floating_images'] ?? array() ), 0, 3 ) as $n => $floating ) : if ( empty( $floating['image'] ) ) { continue; } ?>
 			<span class="vw-store-hero__float vw-store-hero__float--<?php echo esc_attr( $n + 1 ); ?>" aria-hidden="true"><?php voiceweb_front_image( absint( $floating['image'] ), '', false, $i > 0, '120px' ); ?></span>

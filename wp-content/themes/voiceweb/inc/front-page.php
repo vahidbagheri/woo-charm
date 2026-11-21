@@ -59,6 +59,9 @@ function voiceweb_front_link( $link, string $class = 'vw-store-link' ): void {
 }
 
 /** Responsive image with real dimensions. Inactive hero slides defer every network URL. */
+function voiceweb_front_hero_sizes(): string {
+	return '(max-width:767px) calc(100vw - 34px), (max-width:1199px) calc(60vw - 30px), (max-width:1359px) calc(60vw - 44px), 774px';
+}
 function voiceweb_front_image( int $id, string $class = '', bool $eager = false, bool $deferred = false, string $sizes = '(max-width: 767px) 100vw, 50vw' ): void {
 	if ( ! $id ) { return; }
 	$html = wp_get_attachment_image( $id, 'large', false, array( 'class' => $class, 'alt' => '', 'loading' => $eager ? 'eager' : 'lazy', 'fetchpriority' => $eager ? 'high' : 'low', 'decoding' => 'async', 'sizes' => $sizes ) );
@@ -117,7 +120,9 @@ function voiceweb_front_preload_image(): void {
 	foreach ( array( array( $id, $mobile ? '(min-width: 768px)' : '' ), array( $mobile, '(max-width: 767px)' ) ) as list( $image, $media ) ) {
 		$src = wp_get_attachment_image_url( $image, 'large' ); if ( ! $src ) { continue; }
 		$srcset = wp_get_attachment_image_srcset( $image, 'large' );
-		echo '<link rel="preload" as="image" href="' . esc_url( $src ) . '" imagesrcset="' . esc_attr( $srcset ?: '' ) . '" imagesizes="(max-width: 767px) 100vw, 58vw"' . ( $media ? ' media="' . esc_attr( $media ) . '"' : '' ) . ' fetchpriority="high">';
+		$avif = ! $mobile && function_exists( 'voiceweb_launch_hero_avif' ) ? voiceweb_launch_hero_avif( (int) $image ) : array();
+		if ( $avif ) { $src = $avif['src']; $srcset = $avif['srcset']; }
+		echo '<link rel="preload" as="image"' . ( $avif ? ' type="image/avif"' : '' ) . ' href="' . esc_url( $src ) . '" imagesrcset="' . esc_attr( $srcset ?: '' ) . '" imagesizes="' . esc_attr( voiceweb_front_hero_sizes() ) . '"' . ( $media ? ' media="' . esc_attr( $media ) . '"' : '' ) . ' fetchpriority="high">';
 	}
 }
 add_action( 'wp_head', 'voiceweb_front_preload_image', 2 );

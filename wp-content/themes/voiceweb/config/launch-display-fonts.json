@@ -1,0 +1,20 @@
+{
+  "Regular": {
+    "source_sha256": "1ca73905c6d7fdd9181d4f5e49ac349aa2c06d6c490696645d4a002355273cec",
+    "path": "assets/fonts/dana/display/DanaFaNum-Regular.woff2",
+    "before_bytes": 41172,
+    "after_bytes": 25052
+  },
+  "Medium": {
+    "source_sha256": "5973378f6dae52b4424dcdeb99a66bab40f9ddffaa0743dfb0ceedfee2ed58eb",
+    "path": "assets/fonts/dana/display/DanaFaNum-Medium.woff2",
+    "before_bytes": 40984,
+    "after_bytes": 25168
+  },
+  "Bold": {
+    "source_sha256": "e25bcb709a82e0b0a7be9b2e8c076bcdfc930a9117ef10f7aca9f5857028830c",
+    "path": "assets/fonts/dana/display/DanaFaNum-Bold.woff2",
+    "before_bytes": 41860,
+    "after_bytes": 25280
+  }
+}

@@ -208,8 +208,8 @@ function voiceweb_wc_pricing_page(): void {
 			<input type="hidden" name="catalog_search" value="<?php echo esc_attr( $search ); ?>">
 			<?php wp_nonce_field( 'voiceweb_catalog_rows' ); ?>
 			<div style="overflow-x:auto;margin-top:12px">
-			<table class="widefat striped" style="min-width:1200px">
-				<thead><tr><th scope="col">محصول</th><th scope="col">روش سفارش</th><th scope="col">اولویت نمایش</th><th scope="col">مبلغ پایه (دلار)</th><th scope="col">مبلغ با تخفیف (دلار)</th><th scope="col">شروع تخفیف</th><th scope="col">پایان تخفیف</th><th scope="col">قیمت در ووکامرس</th></tr></thead>
+			<table class="widefat striped" style="min-width:1280px">
+				<thead><tr><th scope="col" style="width:76px">تصویر</th><th scope="col">محصول</th><th scope="col">روش سفارش</th><th scope="col">اولویت نمایش</th><th scope="col">مبلغ پایه (دلار)</th><th scope="col">مبلغ با تخفیف (دلار)</th><th scope="col">شروع تخفیف</th><th scope="col">پایان تخفیف</th><th scope="col">قیمت در ووکامرس</th></tr></thead>
 				<tbody>
 				<?php foreach ( $list->posts as $post ) :
 					$product = wc_get_product( $post->ID );
@@ -217,6 +217,7 @@ function voiceweb_wc_pricing_page(): void {
 					$id = $product->get_id();
 					?>
 					<tr>
+						<?php voiceweb_wc_pricing_image_cell( $product ); ?>
 						<th scope="row"><a href="<?php echo esc_url( get_edit_post_link( $id ) ); ?>"><?php echo esc_html( $product->get_name() ); ?></a>
 							<small><?php echo esc_html( $product->get_sku() ?: '#' . $id ); ?></small>
 							<?php if ( 'publish' !== $product->get_status() ) : ?><small> · <?php echo esc_html( get_post_status_object( $product->get_status() )->label ); ?></small><?php endif; ?>
@@ -235,7 +236,7 @@ function voiceweb_wc_pricing_page(): void {
 						$child = wc_get_product( $child_id );
 						if ( ! $child || $child->get_status() === 'trash' ) { continue; }
 						?>
-						<tr><th scope="row" style="padding-inline-start:2em"><?php echo esc_html( wc_get_formatted_variation( $child, true, true ) ?: '#' . $child_id ); ?></th><td>تابع محصول اصلی</td><?php voiceweb_wc_pricing_cells( $child ); ?></tr>
+						<tr><?php voiceweb_wc_pricing_image_cell( $child ); ?><th scope="row" style="padding-inline-start:2em"><?php echo esc_html( wc_get_formatted_variation( $child, true, true ) ?: '#' . $child_id ); ?></th><td>تابع محصول اصلی</td><?php voiceweb_wc_pricing_cells( $child ); ?></tr>
 					<?php endforeach; ?>
 				<?php endforeach; ?>
 				</tbody>
@@ -246,6 +247,12 @@ function voiceweb_wc_pricing_page(): void {
 		<?php echo wp_kses_post( paginate_links( array( 'base' => str_replace( '987654321', '%#%', voiceweb_wc_pricing_url( array( 'catalog_page' => 987654321, 'catalog_search' => $search ) ) ), 'current' => $page, 'total' => $list->max_num_pages ) ) ); ?>
 	</div>
 	<?php
+}
+
+function voiceweb_wc_pricing_image_cell( WC_Product $product ): void {
+	echo '<td style="width:76px;vertical-align:middle">';
+	echo $product->get_image( 'medium', array( 'class' => 'vw-catalog-product-image', 'alt' => $product->get_name(), 'loading' => 'lazy', 'decoding' => 'async', 'sizes' => '64px', 'style' => 'display:block;width:64px;height:64px;object-fit:contain;background:#fff;border:1px solid #dcdcde;border-radius:6px' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- WooCommerce renders escaped image attributes and its native placeholder.
+	echo '</td>';
 }
 
 function voiceweb_wc_pricing_cells( WC_Product $product ): void {
@@ -401,6 +408,7 @@ function voiceweb_wc_pricing_apply( bool $rate_request, array $input ): void {
 				throw new RuntimeException( 'Could not save the dollar rate.' );
 			}
 			if ( false === $wpdb->query( 'COMMIT' ) ) { throw new RuntimeException( 'Could not commit the price transaction.' ); }
+			do_action( 'voiceweb_catalog_pricing_committed' );
 		} catch ( Throwable $exception ) {
 			$wpdb->query( 'ROLLBACK' );
 			wp_cache_delete( VOICEWEB_WC_USD_RATE, 'options' );

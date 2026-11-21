@@ -19,9 +19,11 @@ voiceweb/config/fonts.php
 
 ## وضعیت فعلی
 
+به‌روزرسانی ۲۱ نوامبر ۲۰۲۶: مقدار `display` سه وزن فارسی **فقط در صفحهٔ اصلی** با فیلتر `inc/launch.php` به `optional` تبدیل می‌شود تا روی اتصال کند، تعویض دیرهنگام فونت چیدمان را جابه‌جا نکند. خانه از نسخه‌های بهینهٔ همان Dana در `assets/fonts/dana/display/` و preload وزن Bold استفاده می‌کند؛ سایر صفحه‌ها فایل‌های اصلی، `swap` و preload وزن Regular را حفظ کرده‌اند. نویسه‌ها و شکل‌های اتصال حفظ شده‌اند؛ حذف hintهای فونت، مجموع حجم سه وزن را از حدود ۱۲۴ به ۷۵ کیلوبایت رسانده است. ابزار بازسازی `tools/build-display-fonts.py` و امضای فایل‌های اصلی در `config/launch-display-fonts.json` است؛ با عوض‌شدن فایل اصلی، نسخهٔ بهینهٔ قبلی استفاده نمی‌شود. fallback فعلی Arial و سپس Tahoma است. روی اولین بازدیدِ کند خانه ممکن است فونت جایگزین تا پایان همان مشاهده باقی بماند؛ مرورگر در بازدید بعد می‌تواند از Dana ذخیره‌شده استفاده کند.
+
 | زبان | خانواده | منبع |
 |---|---|---|
-| فارسی | `Dana`، وزن‌های واقعی `400`، `500` و `700` | سه فایل موجود `DanaFaNum-*.woff2` در `assets/fonts/dana/` |
+| فارسی | `Dana`، وزن‌های واقعی `400`، `500` و `700`؛ جایگزین Arial سپس Tahoma | سه فایل موجود `DanaFaNum-*.woff2` در `assets/fonts/dana/` |
 | انگلیسی | `Arial, Helvetica, sans-serif` | فونت سیستم |
 | سایر زبان‌ها | stack پیش‌فرض سیستم | فونت سیستم |
 
@@ -29,7 +31,7 @@ voiceweb/config/fonts.php
 
 ```php
 'fa' => array(
-	'family'      => '"Dana", Tahoma, sans-serif',
+'family'      => '"Dana", Arial, Tahoma, sans-serif',
 	'stylesheets' => array(),
 	'font_faces'  => array(
 		array(
@@ -65,9 +67,9 @@ voiceweb/config/fonts.php
 ```
 
 سه فایل WOFF2 موجود بدون تبدیل یا دانلود فونت جدید استفاده می‌شوند. فقط
-Regular با `as="font" type="font/woff2" crossorigin` preload می‌شود؛ Medium
-و Bold هنگام استفادهٔ صفحه از وزن مربوط دانلود می‌شوند. همهٔ faceها
-`font-display: swap` دارند. fallback قبلی `Tahoma, sans-serif` حفظ شده است.
+Regular با `as="font" type="font/woff2" crossorigin` در صفحه‌های غیر خانه preload می‌شود؛ Medium
+و Bold هنگام استفادهٔ صفحه از وزن مربوط دانلود می‌شوند. همهٔ faceهای فعال فارسی
+در خانه `font-display: optional` و در سایر صفحه‌ها `swap` دارند. fallback فعلی `Arial, Tahoma, sans-serif` است.
 
 `assets/fonts/DanaVF.ttf` و `assets/css/fonts.css` همچنان روی دیسک وجود دارند،
 اما تنظیم فعال به آن‌ها ارجاع نمی‌دهد. فایل CSS قدیمی که تمام وزن‌ها را تعریف

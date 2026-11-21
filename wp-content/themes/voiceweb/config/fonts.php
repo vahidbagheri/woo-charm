@@ -25,7 +25,7 @@ return array(
 	// Persian: three existing, self-hosted WOFF2 weights with Persian numerals.
 	// Preload only regular; medium and bold are fetched when the page uses them.
 	'fa' => array(
-		'family'      => '"Dana", Tahoma, sans-serif',
+		'family'      => '"Dana", Arial, Tahoma, sans-serif',
 		'stylesheets' => array(),
 		'font_faces'  => array(
 			array(

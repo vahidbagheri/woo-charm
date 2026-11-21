@@ -6,6 +6,7 @@ if ( ! preg_match( '/^(?:localhost|127\.0\.0\.1|[a-z0-9.-]+\.(?:local|test))$/i'
 define( 'DISABLE_WP_CRON', true ); define( 'WP_HTTP_BLOCK_EXTERNAL', true );
 define( 'CN_LOG_DIR', sys_get_temp_dir() . '/voiceweb-catalog-seo-test' );
 $_SERVER['HTTP_HOST'] = $host; $_SERVER['REQUEST_URI'] = '/';
+if ( parse_url( getenv( 'VOICEWEB_WC_SITE' ) ?: 'https://' . $host, PHP_URL_SCHEME ) === 'https' ) { $_SERVER['HTTPS'] = 'on'; $_SERVER['SERVER_PORT'] = 443; }
 $GLOBALS['wp_filter']['pre_http_request'][PHP_INT_MAX][] = array( 'function' => static fn() => new WP_Error( 'test_offline', 'Network blocked.' ), 'accepted_args' => 3 );
 $GLOBALS['wp_filter']['pre_wp_mail'][PHP_INT_MAX][] = array( 'function' => static fn() => false, 'accepted_args' => 2 );
 require dirname( __DIR__, 4 ) . '/wp-load.php';
@@ -53,8 +54,9 @@ try {
 	$GLOBALS['wp_query'] = $old_query; $_GET = $old_get;
 	foreach ( array( $base, add_query_arg( 'orderby', 'price', $base ) ) as $url ) {
 		$curl = curl_init( $url ); curl_setopt_array( $curl, array( CURLOPT_RETURNTRANSFER => true, CURLOPT_FOLLOWLOCATION => false, CURLOPT_NOPROXY => '*', CURLOPT_TIMEOUT => 30 ) );
-		$html = curl_exec( $curl ); $status = curl_getinfo( $curl, CURLINFO_HTTP_CODE ); curl_close( $curl );
-		vwcs_check( is_string( $html ) && $status === 200, 'Live shop must return HTTP 200.' );
+		if ( defined( 'CURLSSLOPT_NATIVE_CA' ) ) { curl_setopt( $curl, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA ); }
+		$html = curl_exec( $curl ); $status = curl_getinfo( $curl, CURLINFO_HTTP_CODE ); $error = curl_error( $curl ); curl_close( $curl );
+		vwcs_check( is_string( $html ) && $status === 200, 'Live shop must return HTTP 200; got ' . $status . ' ' . $error );
 		$doc = new DOMDocument(); libxml_use_internal_errors( true ); $doc->loadHTML( '<?xml encoding="UTF-8">' . $html ); libxml_clear_errors(); $x = new DOMXPath( $doc );
 		vwcs_check( $x->query( '//link[@rel="canonical"]' )->length === 1 && $x->evaluate( 'string(//link[@rel="canonical"]/@href)' ) === $base, 'Live shop and sorting URLs must each emit one primary shop canonical.' );
 		vwcs_check( $x->query( '//meta[@name="description"]' )->length === 1, 'Existing shop description must remain singular.' );

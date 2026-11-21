@@ -4,6 +4,8 @@
 
 برای مدیریت روزمره، [راهنمای آوان چرم](AVAN-CHARM.fa.md)؛ برای اجرا و عیب‌یابی، [راهنمای اجرا](RUNBOOK.fa.md)؛ و برای ادامهٔ توسعه، [سند تحویل](HANDOFF.fa.md) را بخوانید. نمونه‌ها و نتایج تاریخی با تاریخ خودشان باقی مانده‌اند؛ وضعیت جاری نصب در ابتدای راهنمای اجرا آمده است. در اختلاف میان مثال تاریخی و پیاده‌سازی، کد فعلی مرجع است.
 
+آخرین تحویل انتشار، کش مستقل، توضیحات ۵۹ محصول و سنجش Lighthouse در **۲۱ نوامبر ۲۰۲۶** در [LAUNCH.fa.md](LAUNCH.fa.md) و [CACHE.fa.md](CACHE.fa.md) ثبت شده است. برای دامنه و وضعیت ایندکس فعلی، این دو سند بر snapshotهای مهر/اکتبر مقدم‌اند.
+
 ## مسیر مطالعه
 
 ### فروشگاه، محتوا و سئو
@@ -22,6 +24,7 @@
 | موضوع | سند تخصصی |
 |---|---|
 | وضعیت فعلی محیط، فرمان‌های اجرا، آزمون و عیب‌یابی | [RUNBOOK.fa.md](RUNBOOK.fa.md) |
+| انتشار روی avancharm.ir، cPanel و ابزارهای بازگشت | [LAUNCH.fa.md](LAUNCH.fa.md) |
 | ساختار ابزارها و اجرای امن فرمان‌های کمکی | [TOOLS.fa.md](TOOLS.fa.md) |
 | خطای مسیر بلند Windows و Git در VS Code | [GIT-WINDOWS.fa.md](GIT-WINDOWS.fa.md) |
 | تصمیم‌ها، تاریخچهٔ توسعه و تحویل پروژه | [HANDOFF.fa.md](HANDOFF.fa.md) |
@@ -47,7 +50,7 @@
 | تعریف گروه‌های ACF در کد | [ACF-CODE-FIRST.fa.md](ACF-CODE-FIRST.fa.md) |
 | تنظیمات هدر و فوتر | [SITE-SETTINGS.fa.md](SITE-SETTINGS.fa.md) |
 | آیکون‌های Iconly | [ICONLY-TERM-ICONS.fa.md](ICONLY-TERM-ICONS.fa.md) |
-| کش مرورگر و نسخه‌گذاری فایل‌ها | [CACHE.fa.md](CACHE.fa.md) |
+| کش عمومی صفحات، قطع فوری و نسخه‌گذاری فایل‌ها | [CACHE.fa.md](CACHE.fa.md) |
 | مرجع فایل‌های PHP زیرساخت | [inc/README.fa.md](inc/README.fa.md) |
 
 ### فونت و ترجمه

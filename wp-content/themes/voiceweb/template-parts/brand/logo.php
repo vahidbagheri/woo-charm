@@ -12,7 +12,7 @@ $brand_custom_image = $brand_logo_id ? wp_get_attachment_image( $brand_logo_id, 
 	'decoding' => 'async',
 ) ) : '';
 $brand_class = ( $brand_context === 'footer' ? 'cn-footer__logo' : 'cn-header-logo' ) . ' avan-brand avan-brand--' . $brand_context . ( $brand_custom_image ? ' avan-brand--custom' : ' avan-brand--default' );
-$brand_label = ( $brand_custom_image ? $brand_name : 'آوان چرم' ) . '، صفحهٔ اصلی';
+$brand_label = ( $brand_custom_image ? $brand_name : 'آوان چرم AVAN CHARM' ) . '، صفحهٔ اصلی';
 ?>
 <a class="<?php echo esc_attr( $brand_class ); ?>" href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php echo esc_attr( $brand_label ); ?>">
 	<?php if ( $brand_custom_image ) : ?>

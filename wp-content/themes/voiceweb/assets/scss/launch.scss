@@ -1,0 +1,24 @@
+// Readable secondary text on the existing Avan Charm backgrounds.
+.vw-home {
+  .vw-store-eyebrow, .vw-store-heading p, .vw-store-story__copy > p,
+  .vw-store-about__copy > p, .vw-store-values p, .vw-store-post time,
+  .vw-store-post > div > p, .vw-store-faq > div > p { color: #52604e; }
+}
+.cn-site-footer {
+  .cn-footer__description, .vw-store-footer__help > p, .cn-footer__contact a,
+  .cn-footer__bottom > p { color: #53604f; }
+}
+body .vwa-mobile-nav .vwa-mobile-nav__item { color: #52634b; }
+body .cn-site-footer .cn-footer__description,
+body .cn-site-footer .cn-footer__contact a bdi,
+body .vwa-mobile-nav .vwa-mobile-nav__item > span { color: #4f5e49; }
+body .cn-site-footer .cn-footer__menu a { color: #4f5e49; }
+// Keep the first hero visible immediately; subsequent slides retain their entrance animation.
+.vw-store-hero__slide:first-child { animation: none; }
+// Let the browser render the long storefront sections when they approach the viewport.
+@supports (content-visibility: auto) {
+  .vw-home .vw-store-section, .vw-home .vw-store-editorial {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 650px;
+  }
+}

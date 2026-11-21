@@ -31,6 +31,7 @@ require_once get_template_directory() . '/inc/gift-landing.php';
 require_once get_template_directory() . '/inc/brand.php';
 require_once get_template_directory() . '/inc/category-landing.php';
 require_once get_template_directory() . '/inc/leather-magazine.php';
+require_once get_template_directory() . '/inc/launch.php';
 
 // Optional media URL versioning; enable when the site's cache policy needs it.
 // require_once get_template_directory() . '/inc/cache.php';

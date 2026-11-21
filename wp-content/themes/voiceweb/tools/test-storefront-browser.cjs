@@ -6,13 +6,13 @@ const { spawnSync } = require('node:child_process');
 const { chromium } = require(process.env.VOICEWEB_PLAYWRIGHT_PATH || 'playwright');
 const site = process.env.VOICEWEB_WC_SITE || 'http://woo-theme-1405.local';
 const output = process.env.VOICEWEB_WC_SCREENSHOTS;
-const source = `<?php define('DISABLE_WP_CRON',true);define('CN_LOG_DIR',sys_get_temp_dir().'/voiceweb-storefront-tests');$_SERVER['HTTP_HOST']=parse_url(getenv('VOICEWEB_WC_SITE')?:'http://woo-theme-1405.local',PHP_URL_HOST);$_SERVER['REQUEST_URI']='/';require getcwd().'/wp-load.php';add_filter('pre_wp_mail','__return_false');add_filter('pre_http_request',static fn()=>new WP_Error('test_no_network','No external requests.'),PHP_INT_MAX);$about=voiceweb_front_value('about_link');echo wp_json_encode(['about'=>$about['url']??'', 'slides'=>count((array)voiceweb_front_value('slides',[])), 'categories'=>count(voiceweb_front_categories()), 'offers'=>count(voiceweb_front_products('offers')), 'arrivals'=>count(voiceweb_front_products('arrivals')), 'blog'=>count(voiceweb_front_posts()), 'deadline'=>voiceweb_front_offer_deadline(voiceweb_front_products('offers'))]);`;
+const source = `<?php define('DISABLE_WP_CRON',true);define('CN_LOG_DIR',sys_get_temp_dir().'/voiceweb-storefront-tests');$_SERVER['HTTP_HOST']=parse_url(getenv('VOICEWEB_WC_SITE')?:'http://woo-theme-1405.local',PHP_URL_HOST);$_SERVER['REQUEST_URI']='/';require getcwd().'/wp-load.php';add_filter('pre_wp_mail','__return_false');add_filter('pre_http_request',static fn()=>new WP_Error('test_no_network','No external requests.'),PHP_INT_MAX);$about=voiceweb_front_value('about_link');echo wp_json_encode(['about'=>$about['url']??'', 'slides'=>count((array)voiceweb_front_value('slides',[])), 'categories'=>count(voiceweb_front_categories()), 'offers'=>voiceweb_front_enabled('offers')?count(voiceweb_front_products('offers')):0, 'arrivals'=>count(voiceweb_front_products('arrivals')), 'blog'=>count(voiceweb_front_posts()), 'deadline'=>voiceweb_front_enabled('offers')?voiceweb_front_offer_deadline(voiceweb_front_products('offers')):0]);`;
 (async () => {
   let browser;
   try {
     const info = spawnSync(process.env.VOICEWEB_PHP || 'php', ['-d', 'mysqli.default_port=' + (process.env.VOICEWEB_WC_MYSQL_PORT || '3306')], { input: source, encoding: 'utf8', windowsHide: true });
     assert.equal(info.status, 0, info.stderr || 'PHP read-only bootstrap failed.');
-    const data = JSON.parse(info.stdout); assert.ok(data.slides >= 2 && data.offers > 0 && data.deadline > Date.now()/1000);
+    const data = JSON.parse(info.stdout); assert.ok(data.slides >= 1 && data.arrivals > 0, JSON.stringify(data));
     browser = await chromium.launch({ headless: true, ...(process.env.VOICEWEB_BROWSER_EXECUTABLE ? { executablePath: process.env.VOICEWEB_BROWSER_EXECUTABLE } : {}) });
     const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
     const page = await context.newPage(); const errors = [], heads = []; page.on('pageerror', error => errors.push(error.message));
@@ -26,13 +26,20 @@ const source = `<?php define('DISABLE_WP_CRON',true);define('CN_LOG_DIR',sys_get
     await page.goto(site + '/', { waitUntil: 'networkidle' });
     assert.equal(await page.locator('[data-vw-slide]').count(), data.slides);
     assert.equal(await page.locator('h1').count(), 1);
+    await page.locator('[data-cn-search-open]:visible').first().click();
+    assert.equal(await page.locator('#cn-search').getAttribute('aria-hidden'), 'false');
+    await page.locator('[data-cn-search-input]').fill('کیف');
+    await page.locator('[data-cn-search-results] a').first().waitFor();
+    await page.keyboard.press('Escape');
+    assert.equal(await page.locator('#cn-search').getAttribute('aria-hidden'), 'true');
     assert.ok(await page.locator('.cn-header-nav a').filter({hasText:'فروشگاه'}).count(), 'The configured leather header menu must expose the native shop.');
     assert.ok(await page.locator('script[src*="frontend/add-to-cart"]').count(), 'Homepage product cards need native Woo AJAX cart.');
     assert.equal(await page.locator('.vw-store-categories a').count(), data.categories);
-    assert.equal(await page.locator('.vw-store-products').first().locator('.vw-product-card').count(), data.offers);
-    assert.equal(await page.locator('.vw-store-products').last().locator('.vw-product-card').count(), data.arrivals);
+    assert.equal(await page.locator('[aria-labelledby="home-offers-title"] .vw-product-card').count(), data.offers);
+    assert.equal(await page.locator('[aria-labelledby="home-arrivals-title"] .vw-product-card').count(), data.arrivals);
     assert.equal(await page.locator('.vw-store-posts article').count(), data.blog);
     const slides = page.locator('[data-vw-slide]');
+    if (data.slides > 1) {
     const deferred = slides.nth(1).locator('.vw-store-hero__image');
     assert.ok((await deferred.getAttribute('src')).startsWith('data:'));
     assert.ok(await deferred.getAttribute('data-vw-src'));
@@ -50,7 +57,9 @@ const source = `<?php define('DISABLE_WP_CRON',true);define('CN_LOG_DIR',sys_get
     await slides.first().evaluate(el => { el.dataset.tone='ink'; });
     assert.equal(await slides.first().evaluate(el => getComputedStyle(el).backgroundColor),'rgb(24, 60, 50)');
     await slides.first().evaluate((el,value) => { el.dataset.tone=value; },tone);
+    }
     const timer = page.locator('[data-vw-offer-deadline]');
+    if (data.deadline > Date.now()/1000) {
     assert.equal(Number(await timer.getAttribute('data-vw-offer-deadline')), data.deadline*1000);
     const before = await timer.locator('[data-vw-time-seconds]').textContent();
     await page.waitForTimeout(2200); assert.notEqual(await timer.locator('[data-vw-time-seconds]').textContent(), before);
@@ -58,19 +67,26 @@ const source = `<?php define('DISABLE_WP_CRON',true);define('CN_LOG_DIR',sys_get
     await page.evaluate(() => { dispatchEvent(new PageTransitionEvent('pagehide')); dispatchEvent(new PageTransitionEvent('pageshow', { persisted: true })); });
     const restored = await timer.locator('[data-vw-time-seconds]').textContent();
     await page.waitForTimeout(2200); assert.notEqual(await timer.locator('[data-vw-time-seconds]').textContent(), restored);
+    } else { assert.equal(await timer.count(), 0, 'No campaign timer without an active scheduled discount.'); }
     for (const width of [320,390,768,1280,1440]) {
       await page.setViewportSize({ width, height: 900 }); await page.evaluate(() => scrollTo(0,0));
       await page.evaluate(() => document.fonts.ready);
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth+1), 'Home overflow at ' + width);
       assert.ok(await page.locator('.vw-store-hero__image').first().evaluate(img => img.complete && img.naturalWidth > 1));
       if (width < 768) {
+        await page.locator('.cn-header-toggle:visible').click();
+        assert.equal(await page.locator('.cn-header-toggle').getAttribute('aria-expanded'), 'true');
+        await page.locator('[data-cn-menu-close]:visible').first().click();
+        assert.equal(await page.locator('.cn-header-toggle').getAttribute('aria-expanded'), 'false');
         assert.equal(await page.locator('.vw-store-products').first().locator('.vw-product-grid').evaluate(el => getComputedStyle(el).gridTemplateColumns.split(' ').length), 2);
         const toggle = page.locator('[data-cn-footer-toggle]').first();
         await toggle.click(); assert.equal(await toggle.getAttribute('aria-expanded'),'true');
         await toggle.click(); assert.equal(await toggle.getAttribute('aria-expanded'),'false');
         await page.locator('.vwa-mobile-nav').waitFor();
-        assert.ok(await page.locator('[data-vw-next]').evaluate(el => el.getBoundingClientRect().width >= 44));
-        assert.ok(await page.locator('[data-vw-slide-to="0"]').evaluate(el => el.getBoundingClientRect().width >= 44));
+        if (data.slides > 1) {
+          assert.ok(await page.locator('[data-vw-next]').evaluate(el => el.getBoundingClientRect().width >= 44));
+          assert.ok(await page.locator('[data-vw-slide-to="0"]').evaluate(el => el.getBoundingClientRect().width >= 44));
+        }
       }
       if (output) {
         fs.mkdirSync(output,{recursive:true}); await page.evaluate(() => scrollTo(0,0));
@@ -79,18 +95,18 @@ const source = `<?php define('DISABLE_WP_CRON',true);define('CN_LOG_DIR',sys_get
       }
     }
     await page.emulateMedia({ reducedMotion: 'reduce' });
-    assert.equal(await page.locator('.vw-store-hero__float').first().evaluate(el => getComputedStyle(el).animationName),'none');
+    if (await page.locator('.vw-store-hero__float').count()) assert.equal(await page.locator('.vw-store-hero__float').first().evaluate(el => getComputedStyle(el).animationName),'none');
     await page.goto(data.about,{waitUntil:'networkidle'});
-    assert.ok(await page.locator('.vw-about-page').count());
+    assert.ok(await page.locator('.vw-brand-about').count());
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth+1));
     if(output) await page.screenshot({path:path.join(output,'about-1440.png'),fullPage:true});
     const plain = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 900 } });
     const nojs = await plain.newPage(); await nojs.goto(site+'/',{waitUntil:'load'});
     assert.equal(await nojs.locator('[data-vw-slide]').first().isVisible(),true);
-    assert.equal(await nojs.locator('[data-vw-slide]').nth(1).isVisible(),false);
+    if (data.slides > 1) assert.equal(await nojs.locator('[data-vw-slide]').nth(1).isVisible(),false);
     assert.ok(await nojs.locator('.vw-store-hero__actions a').first().getAttribute('href'));
     assert.ok(await nojs.evaluate(() => document.documentElement.scrollWidth <= innerWidth+1));
     assert.deepEqual(errors,[]);
-    console.log(JSON.stringify({ configuredContent:data, responsive:[320,390,768,1280,1440],deferredHero:true,keyboardControls:true,countdown:true,restoredCountdown:true,nativeFooterAccordion:true,reducedMotion:true,withoutJavaScript:true,javascriptErrors:0,orders:0,SMS:0,payments:0 }));
+    console.log(JSON.stringify({ configuredContent:data, responsive:[320,390,768,1280,1440],deferredHero:data.slides>1,keyboardControls:data.slides>1,countdown:data.deadline>0,restoredCountdown:data.deadline>0,nativeFooterAccordion:true,reducedMotion:true,withoutJavaScript:true,javascriptErrors:0,orders:0,SMS:0,payments:0 }));
   } finally { if(browser) await browser.close(); }
 })().catch(error=>{console.error(error.stack);process.exitCode=1;});

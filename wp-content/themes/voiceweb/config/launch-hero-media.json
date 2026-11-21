@@ -1,0 +1,36 @@
+{
+  "source_name": "avan-catalog-hero.webp",
+  "source_sha256": "96dc141a1be18fabeb2ba06d35764dbb4a23987f46e091a8c45ac884817e1779",
+  "images": [
+    {
+      "width": 480,
+      "height": 320,
+      "path": "assets/images/avan-hero-96dc141a-480.avif",
+      "bytes": 6579
+    },
+    {
+      "width": 576,
+      "height": 384,
+      "path": "assets/images/avan-hero-96dc141a-576.avif",
+      "bytes": 8841
+    },
+    {
+      "width": 672,
+      "height": 448,
+      "path": "assets/images/avan-hero-96dc141a-672.avif",
+      "bytes": 11042
+    },
+    {
+      "width": 768,
+      "height": 512,
+      "path": "assets/images/avan-hero-96dc141a-768.avif",
+      "bytes": 15109
+    },
+    {
+      "width": 864,
+      "height": 576,
+      "path": "assets/images/avan-hero-96dc141a-864.avif",
+      "bytes": 16332
+    }
+  ]
+}

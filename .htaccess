@@ -1,4 +1,13 @@
 
+# Production HTTPS redirect. Local development URLs are unaffected.
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^(www\.)?avancharm\.ir$ [NC]
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
+RewriteRule ^ https://avancharm.ir%{REQUEST_URI} [R=301,L,NE]
+</IfModule>
+
 # BEGIN WordPress
 # دستورالعمل‌های (خطوط) بین "BEGIN WordPress" و "END WordPress"
 # به طور پویا تولید شده‌اند، و فقط باید به وسیلهٔ صافی‌های وردرپرس ویرایش شوند.
@@ -16,6 +25,8 @@ RewriteRule . /index.php [L]
 # END WordPress
 
 # BEGIN Citynet browser cache
+# Renaming the one cache module also turns these Apache/cPanel cache rules off.
+<If "-f '%{DOCUMENT_ROOT}/wp-content/mu-plugins/voiceweb-cache.php'">
 # Static assets use versioned URLs or unique upload filenames, so they can be
 # cached aggressively by browsers without caching WordPress HTML responses.
 <IfModule mod_expires.c>
@@ -41,9 +52,28 @@ ExpiresByType image/svg+xml "access plus 1 year"
 ExpiresByType image/x-icon "access plus 1 year"
 </IfModule>
 
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript text/javascript application/json image/svg+xml
+</IfModule>
+<IfModule mod_brotli.c>
+<IfModule mod_setenvif.c>
+# Keep gzip for older clients and prefer Brotli when the browser accepts it.
+SetEnvIfNoCase Accept-Encoding "\bbr\b" no-gzip=1
+AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css application/javascript text/javascript application/json image/svg+xml
+</IfModule>
+</IfModule>
+</If>
 <IfModule mod_headers.c>
 <FilesMatch "\.(?:css|js|mjs|woff2?|ttf|otf|eot|avif|webp|gif|png|jpe?g|svg|ico)$">
+<If "-f '%{DOCUMENT_ROOT}/wp-content/mu-plugins/voiceweb-cache.php'">
 Header set Cache-Control "public, max-age=31536000, immutable"
+</If>
 </FilesMatch>
+</IfModule>
+<IfModule mod_mime.c>
+AddType image/webp .webp
+AddType image/avif .avif
+AddType font/woff2 .woff2
+AddType font/woff .woff
 </IfModule>
 # END Citynet browser cache
